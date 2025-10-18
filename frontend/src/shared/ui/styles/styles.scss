@@ -1,5 +1,5 @@
 // If you want to override variables do it here
-@import 'variables';
+@import 'index';
 
 // Import styles
 @import '@coreui/coreui/scss/coreui';
@@ -8,3 +8,7 @@
 @import 'custom/overrides';
 @import 'custom/display';
 @import 'custom/tables';
+
+body {
+    background-color: var(--cui-gray-100);
+}

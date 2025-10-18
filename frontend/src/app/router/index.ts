@@ -33,6 +33,7 @@ const router = createRouter({
 		{
 			path: BASE_PAGE_PATH,
 			name: BASE_PAGE_NAME,
+			meta: { middleware: [requireAuth] },
 			component: AppLayout,
 			children: [
 				{

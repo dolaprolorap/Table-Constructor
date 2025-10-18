@@ -11,7 +11,7 @@ Login:
             type: object
             properties:
               data:
-                type: string
+                type: object
                 properties:
                   login:
                     type: string
