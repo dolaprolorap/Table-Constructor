@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Users;
 
 use App\Domain\RolesEnum;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\JsonDataRequest;
 use Illuminate\Validation\Rule;
 
 /**
@@ -16,7 +16,7 @@ use Illuminate\Validation\Rule;
  * @property string $middle_name
  * @property string $password
  */
-final class CreateUserRequest extends FormRequest
+final class CreateUserRequest extends JsonDataRequest
 {
     private const AVAILABLE_ROLES = [
         RolesEnum::ADMIN->value,
@@ -34,12 +34,5 @@ final class CreateUserRequest extends FormRequest
             'middle_name' => 'required|string',
             'password' => 'required|string',
         ];
-    }
-
-    protected function prepareForValidation(): void
-    {
-        if (isset($this->data)) {
-            $this->merge($this->data);
-        }
     }
 }

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Users;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\JsonDataRequest;
 
 /**
  * @property string $login
  * @property string $password
  */
-final class LoginRequest extends FormRequest
+final class LoginRequest extends JsonDataRequest
 {
     public function rules(): array
     {
@@ -18,12 +18,5 @@ final class LoginRequest extends FormRequest
             'login' => 'required|string',
             'password' => 'required|string',
         ];
-    }
-
-    protected function prepareForValidation(): void
-    {
-        if (isset($this->data)) {
-            $this->merge($this->data);
-        }
     }
 }

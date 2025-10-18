@@ -6,14 +6,14 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\BusinessLogicException;
 use App\Exceptions\InfrastructureException;
-use App\Http\Requests\CreateUserRequest;
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\PaginateAllUsersRequest;
+use App\Http\Requests\Users\CreateUserRequest;
+use App\Http\Requests\Users\LoginRequest;
+use App\Http\Requests\Users\PaginateAllUsersRequest;
+use App\Http\Responses\Handlers\UserResponseHandler;
 use App\Services\UserService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Throwable;
-use App\Http\Responses\Handlers\UserResponseHandler;
 
 final readonly class UserController
 {

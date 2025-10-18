@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Domain\RolesEnum;
 use App\Exceptions\BusinessLogicException;
 use App\Exceptions\InfrastructureException;
-use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\Users\CreateUserRequest;
 use App\Services\UserService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;

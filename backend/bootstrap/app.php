@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\BusinessLogicException;
+use App\Exceptions\NotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -40,5 +41,15 @@ return Application::configure(basePath: dirname(__DIR__))
                     ],
                 ],
             ], 400);
+        });
+
+        $exceptions->renderable(function (NotFoundException $e) {
+            return response()->json([
+                'errors' => [
+                    [
+                        'detail' => $e->getMessage(),
+                    ],
+                ],
+            ], 404);
         });
     })->create();

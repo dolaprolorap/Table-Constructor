@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Users;
 
 use App\Domain\RolesEnum;
 use Illuminate\Foundation\Http\FormRequest;
@@ -27,8 +27,8 @@ final class PaginateAllUsersRequest extends FormRequest
         return [
             'login' => 'nullable|string',
             'role' => [Rule::in(self::AVAILABLE_ROLES)],
-            'page' => 'nullable|string',
-            'pageSize' => 'nullable|string',
+            'page' => 'nullable|int',
+            'pageSize' => 'nullable|int',
         ];
     }
 }
