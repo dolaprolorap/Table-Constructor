@@ -8,13 +8,15 @@ Table:
       type: string
       example: 'Таблицы 1'
       description: Имя таблицы
-    meta:
   
 TableResponseBody:
   type: object
   properties:
     data:
       $ref: '#/Table'
+    meta:
+      $ref: '../common/schemas.yaml#/PaginationMeta'
+
   required:
     - data
 
@@ -34,8 +36,6 @@ TableRequestBody:
     data:
       type: object
       properties:
-        id:
-          type: number
         title:
           type: string
       required:

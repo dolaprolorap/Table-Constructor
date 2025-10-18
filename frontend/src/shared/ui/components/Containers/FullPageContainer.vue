@@ -1,21 +1,26 @@
 <template>
-  <div class="full-page-container">
+  <CContainer
+    fluid
+    class="page__container"
+  >
+    <h1 class="mb-3">
+      <slot name="page-title"></slot>
+    </h1>
+
     <slot></slot>
-  </div>
+  </CContainer>
 </template>
 
-<style scoped>
-.full-page-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+<script setup lang="ts">
 
-  flex-direction: column;
+</script>
 
-  height: 100vh;
-  width: 100vw;
-
-  margin: 0;
-  padding: 0;
+<style scoped lang="scss">
+.page__container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>

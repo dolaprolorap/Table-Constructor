@@ -1,34 +1,45 @@
 <template>
-  <FullPageContainer class="my-3 mb-6 flex-grow-1">
+  <div>
+    <AppSidebar
+      :sidebar-navigation="headerNavigationConfig"
+      :base-path="basePath"
+    />
     <div class="wrapper d-flex flex-column min-vh-100">
       <AppHeader
-        :header-navigation-config="headerNavigationConfig"
-        :profile-page-path="profilePagePath"
+        :profile-path="profilePath"
+        :header-navigation="headerNavigationConfig"
+
+        :toggle-sidebar="toggleSidebarVisibility"
       />
-      <div class="content my-3 mb-6">
-        <div
-          class="container flex-grow-1"
-          lg
-        >
-          <RouterView />
-        </div>
+
+      <div class="body flex-grow-1">
+        <RouterView />
       </div>
     </div>
-  </FullPageContainer>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { FullPageContainer } from '@/shared/ui/components'
-
-import { AppHeader } from '@/widgets/layout'
+import { AppHeader, AppSidebar, useSidebarStore } from '@/widgets/layout'
 
 import { useHeaderNavigationConfig } from '../router/navigation'
 
-interface AppLayoutProps {
-	profilePagePath: string;
+interface LayoutProps {
+	profilePath: string;
+	basePath: string;
 }
 
-defineProps<AppLayoutProps>()
+defineProps<LayoutProps>()
+
+const sidebar = useSidebarStore()
+
+const toggleSidebarVisibility = (): void => {
+	if (sidebar.unfoldable) {
+		sidebar.setUnfoldable(false)
+	}
+
+	sidebar.toggleVisible()
+}
 
 const { headerNavigationConfig } = useHeaderNavigationConfig()
 

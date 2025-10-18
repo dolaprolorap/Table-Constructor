@@ -1,0 +1,56 @@
+ColumnPath:
+  post:
+    tags:
+      - columns
+    summary: Create new column
+    operationId: createColumn
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './schemas.yaml#/ColumnRequestBody'
+    responses:
+      201:
+        description: Table was successfully created
+        # data : {id }
+      default:
+        description: Unexpected error
+
+ColumnIdPath:
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  put:
+    tags:
+      - columns
+    summary: Updates columns
+    operationId: updateColumns
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './schemas.yaml#/ColumnRequestBody'
+    responses:
+      200:
+        description: Column was successfully updated
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []
+  delete:
+    tags:
+      - columns
+    summary: Deletes columns
+    operationId: deleteColumns
+    responses:
+      203:
+        description: Columns was successfully deleted
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []

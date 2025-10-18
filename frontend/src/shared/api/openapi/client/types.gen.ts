@@ -14,11 +14,9 @@ export type User = {
 	 * Email адрес пользователя
 	 */
 	login: string;
-
-	/**
-	 * Полное имя пользователя
-	 */
-	full_name: string;
+	first_name: string;
+	last_name: string;
+	middle_name: string;
 	role: UserRole;
 };
 
@@ -31,18 +29,18 @@ export const UserRole = {
 } as const
 
 export type UserRequestBody = {
+	data: {
 
-	/**
-	 * Email адрес пользователя
-	 */
-	login: string;
-
-	/**
-	 * Полное имя пользователя
-	 */
-	full_name: string;
-	password: string;
-	role: UserRole;
+		/**
+		 * Email адрес пользователя
+		 */
+		login: string;
+		first_name: string;
+		last_name: string;
+		middle_name: string;
+		password: string;
+		role: UserRole;
+	};
 };
 
 export type PaginationMeta = {
@@ -64,11 +62,12 @@ export type Table = {
 	/**
 	 * Имя таблицы
 	 */
-	full_name?: string;
+	title?: string;
 };
 
 export type TableResponseBody = {
 	data: Table;
+	meta?: PaginationMeta;
 };
 
 export type TableListResponseBody = {
@@ -77,21 +76,124 @@ export type TableListResponseBody = {
 
 export type TableRequestBody = {
 	data: {
-		id: number;
 		title?: string;
 	};
 };
 
+export type Columns = {
+
+	/**
+	 * Уникальный идентификатор колонки
+	 */
+	id: number;
+
+	/**
+	 * Внешний ключ таблицы
+	 */
+	table_id: number;
+
+	/**
+	 * Название колонки
+	 */
+	title: string;
+	type: 'string' | 'number' | 'timestamp' | 'list';
+};
+
+export type type = 'string' | 'number' | 'timestamp' | 'list';
+
+export const type = {
+	STRING: 'string',
+	NUMBER: 'number',
+	TIMESTAMP: 'timestamp',
+	LIST: 'list'
+} as const
+
+export type ColumnResponseBody = {
+	data: Columns;
+};
+
+export type ColumnListResponseBody = {
+	data: Array<Columns>;
+};
+
+export type ColumnRequestBody = {
+	data: {
+
+		/**
+		 * Внешний ключ таблицы
+		 */
+		table_id: number;
+
+		/**
+		 * Название колонки
+		 */
+		title: string;
+		type: 'string' | 'number' | 'timestamp' | 'list';
+	};
+};
+
+export type Rows = {
+
+	/**
+	 * Уникальный идентификатор строки
+	 */
+	id: number;
+
+	/**
+	 * Идентификатор таблицы
+	 */
+	table_id: number;
+	data: Array<{
+
+		/**
+		 * Внешний ключ на строку
+		 */
+		column_id?: number;
+
+		/**
+		 * Данные ячейки
+		 */
+		data?: string;
+	}>;
+};
+
+export type RowsResponseBody = {
+	data: Rows;
+};
+
+export type RowListResponseBody = {
+	data: Array<Rows>;
+	meta?: PaginationMeta;
+};
+
+export type RowRequestBody = {
+	data: {
+		searchString?: string;
+		sortColumn?: 'ASC' | 'DESC';
+	};
+};
+
+export type sortColumn = 'ASC' | 'DESC';
+
+export const sortColumn = {
+	ASC: 'ASC',
+	DESC: 'DESC'
+} as const
+
 export type UserLoginData = {
 	body: {
-		login: string;
-		password: string;
+		data: {
+			login: string;
+			password: string;
+		};
 	};
 };
 
 export type UserLoginResponse = ({
-	user: User;
-	token: string;
+	data: {
+		user: User;
+		token: string;
+	};
 });
 
 export type UserLoginError = (unknown);
@@ -104,11 +206,15 @@ export type GetUsersData = {
 	query?: {
 		login?: string;
 		page?: number;
-		pageSize?: number;
+		page_size?: number;
+		role?: UserRole;
 	};
 };
 
-export type GetUsersResponse = (unknown);
+export type GetUsersResponse = ({
+	data: Array<User>;
+	meta: PaginationMeta;
+});
 
 export type GetUsersError = (unknown);
 
@@ -116,13 +222,17 @@ export type AddUserData = {
 	body: UserRequestBody;
 };
 
-export type AddUserResponse = (User);
+export type AddUserResponse = ({
+	data: {
+		id: number;
+	};
+});
 
 export type AddUserError = (unknown);
 
 export type DeleteUserData = {
 	path: {
-		user_id: number;
+		id: number;
 	};
 };
 
@@ -132,6 +242,13 @@ export type DeleteUserResponse = ({
 
 export type DeleteUserError = (unknown);
 
+export type GetAllTablesData = {
+	query?: {
+		page?: number;
+		page_size?: number;
+	};
+};
+
 export type GetAllTablesResponse = (TableListResponseBody);
 
 export type GetAllTablesError = (unknown);
@@ -140,7 +257,7 @@ export type CreateTableData = {
 	body: TableRequestBody;
 };
 
-export type CreateTableResponse = (TableListResponseBody);
+export type CreateTableResponse = (unknown);
 
 export type CreateTableError = (unknown);
 
@@ -161,7 +278,7 @@ export type UpdateTableData = {
 	};
 };
 
-export type UpdateTableResponse = (TableListResponseBody);
+export type UpdateTableResponse = (unknown);
 
 export type UpdateTableError = (unknown);
 
@@ -174,3 +291,84 @@ export type DeleteTablesData = {
 export type DeleteTablesResponse = (unknown);
 
 export type DeleteTablesError = (unknown);
+
+export type CreateColumnData = {
+	body: ColumnRequestBody;
+};
+
+export type CreateColumnResponse = (unknown);
+
+export type CreateColumnError = (unknown);
+
+export type UpdateColumnsData = {
+	body: ColumnRequestBody;
+	path: {
+		id: number;
+	};
+};
+
+export type UpdateColumnsResponse = (unknown);
+
+export type UpdateColumnsError = (unknown);
+
+export type DeleteColumnsData = {
+	path: {
+		id: number;
+	};
+};
+
+export type DeleteColumnsResponse = (unknown);
+
+export type DeleteColumnsError = (unknown);
+
+export type GetAllRowsData = {
+	query?: {
+		page?: number;
+		page_size?: number;
+		search_string?: string;
+		sort_type?: 'ASC' | 'DESC';
+	};
+};
+
+export type GetAllRowsResponse = (RowListResponseBody);
+
+export type GetAllRowsError = (unknown);
+
+export type CreateRowData = {
+	body: RowRequestBody;
+};
+
+export type CreateRowResponse = (RowListResponseBody);
+
+export type CreateRowError = (unknown);
+
+export type GetRowByIdData = {
+	path: {
+		id: number;
+	};
+};
+
+export type GetRowByIdResponse = (RowsResponseBody);
+
+export type GetRowByIdError = (unknown);
+
+export type UpdateRowData = {
+	body: RowRequestBody;
+	path: {
+		id: number;
+	};
+};
+
+export type UpdateRowResponse = (unknown);
+
+export type UpdateRowError = (unknown);
+
+export type DeleteRowData = {
+	path: {
+		id: number;
+	};
+};
+
+export type DeleteRowResponse = (unknown);
+
+export type DeleteRowError = (unknown);

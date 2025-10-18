@@ -1,68 +1,67 @@
 <template>
-  <div class="bg-white p-3">
-    <h1>
-      Авторизация
-    </h1>
+  <CCard class="login-form__container">
+    <CCardBody>
+      <CCardTitle class="login-form__title">
+        Авторизация
+      </CCardTitle>
 
-    <form
-      class="flex flex-col gap-2"
-      @submit.prevent="onSubmit"
-    >
-      <input
-        v-model="email"
-        type="email"
-        class="bg-gray-100"
-        :name="EMAIL_FIELD_NAME"
-        autocomplete="email"
-        placeholder="Email"
-      />
-      <span
-        v-if="emailError"
-        class="text-red-500 text-sm"
-      >{{ emailError }}</span>
-
-      <input
-        v-model="password"
-        type="password"
-        autocomplete="current-password"
-        class="bg-gray-100"
-        :name="PASSWORD_FIELD_NAME"
-        placeholder="Пароль"
-      />
-      <span
-        v-if="passwordError"
-        class="text-red-500 text-sm"
-      >{{ passwordError }}</span>
-
-      <button
-        type="submit"
-        class="bg-blue-400"
+      <CForm
+        class="login-form"
+        @submit.prevent="onSubmit"
       >
-        Войти в аккаунт
-      </button>
-    </form>
-  </div>
+        <BaseFormInput
+          id="login-login"
+          v-model="login"
+          :name="LOGIN_FIELD_NAME"
+          placeholder="Логин"
+        />
+
+        <BaseFormInput
+          id="login-password"
+          v-model="password"
+          type="password"
+          :name="PASSWORD_FIELD_NAME"
+          placeholder="Пароль"
+        />
+
+        <CButton
+          type="submit"
+          color="primary"
+        >
+          Войти в аккаунт
+        </CButton>
+      </CForm>
+    </CCardBody>
+  </CCard>
+
+  <ErrorMessageModal
+    :error="error"
+    :error-message="error?.errorMessage"
+  />
 </template>
 
 <script setup lang="ts">
-import { useField, useForm } from 'vee-validate'
+import { useForm } from 'vee-validate'
+import { ref } from 'vue'
+
+import { BaseFormInput, ErrorMessageModal } from '@/shared/ui/components'
 
 import { useUserLogin } from '@/features/users/auth'
 
-import { EMAIL_FIELD_NAME, loginFormValidationSchema, PASSWORD_FIELD_NAME } from '../config/validation'
+import { LOGIN_FIELD_NAME, loginFormValidationSchema, PASSWORD_FIELD_NAME } from '../config/validation'
 
 const { handleSubmit } = useForm({
 	validationSchema: loginFormValidationSchema
 })
 
-const { value: email, errorMessage: emailError } = useField<string>(EMAIL_FIELD_NAME)
-const { value: password, errorMessage: passwordError } = useField<string>(PASSWORD_FIELD_NAME)
+const login = ref<string>('')
+const password = ref<string>('')
 
-const { toLogin } = useUserLogin()
+const { toLogin, error } = useUserLogin()
 
 const submitHandler = (): void => {
 	toLogin({
-		email: email.value,
+		login: login.value,
 		password: password.value
 	})
 }
@@ -71,6 +70,29 @@ const onSubmit = handleSubmit(submitHandler)
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.login-form__container {
+  position: relative;
+  min-width: 400px;
+  max-width: 450px;
+  width: 40vw;
+}
 
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.login-form__title {
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+@media(width < $mobile-width-breakpoint){
+  .login-form__container  {
+    min-width: 90vw;
+  }
+}
 </style>

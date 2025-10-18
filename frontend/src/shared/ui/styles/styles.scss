@@ -1,0 +1,13 @@
+// If you want to override variables do it here
+@import 'index';
+
+// Import styles
+@import '@coreui/coreui/scss/coreui';
+
+// Custom styles for this theme
+@import 'theme';
+
+// Custom
+@import 'custom/overrides';
+@import 'custom/display';
+@import 'custom/tables';

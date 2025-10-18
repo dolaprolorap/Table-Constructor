@@ -1,0 +1,110 @@
+RowsPath:
+  get:
+    tags: [rows]
+    summary: Get all rows
+    operationId: getAllRows
+    parameters:
+      - name: search_string
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: sort_type
+        in: query
+        required: false
+        schema:
+          type: string
+          enum: [ASC, DESC]
+    responses:
+      200:
+        description: Successfully got a list of the rows
+        content:
+          application/json:
+            schema:
+              $ref: './schemas.yaml#/RowListResponseBody'
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []
+  post:
+    tags:
+      - rows
+    summary: Create new row
+    operationId: createRow
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './schemas.yaml#/RowRequestBody'
+    responses:
+      201:
+        description: Row was successfully created
+        content:
+          application/json:
+            schema:
+              $ref: './schemas.yaml#/RowListResponseBody'
+      default:
+        description: Unexpected error
+
+RowIdPath:
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema: { type: integer }
+  get:
+    tags: [rows]
+    summary: Gets the row by id
+    operationId: getRowById
+    responses:
+      200:
+        description: The row is obtained successfully
+        content:
+          application/json:
+            schema:
+              $ref: './schemas.yaml#/RowsResponseBody'
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []
+  put:
+    tags:
+      - rows
+    summary: Updates row
+    operationId: updateRow
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './schemas.yaml#/RowRequestBody'
+    responses:
+      200:
+        description: Row was successfully updated
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []
+  delete:
+    tags:
+      - rows
+    summary: Deletes row
+    operationId: deleteRow
+    responses:
+      203:
+        description: Row was successfully deleted
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []

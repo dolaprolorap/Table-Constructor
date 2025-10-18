@@ -1,0 +1,106 @@
+TableListResponseExample:
+  summary: Список таблиц
+  value:
+    data:
+      - id: 1
+        title: "Продажи за 2025 год"
+      - id: 2
+        title: "Клиенты компании"
+      - id: 3
+        title: "Отчёты по регионам"
+      - id: 4
+        title: "Финансовая отчётность"
+      - id: 5
+        title: "Складские остатки"
+      - id: 6
+        title: "Сотрудники отдела продаж"
+      - id: 7
+        title: "Рекламные кампании"
+      - id: 8
+        title: "Расходы на маркетинг"
+      - id: 9
+        title: "Динамика заказов по месяцам"
+      - id: 10
+        title: "Бюджет проектов"
+      - id: 11
+        title: "Поставщики"
+      - id: 12
+        title: "История платежей"
+      - id: 13
+        title: "Контракты и договора"
+      - id: 14
+        title: "План закупок"
+      - id: 15
+        title: "Отчёт по KPI сотрудников"
+      - id: 16
+        title: "Отзывы клиентов"
+      - id: 17
+        title: "Ценообразование"
+      - id: 18
+        title: "Промокоды и скидки"
+      - id: 19
+        title: "Партнёрские программы"
+      - id: 20
+        title: "Аналитика продаж по регионам"
+      - id: 21
+        title: "Запасы на складе"
+      - id: 22
+        title: "Себестоимость продукции"
+      - id: 23
+        title: "Новые клиенты"
+      - id: 24
+        title: "Потерянные клиенты"
+      - id: 25
+        title: "История взаимодействий"
+      - id: 26
+        title: "Заявки на обслуживание"
+      - id: 27
+        title: "Активные заказы"
+      - id: 28
+        title: "Истекшие контракты"
+      - id: 29
+        title: "Сравнительный анализ конкурентов"
+      - id: 30
+        title: "Годовой отчёт 2024"
+    meta:
+      currentPage: 1
+      from: 1
+      lastPage: 3
+      perPage: 10
+      to: 10
+      total: 30
+
+TableResponseExample:
+  summary: Одна таблица
+  value:
+    data:
+      id: 1
+      title: "Продажи за 2025 год"
+
+TableCreateRequestExample:
+  summary: Пример тела запроса на создание таблицы
+  value:
+    data:
+      id: 4
+      title: "Новая таблица"
+
+TableCreateResponseExample:
+  summary: Пример ответа на создание таблицы (список по твоей схеме)
+  value:
+    data:
+      - id: 4
+        title: "Новая таблица"
+
+TableUpdateRequestExample:
+  summary: Пример тела запроса на обновление таблицы
+  value:
+    data:
+      id: 1
+      title: "Обновлённая таблица"
+
+TableUpdateResponseExample:
+  summary: Пример ответа на обновление таблицы (список по твоей схеме)
+  value:
+    data:
+      - id: 1
+        title: "Обновлённая таблица"

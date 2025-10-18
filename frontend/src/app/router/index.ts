@@ -2,7 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import { ErrorsPageConfig } from '@/pages/errors'
 import { LoginPageConfig } from '@/pages/login'
+import { MenuPageConfig } from '@/pages/menu'
 import { ProfilePageConfig } from '@/pages/profile'
+import { UsersPageConfig } from '@/pages/users'
 
 import { BASE_PAGE_NAME, BASE_PAGE_PATH } from './config'
 import { middlewarePipeline } from './middleware'
@@ -34,17 +36,35 @@ const router = createRouter({
 		{
 			path: BASE_PAGE_PATH,
 			name: BASE_PAGE_NAME,
-			redirect: ProfilePageConfig.PROFILE_PAGE_PATH,
+			redirect: MenuPageConfig.MENU_PAGE_PATH,
 			meta: { middleware: [requireAuth] },
+			props: { profilePath: ProfilePageConfig.PROFILE_PAGE_PATH, basePath: BASE_PAGE_PATH },
 			component: AppLayout,
-			props: { profilePagePath: ProfilePageConfig.PROFILE_PAGE_PATH },
 			children: [
+				{
+					path: MenuPageConfig.MENU_PAGE_PATH,
+					name: MenuPageConfig.MENU_PAGE_NAME,
+					component: (): ConcreteComponent => {
+						return import('@/pages/menu').then(module => {
+							return module.MenuPage
+						})
+					}
+				},
 				{
 					path: ProfilePageConfig.PROFILE_PAGE_PATH,
 					name: ProfilePageConfig.PROFILE_PAGE_NAME,
 					component: (): ConcreteComponent => {
 						return import('@/pages/profile').then(module => {
-							return module.ProfilePage
+							return module.ProfileView
+						})
+					}
+				},
+				{
+					path: UsersPageConfig.USERS_PAGE_PATH,
+					name: UsersPageConfig.USERS_PAGE_NAME,
+					component: (): ConcreteComponent => {
+						return import('@/pages/users').then(module => {
+							return module.UsersPage
 						})
 					}
 				},

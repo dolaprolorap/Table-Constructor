@@ -5,51 +5,75 @@ export const UserSchema = {
 	properties: {
 		id: {
 			type: 'number',
-			description: 'Уникальный идентификатор пользователя'
+			description: 'Уникальный идентификатор пользователя',
+			example: 1
 		},
 		login: {
 			type: 'string',
-			description: 'Email адрес пользователя'
+			description: 'Email адрес пользователя',
+			example: 'ivanov@example.com'
 		},
-		full_name: {
+		first_name: {
 			type: 'string',
-			example: 'Иван Иванов',
-			description: 'Полное имя пользователя'
+			example: 'Иван'
+		},
+		last_name: {
+			type: 'string',
+			example: 'Иванов'
+		},
+		middle_name: {
+			type: 'string',
+			example: 'Иванович'
 		},
 		role: {
 			$ref: '#/components/schemas/UserRole'
 		}
 	},
-	required: [ 'id', 'login', 'full_name', 'role' ],
+	required: [ 'id', 'login', 'first_name', 'last_name', 'middle_name', 'role' ],
 	description: 'Модель пользователя системы'
 } as const
 
 export const UserRoleSchema = {
 	type: 'string',
 	enum: [ 'ADMIN', 'EDITOR', 'VIEWER' ],
-	example: 'VIEWER'
+	example: 'ADMIN'
 } as const
 
 export const UserRequestBodySchema = {
 	type: 'object',
 	properties: {
-		login: {
-			type: 'string',
-			description: 'Email адрес пользователя'
-		},
-		full_name: {
-			type: 'string',
-			example: 'Иван Иванов',
-			description: 'Полное имя пользователя'
-		},
-		password: {
-			type: 'string'
-		},
-		role: {
-			$ref: '#/components/schemas/UserRole'
+		data: {
+			type: 'object',
+			properties: {
+				login: {
+					type: 'string',
+					description: 'Email адрес пользователя',
+					example: 'petrov@example.com'
+				},
+				first_name: {
+					type: 'string',
+					example: 'Петр'
+				},
+				last_name: {
+					type: 'string',
+					example: 'Петров'
+				},
+				middle_name: {
+					type: 'string',
+					example: 'Петрович'
+				},
+				password: {
+					type: 'string',
+					example: 'securePassword123'
+				},
+				role: {
+					$ref: '#/components/schemas/UserRole'
+				}
+			},
+			required: [ 'login', 'password', 'first_name', 'last_name', 'middle_name', 'role' ]
 		}
 	},
-	required: [ 'login', 'password', 'full_name', 'role' ]
+	required: ['data']
 } as const
 
 export const PaginationMetaSchema = {
@@ -84,7 +108,7 @@ export const TableSchema = {
 			type: 'integer',
 			description: 'Уникальный идентификатор таблицы'
 		},
-		full_name: {
+		title: {
 			type: 'string',
 			example: 'Таблицы 1',
 			description: 'Имя таблицы'
@@ -97,6 +121,9 @@ export const TableResponseBodySchema = {
 	properties: {
 		data: {
 			$ref: '#/components/schemas/Table'
+		},
+		meta: {
+			$ref: '#/components/schemas/PaginationMeta'
 		}
 	},
 	required: ['data']
@@ -121,14 +148,168 @@ export const TableRequestBodySchema = {
 		data: {
 			type: 'object',
 			properties: {
-				id: {
-					type: 'number'
-				},
 				title: {
 					type: 'string'
 				}
 			},
 			required: ['id']
+		}
+	},
+	required: ['data']
+} as const
+
+export const ColumnsSchema = {
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		id: {
+			type: 'integer',
+			description: 'Уникальный идентификатор колонки'
+		},
+		table_id: {
+			type: 'integer',
+			description: 'Внешний ключ таблицы'
+		},
+		title: {
+			type: 'string',
+			description: 'Название колонки'
+		},
+		type: {
+			type: 'string',
+			enum: [ 'string', 'number', 'timestamp', 'list' ]
+		}
+	},
+	required: [ 'id', 'table_id', 'title', 'type' ]
+} as const
+
+export const ColumnResponseBodySchema = {
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		data: {
+			$ref: '#/components/schemas/Columns'
+		}
+	},
+	required: ['data']
+} as const
+
+export const ColumnListResponseBodySchema = {
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		data: {
+			type: 'array',
+			items: {
+				$ref: '#/components/schemas/Columns'
+			}
+		}
+	},
+	required: ['data']
+} as const
+
+export const ColumnRequestBodySchema = {
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		data: {
+			type: 'object',
+			additionalProperties: false,
+			properties: {
+				table_id: {
+					type: 'integer',
+					description: 'Внешний ключ таблицы'
+				},
+				title: {
+					type: 'string',
+					description: 'Название колонки'
+				},
+				type: {
+					type: 'string',
+					enum: [ 'string', 'number', 'timestamp', 'list' ]
+				}
+			},
+			required: [ 'table_id', 'title', 'type' ]
+		}
+	},
+	required: ['data']
+} as const
+
+export const RowsSchema = {
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		id: {
+			type: 'integer',
+			description: 'Уникальный идентификатор строки'
+		},
+		table_id: {
+			type: 'integer',
+			description: 'Идентификатор таблицы'
+		},
+		data: {
+			type: 'array',
+			items: {
+				type: 'object',
+				properties: {
+					column_id: {
+						type: 'integer',
+						description: 'Внешний ключ на строку'
+					},
+					data: {
+						type: 'string',
+						description: 'Данные ячейки'
+					}
+				}
+			}
+		}
+	},
+	required: [ 'id', 'table_id', 'data' ]
+} as const
+
+export const RowsResponseBodySchema = {
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		data: {
+			$ref: '#/components/schemas/Rows'
+		}
+	},
+	required: ['data']
+} as const
+
+export const RowListResponseBodySchema = {
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		data: {
+			type: 'array',
+			items: {
+				$ref: '#/components/schemas/Rows'
+			}
+		},
+		meta: {
+			$ref: '#/components/schemas/PaginationMeta'
+		}
+	},
+	required: ['data']
+} as const
+
+export const RowRequestBodySchema = {
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		data: {
+			type: 'object',
+			additionalProperties: false,
+			properties: {
+				searchString: {
+					type: 'string'
+				},
+				sortColumn: {
+					type: 'string',
+					enum: [ 'ASC', 'DESC' ]
+				}
+			}
 		}
 	},
 	required: ['data']

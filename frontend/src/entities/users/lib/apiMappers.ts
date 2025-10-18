@@ -1,12 +1,14 @@
 import type { UserApi } from '../api'
-import { apiToRolesMapper } from '../model/Roles'
+import { apiToRolesMapper } from './rolesApiMappers'
 import type { User } from '../model/User'
 
 export function mapApiToUser(userApi: UserApi): User {
 	const user: User = {
-		uid: userApi.id,
-		fullName: userApi.full_name,
-		email: userApi.email,
+		id: userApi.id,
+		first_name: userApi.first_name,
+		last_name: userApi.last_name,
+		middle_name: userApi.middle_name,
+		login: userApi.login,
 		role: apiToRolesMapper[userApi.role]
 	}
 

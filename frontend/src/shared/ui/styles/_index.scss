@@ -1,5 +1,1 @@
-@use './common/' as common;
-
-.root {
-  @include common.breakpoints;
-}
+@import 'variables';
