@@ -1,0 +1,19 @@
+ProjectsPath:
+  get:
+    tags:
+      - projects
+    summary: Получает все проекты
+    operationId: getAllProjects
+    responses:
+      200:
+        description: Успешно получен список проектов
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: './schemas.yaml#/Project'
+      default:
+        description: Неизвестная ошибка
+    security:
+      - jwt: []

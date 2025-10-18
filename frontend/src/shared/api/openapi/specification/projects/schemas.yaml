@@ -1,0 +1,62 @@
+ProjectStatus:
+  type: string
+  enum:
+    - CREATED
+    - BEING_INITIALIZED # Заменил пробел на подчеркивание (стандарт для enum)
+    - ACTIVE
+    - FINISHED
+  example: CREATED
+  description: Статус проекта
+
+Project:
+  type: object
+  required:
+    - id
+    - name
+    - customer_id
+    - status
+    - start_date
+    - end_date
+    - geopoint_id
+  properties:
+    id:
+      type: string
+      format: uuid
+      example: '550e8400-e29b-41d4-a716-446655440000'
+      description: Уникальный идентификатор проекта
+    name:
+      type: string
+      minLength: 1
+      maxLength: 255
+      example: 'Благоустройство сквера в центре города'
+      description: Название проекта
+    customer_id:
+      type: string
+      format: uuid
+      example: '550e8400-e29b-41d4-a716-446655440001'
+      description: ID заказчика
+    contractor_id:
+      type: string
+      format: uuid
+      example: '550e8400-e29b-41d4-a716-446655440002'
+      description: ID подрядчика
+      nullable: true # Подрядчик может быть не назначен сразу
+    geopoint_id:
+      type: string
+      format: uuid
+      example: '550e8400-e29b-41d4-a716-446655440003'
+      description: ID геоточки проекта
+    start_date:
+      type: string
+      format: date-time # Более точный формат чем timestamp
+      example: '2024-01-15T10:30:00Z'
+      description: Дата начала проекта
+    end_date:
+      type: string
+      format: date-time
+      example: '2024-12-31T23:59:59Z'
+      description: Планируемая дата завершения
+    status:
+      $ref: '#/ProjectStatus' # Полный путь к ссылке
+      example: CREATED
+  description: Модель проекта

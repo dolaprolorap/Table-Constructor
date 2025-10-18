@@ -1,0 +1,45 @@
+openapi: 3.0.3
+info:
+  title: Scaffold Api
+  version: 0.0.1
+servers:
+  - url: http://localhost:4010
+    description: Мок сервер
+tags:
+  - name: auth
+    description: Все связанное с авторизацией
+  - name: users
+    description: Все связанное с пользователями
+  - name: projects
+    description: Все связанное с проектами
+paths:
+  # Авторизация
+  /auth/login:
+    $ref: './auth/paths.yaml#/Login'
+  /auth/logout:
+    $ref: './auth/paths.yaml#/Logout'
+  /auth/refresh:
+    $ref: './auth/paths.yaml#/Refresh'
+  /auth/me:
+    $ref: './auth/paths.yaml#/MePath'
+
+  # Проекты
+  /project/get:
+    $ref: './projects/paths.yaml#/ProjectsPath'
+
+components:
+  schemas:
+    # Пользователи
+    User:
+      $ref: './users/schemas.yaml#/User'
+    UserRole:
+      $ref: './users/schemas.yaml#/UserRole'
+
+    # Проекты
+    Project:
+      $ref: './projects/schemas.yaml#/Project'
+    ProjectStatus:
+      $ref: './projects/schemas.yaml#/ProjectStatus'
+
+  securitySchemes:
+    $ref: './common/security.yaml'

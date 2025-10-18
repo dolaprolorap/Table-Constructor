@@ -1,0 +1,33 @@
+UserRole:
+  type: string
+  enum:
+    - CONTRACTOR
+    - CUSTOMER
+    - INSPECTOR
+  example: CUSTOMER
+
+User:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+      example: '550e8400-e29b-41d4-a716-446655440000'
+      description: Уникальный идентификатор пользователя
+    email:
+      type: string
+      format: email
+      example: 'ivan.ivanov@example.com'
+      description: Email адрес пользователя
+    full_name:
+      type: string
+      example: 'Иван Иванов'
+      description: Полное имя пользователя
+    role:
+      $ref: '#/UserRole'
+  required:
+    - id
+    - email
+    - full_name
+    - role
+  description: Модель пользователя системы

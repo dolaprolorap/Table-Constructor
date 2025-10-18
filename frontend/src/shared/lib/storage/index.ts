@@ -1,0 +1,1 @@
+export { stringSerializer } from './stringSerializer'
