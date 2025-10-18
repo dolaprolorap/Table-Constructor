@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import { ErrorsPageConfig } from '@/pages/errors'
 import { LoginPageConfig } from '@/pages/login'
+import { MenuPageConfig } from '@/pages/menu'
+import { ProfilePageConfig } from '@/pages/profile'
 
 import { BASE_PAGE_NAME, BASE_PAGE_PATH } from './config'
 import { middlewarePipeline } from './middleware'
@@ -33,9 +35,29 @@ const router = createRouter({
 		{
 			path: BASE_PAGE_PATH,
 			name: BASE_PAGE_NAME,
+			redirect: MenuPageConfig.MENU_PAGE_PATH,
 			meta: { middleware: [requireAuth] },
+			props: { profilePath: ProfilePageConfig.PROFILE_PAGE_PATH, basePath: BASE_PAGE_PATH },
 			component: AppLayout,
 			children: [
+				{
+					path: MenuPageConfig.MENU_PAGE_PATH,
+					name: MenuPageConfig.MENU_PAGE_NAME,
+					component: (): ConcreteComponent => {
+						return import('@/pages/menu').then(module => {
+							return module.MenuPage
+						})
+					}
+				},
+				{
+					path: ProfilePageConfig.PROFILE_PAGE_PATH,
+					name: ProfilePageConfig.PROFILE_PAGE_NAME,
+					component: (): ConcreteComponent => {
+						return import('@/pages/profile').then(module => {
+							return module.ProfileView
+						})
+					}
+				},
 				{
 					path: '/:pathMatch(.*)*',
 					name: ErrorsPageConfig.NOT_FOUND_PAGE_NAME,
@@ -44,12 +66,7 @@ const router = createRouter({
 							return module.NotFound
 						})
 					}
-				},
-				{
-					path: '',
-					name: 'HomeIndex',
-					component: () => import('@/pages/menu').then(m => m.MenuPage),
-				},
+				}
 			]
 		}
 	]
@@ -63,7 +80,7 @@ router.beforeEach((to, from) => {
 	const initialMiddleware: MiddlewareHandler[] = []
 	const combinedMiddleware = to.matched.reduce((meta, route) => {
 		const currentMiddleware = route.meta.middleware || []
-		const mergedMiddleware = [...meta, ...currentMiddleware]
+		const mergedMiddleware = [ ...meta, ...currentMiddleware ]
 
 		return mergedMiddleware
 	}, initialMiddleware)
