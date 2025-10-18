@@ -27,3 +27,6 @@ User:
     - full_name
     - role
   description: Модель пользователя системы
+
+UserList:
+  

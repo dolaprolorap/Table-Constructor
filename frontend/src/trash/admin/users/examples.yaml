@@ -1,0 +1,176 @@
+UserListResponseExample:
+      value:
+        meta:
+          currentPage: 1
+          from: 1
+          lastPage: 2
+          perPage: 5
+          to: 2
+          total: 100
+        jsonapi:
+          version: "1.0"
+        links:
+          first: http://localhost:8000/api/v1/admin/users?page%5Bnumber%5D=1&page%5Bsize%5D=2
+          last: http://localhost:8000/api/v1/admin/users?page%5Bnumber%5D=502&page%5Bsize%5D=2
+          next: http://localhost:8000/api/v1/admin/users?page%5Bnumber%5D=4&page%5Bsize%5D=2
+          prev: http://localhost:8000/api/v1/admin/users?page%5Bnumber%5D=2&page%5Bsize%5D=2
+        data:
+          - type: users
+            id: "5"
+            attributes:
+              login: trantow.burdette@hotmail.com
+            relationships:
+              roles:
+                data:
+                  - type: roles
+                    id: "2"
+                  - type: roles
+                    id: "3"
+                  - type: roles
+                    id: "4"
+              categories:
+                data: []
+              userInfo:
+                data:
+                  type: user-infos
+                  id: "5"
+            meta:
+              created_at: "2025-03-03T14:27:39.000000Z"
+              updated_at: "2025-03-03T14:27:39.000000Z"
+          - type: users
+            id: "6"
+            attributes:
+              login: susie.adams@konopelski.com
+            relationships:
+              roles:
+                data:
+                  - type: roles
+                    id: "2"
+                  - type: roles
+                    id: "3"
+                  - type: roles
+                    id: "4"
+              categories:
+                data:
+                  - type: categories
+                    id: "2"
+                  - type: categories
+                    id: "3"
+                  - type: categories
+                    id: "4"
+                  - type: categories
+                    id: "5"
+              userInfo:
+                data:
+                  type: user-infos
+                  id: "6"
+            meta:
+              created_at: "2025-03-03T14:27:39.000000Z"
+              updated_at: "2025-03-03T14:27:39.000000Z"
+        included:
+          - type: roles
+            id: "2"
+            attributes:
+              title: admin
+            links:
+              self: http://localhost:8000/api/v1/roles/2
+            meta:
+              created_at: "2025-03-03T14:27:35.000000Z"
+              updated_at: "2025-03-03T14:27:35.000000Z"
+          - type: roles
+            id: "4"
+            attributes:
+              title: observer
+            links:
+              self: http://localhost:8000/api/v1/roles/4
+            meta:
+              created_at: "2025-03-03T14:27:35.000000Z"
+              updated_at: "2025-03-03T14:27:35.000000Z"
+          - type: user-infos
+            id: "5"
+            attributes:
+              first_name: Noble
+              last_name: Cummings
+              middle_name: Granville
+              academic_group: iste
+              education_program: repudiandae
+              course: "1"
+              student_status: natus
+              compensation_type: aliquid
+              guid: 6247f965-883d-3a13-ae78-16556750b90d
+              user_profile_id: 10
+              entrance_year: "2001"
+              end_year: "1998"
+              is_archive: 1
+            links:
+              self: http://localhost:8000/api/v1/user-infos/5
+            meta:
+              created_at: "2025-03-03T14:27:44.000000Z"
+              updated_at: "2025-03-03T14:27:44.000000Z"
+          - type: roles
+            id: "3"
+            attributes:
+              title: verifier
+            links:
+              self: http://localhost:8000/api/v1/roles/3
+            meta:
+              created_at: "2025-03-03T14:27:35.000000Z"
+              updated_at: "2025-03-03T14:27:35.000000Z"
+          - type: categories
+            id: "2"
+            attributes:
+              title: Творческая деятельность
+            links:
+              self: http://localhost:8000/api/v1/categories/2
+            meta:
+              created_at: "2025-03-03T14:27:35.000000Z"
+              updated_at: "2025-03-03T14:27:35.000000Z"
+          - type: categories
+            id: "3"
+            attributes:
+              title: Общественная деятельность
+            links:
+              self: http://localhost:8000/api/v1/categories/3
+            meta:
+              created_at: "2025-03-03T14:27:35.000000Z"
+              updated_at: "2025-03-03T14:27:35.000000Z"
+          - type: categories
+            id: "4"
+            attributes:
+              title: Научная деятельность
+            links:
+              self: http://localhost:8000/api/v1/categories/4
+            meta:
+              created_at: "2025-03-03T14:27:35.000000Z"
+              updated_at: "2025-03-03T14:27:35.000000Z"
+          - type: categories
+            id: "5"
+            attributes:
+              title: Учебная деятельность
+            links:
+              self: http://localhost:8000/api/v1/categories/5
+            meta:
+              created_at: "2025-03-03T14:27:35.000000Z"
+              updated_at: "2025-03-03T14:27:35.000000Z"
+          - type: user-infos
+            id: "6"
+            attributes:
+              first_name: Delilah
+              last_name: Prohaska
+              middle_name: Keaton
+              academic_group: blanditiis
+              education_program: eum
+              course: "5"
+              student_status: accusamus
+              compensation_type: nihil
+              guid: 24307201-bdc2-3b30-bdaf-2791ad58bc55
+              user_profile_id: 507
+              entrance_year: "2013"
+              end_year: "1999"
+              is_archive: 0
+            links:
+              self: http://localhost:8000/api/v1/user-infos/6
+            meta:
+              created_at: "2025-03-03T14:27:44.000000Z"
+              updated_at: "2025-03-03T14:27:44.000000Z"
+    
