@@ -64,7 +64,7 @@ export type Table = {
 	/**
 	 * Имя таблицы
 	 */
-	full_name?: string;
+	title?: string;
 };
 
 export type TableResponseBody = {
@@ -77,8 +77,59 @@ export type TableListResponseBody = {
 
 export type TableRequestBody = {
 	data: {
-		id: number;
 		title?: string;
+	};
+};
+
+export type Columns = {
+
+	/**
+	 * Уникальный идентификатор колонки
+	 */
+	id: number;
+
+	/**
+	 * Внешний ключ таблицы
+	 */
+	table_id: number;
+
+	/**
+	 * Название колонки
+	 */
+	title: string;
+	type: 'string' | 'number' | 'timestamp' | 'list';
+};
+
+export type type = 'string' | 'number' | 'timestamp' | 'list';
+
+export const type = {
+	STRING: 'string',
+	NUMBER: 'number',
+	TIMESTAMP: 'timestamp',
+	LIST: 'list'
+} as const
+
+export type ColumnResponseBody = {
+	data: Columns;
+};
+
+export type ColumnListResponseBody = {
+	data: Array<Columns>;
+};
+
+export type ColumnRequestBody = {
+	data: {
+
+		/**
+		 * Внешний ключ таблицы
+		 */
+		table_id: number;
+
+		/**
+		 * Название колонки
+		 */
+		title: string;
+		type: 'string' | 'number' | 'timestamp' | 'list';
 	};
 };
 
@@ -132,6 +183,13 @@ export type DeleteUserResponse = ({
 
 export type DeleteUserError = (unknown);
 
+export type GetAllTablesData = {
+	query?: {
+		page?: number;
+		pageSize?: number;
+	};
+};
+
 export type GetAllTablesResponse = (TableListResponseBody);
 
 export type GetAllTablesError = (unknown);
@@ -174,3 +232,32 @@ export type DeleteTablesData = {
 export type DeleteTablesResponse = (unknown);
 
 export type DeleteTablesError = (unknown);
+
+export type CreateColumnData = {
+	body: ColumnRequestBody;
+};
+
+export type CreateColumnResponse = (ColumnListResponseBody);
+
+export type CreateColumnError = (unknown);
+
+export type UpdateColumnsData = {
+	body: ColumnRequestBody;
+	path: {
+		id: number;
+	};
+};
+
+export type UpdateColumnsResponse = (ColumnListResponseBody);
+
+export type UpdateColumnsError = (unknown);
+
+export type DeleteColumnsData = {
+	path: {
+		id: number;
+	};
+};
+
+export type DeleteColumnsResponse = (unknown);
+
+export type DeleteColumnsError = (unknown);

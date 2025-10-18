@@ -1,0 +1,55 @@
+Columns:
+  type: object
+  additionalProperties: false
+  properties:
+    id:
+      type: integer
+      description: Уникальный идентификатор колонки
+    table_id:
+      type: integer
+      description: Внешний ключ таблицы
+    title:
+      type: string
+      description: Название колонки
+    type:
+      type: string
+      enum: [string, number, timestamp, list]
+  required: [id, table_id, title, type]
+
+ColumnResponseBody:
+  type: object
+  additionalProperties: false
+  properties:
+    data:
+      $ref: '#/Columns'
+  required: [data]
+
+ColumnListResponseBody:
+  type: object
+  additionalProperties: false
+  properties:
+    data:
+      type: array
+      items:
+        $ref: '#/Columns'
+  required: [data]
+
+ColumnRequestBody:
+  type: object
+  additionalProperties: false
+  properties:
+    data:
+      type: object
+      additionalProperties: false
+      properties:
+        table_id:
+          type: integer
+          description: Внешний ключ таблицы
+        title:
+          type: string
+          description: Название колонки
+        type:
+          type: string
+          enum: [string, number, timestamp, list]
+      required: [table_id, title, type]
+  required: [data]

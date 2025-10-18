@@ -1,0 +1,11 @@
+Cells:
+  type: object
+  properties:
+    column_id:
+      type: integer
+      description: Внешний ключ на строку
+    data:
+      type: string
+      description: Данные ячейки
+
+    

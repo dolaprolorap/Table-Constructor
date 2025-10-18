@@ -1,0 +1,55 @@
+Rows:
+  type: object
+  additionalProperties: false
+  properties:
+    id:
+      type: integer
+      description: Уникальный идентификатор строки
+    table_id:
+      type: integer
+      description: Идентификатор таблицы
+    data:
+      type: array
+      items:
+        $ref: "../cells/schemas.yaml#/components/schemas/Cell"
+  required: [id, table_id, data]
+
+RowsResponseBody:
+  type: object
+  properties:
+    data:
+      $ref: '#/Rows'
+  required:
+    - data
+
+RowListResponseBody:
+  type: object
+  properties:
+    data:
+      type: array
+      items:
+        $ref: '#/Rows'
+  required:
+    - data
+
+RowRequestBody:
+  type: object
+  properties:
+    data:
+      type: object
+      properties:
+        page:
+          type: number
+        pageSize:
+          type: number
+        searchString:
+          type: string
+        sortColumn:
+          type: string
+          enum:
+            - ASC
+            - DESC
+      required:
+        - id
+  required:
+    - data

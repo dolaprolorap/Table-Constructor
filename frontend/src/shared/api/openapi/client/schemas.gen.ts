@@ -84,7 +84,7 @@ export const TableSchema = {
 			type: 'integer',
 			description: 'Уникальный идентификатор таблицы'
 		},
-		full_name: {
+		title: {
 			type: 'string',
 			example: 'Таблицы 1',
 			description: 'Имя таблицы'
@@ -121,14 +121,87 @@ export const TableRequestBodySchema = {
 		data: {
 			type: 'object',
 			properties: {
-				id: {
-					type: 'number'
-				},
 				title: {
 					type: 'string'
 				}
 			},
 			required: ['id']
+		}
+	},
+	required: ['data']
+} as const
+
+export const ColumnsSchema = {
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		id: {
+			type: 'integer',
+			description: 'Уникальный идентификатор колонки'
+		},
+		table_id: {
+			type: 'integer',
+			description: 'Внешний ключ таблицы'
+		},
+		title: {
+			type: 'string',
+			description: 'Название колонки'
+		},
+		type: {
+			type: 'string',
+			enum: [ 'string', 'number', 'timestamp', 'list' ]
+		}
+	},
+	required: [ 'id', 'table_id', 'title', 'type' ]
+} as const
+
+export const ColumnResponseBodySchema = {
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		data: {
+			$ref: '#/components/schemas/Columns'
+		}
+	},
+	required: ['data']
+} as const
+
+export const ColumnListResponseBodySchema = {
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		data: {
+			type: 'array',
+			items: {
+				$ref: '#/components/schemas/Columns'
+			}
+		}
+	},
+	required: ['data']
+} as const
+
+export const ColumnRequestBodySchema = {
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		data: {
+			type: 'object',
+			additionalProperties: false,
+			properties: {
+				table_id: {
+					type: 'integer',
+					description: 'Внешний ключ таблицы'
+				},
+				title: {
+					type: 'string',
+					description: 'Название колонки'
+				},
+				type: {
+					type: 'string',
+					enum: [ 'string', 'number', 'timestamp', 'list' ]
+				}
+			},
+			required: [ 'table_id', 'title', 'type' ]
 		}
 	},
 	required: ['data']

@@ -1,11 +1,11 @@
-TablesPath:
+RowsPath:
   get:
     tags:
-      - tables
-    summary: Get all tables
-    operationId: getAllTables
+      - rows
+    summary: Get all rows
+    operationId: getAllRows
     parameters:
-      - name: title
+      - name: search_string
         required: false
         schema:
           type: string
@@ -14,18 +14,21 @@ TablesPath:
         required: false
         schema:
           type: number
-      - name: pageSize
+      - name: page_size
         in: query
         required: false
         schema:
           type: number
+      - name: sort_type
+        in: query
+        required: false
     responses:
       200:
         description: Successfully got a list of the tables
         content:
           application/json:
             schema:
-              $ref: './schemas.yaml#/TableListResponseBody'
+              $ref: './schemas.yaml#/RowListResponseBody'
               meta:
                 $ref: '../common/schemas.yaml#/PaginationMeta'
       default:
@@ -34,26 +37,26 @@ TablesPath:
       - jwt: []
   post:
     tags:
-      - tables
-    summary: Create new table
-    operationId: createTable
+      - rows
+    summary: Create new row
+    operationId: createRow
     requestBody:
       required: true
       content:
         application/json:
           schema:
-            $ref: './schemas.yaml#/TableRequestBody'
+            $ref: './schemas.yaml#/RowRequestBody'
     responses:
       201:
-        description: Table was successfully created
+        description: Row was successfully created
         content:
           application/json:
             schema:
-              $ref: './schemas.yaml#/TableListResponseBody'
+              $ref: './schemas.yaml#/RowListResponseBody'
       default:
         description: Unexpected error
 
-TableIdPath:
+RowIdPath:
   parameters:
     - name: id
       in: path
@@ -62,12 +65,12 @@ TableIdPath:
         type: integer
   get:
     tags:
-      - tables
-    summary: Gets the table by id
-    operationId: getTabletById
+      - rows
+    summary: Gets the row by id
+    operationId: getRowById
     responses:
       200:
-        description: The tables is obtained successfully
+        description: The row is obtained successfully
         content:
           application/json:
             schema:
@@ -86,21 +89,21 @@ TableIdPath:
       content:
         application/json:
           schema:
-            $ref: './schemas.yaml#/TableRequestBody'
+            $ref: './schemas.yaml#/RowRequestBody'
     responses:
       200:
-        description: Table was successfully updated
+        description: Row was successfully updated
         content:
           application/json:
             schema:
-              $ref: './schemas.yaml#/TableListResponseBody'
+              $ref: './schemas.yaml#/RowListResponseBody'
       default:
         description: Unexpected error
     security:
       - jwt: []
   delete:
     tags:
-      - tables
+      - row
     summary: Deletes tables
     operationId: deleteTables
     responses:

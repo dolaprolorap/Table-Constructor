@@ -8,7 +8,6 @@ Table:
       type: string
       example: 'Таблицы 1'
       description: Имя таблицы
-    meta:
   
 TableResponseBody:
   type: object
@@ -34,8 +33,6 @@ TableRequestBody:
     data:
       type: object
       properties:
-        id:
-          type: number
         title:
           type: string
       required:

@@ -2,7 +2,7 @@
 
 import { createClient, createConfig, type Options } from '@hey-api/client-axios'
 
-import type { UserLoginData, UserLoginError, UserLoginResponse, UserLogoutError, UserLogoutResponse, GetUsersData, GetUsersError, GetUsersResponse, AddUserData, AddUserError, AddUserResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, GetAllTablesError, GetAllTablesResponse, CreateTableData, CreateTableError, CreateTableResponse, GetTabletByIdData, GetTabletByIdError, GetTabletByIdResponse, UpdateTableData, UpdateTableError, UpdateTableResponse, DeleteTablesData, DeleteTablesError, DeleteTablesResponse } from './types.gen'
+import type { UserLoginData, UserLoginError, UserLoginResponse, UserLogoutError, UserLogoutResponse, GetUsersData, GetUsersError, GetUsersResponse, AddUserData, AddUserError, AddUserResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, GetAllTablesData, GetAllTablesError, GetAllTablesResponse, CreateTableData, CreateTableError, CreateTableResponse, GetTabletByIdData, GetTabletByIdError, GetTabletByIdResponse, UpdateTableData, UpdateTableError, UpdateTableResponse, DeleteTablesData, DeleteTablesError, DeleteTablesResponse, CreateColumnData, CreateColumnError, CreateColumnResponse, UpdateColumnsData, UpdateColumnsError, UpdateColumnsResponse, DeleteColumnsData, DeleteColumnsError, DeleteColumnsResponse } from './types.gen'
 
 export const client = createClient(createConfig())
 
@@ -52,7 +52,7 @@ export class TablesService {
 	/**
 	 * Get all tables
 	 */
-	public static getAllTables<ThrowOnError extends boolean = false>(options?: Options<unknown, ThrowOnError>) {
+	public static getAllTables<ThrowOnError extends boolean = false>(options?: Options<GetAllTablesData, ThrowOnError>) {
 		return (options?.client ?? client).get<GetAllTablesResponse, GetAllTablesError, ThrowOnError>({
 			...options,
 			url: '/tables'
@@ -96,6 +96,40 @@ export class TablesService {
 		return (options?.client ?? client).delete<DeleteTablesResponse, DeleteTablesError, ThrowOnError>({
 			...options,
 			url: '/tables/{id}'
+		})
+	}
+
+}
+
+export class ColumnsService {
+
+	/**
+	 * Create new column
+	 */
+	public static createColumn<ThrowOnError extends boolean = false>(options: Options<CreateColumnData, ThrowOnError>) {
+		return (options?.client ?? client).post<CreateColumnResponse, CreateColumnError, ThrowOnError>({
+			...options,
+			url: '/columns'
+		})
+	}
+
+	/**
+	 * Updates columns
+	 */
+	public static updateColumns<ThrowOnError extends boolean = false>(options: Options<UpdateColumnsData, ThrowOnError>) {
+		return (options?.client ?? client).put<UpdateColumnsResponse, UpdateColumnsError, ThrowOnError>({
+			...options,
+			url: '/columns/{id}'
+		})
+	}
+
+	/**
+	 * Deletes columns
+	 */
+	public static deleteColumns<ThrowOnError extends boolean = false>(options: Options<DeleteColumnsData, ThrowOnError>) {
+		return (options?.client ?? client).delete<DeleteColumnsResponse, DeleteColumnsError, ThrowOnError>({
+			...options,
+			url: '/columns/{id}'
 		})
 	}
 

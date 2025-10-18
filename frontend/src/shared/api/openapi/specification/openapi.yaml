@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Scaffold Api
+  title: Constructor Form
   version: 0.0.1
 servers:
   - url: http://localhost:4010
@@ -26,6 +26,12 @@ paths:
     $ref: './tables/paths.yaml#/TablesPath'
   /tables/{id}:
     $ref: './tables/paths.yaml#/TableIdPath'
+  
+  # Columns
+  /columns:
+    $ref: './columns/paths.yaml#/ColumnPath'
+  /columns/{id}:
+    $ref: './columns/paths.yaml#/ColumnIdPath'
 
 components:
   schemas:
@@ -37,6 +43,7 @@ components:
       $ref: './users/schemas.yaml#/UserRequestBody'
     PaginationMeta:
       $ref: './common/schemas.yaml#/PaginationMeta'
+    
     Table: 
       $ref: './tables/schemas.yaml#/Table'
     TableResponseBody:
@@ -45,6 +52,15 @@ components:
       $ref: './tables/schemas.yaml#/TableListResponseBody'
     TableRequestBody:
       $ref: './tables/schemas.yaml#/TableRequestBody'
+
+    Columns:
+      $ref: './columns/schemas.yaml#/Columns'
+    ColumnResponseBody:
+      $ref: './columns/schemas.yaml#/ColumnResponseBody'
+    ColumnListResponseBody:
+      $ref: './columns/schemas.yaml#/ColumnListResponseBody'
+    ColumnRequestBody:
+      $ref: './columns/schemas.yaml#/ColumnRequestBody'
 
   securitySchemes:
     $ref: './common/security.yaml'
