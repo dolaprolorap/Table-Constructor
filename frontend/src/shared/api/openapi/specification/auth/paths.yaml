@@ -27,11 +27,11 @@ Login:
               properties:
                 user:
                   $ref: '../users/schemas.yaml#/User'
-                access_token:
+                token:
                   type: string
               required:
                 - user
-                - access_token
+                - token
       default:
         description: Unexpected error
 
@@ -45,55 +45,5 @@ Logout:
         description: Successful logout
       default:
         description: Unexpected error
-    security:
-      - jwt: []
-
-Refresh:
-  post:
-    tags:
-      - auth
-    summary: Обновление токена
-    operationId: refreshToken
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              refresh_token:
-                type: string
-            required:
-              - refresh_token
-    responses:
-      200:
-        description: Токен успешно обновлен
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                access_token:
-                  type: string
-              required:
-                - access_token
-    security:
-      - jwt: []
-
-MePath:
-  get:
-    tags:
-      - auth
-    summary: Получает аунтефицированого пользователя по id
-    operationId: getAuthenticatedUser
-    responses:
-      200:
-        description: Пользователь получен
-        content:
-          application/json:
-            schema:
-              $ref: '../users/schemas.yaml#/User'
-      default:
-        description: Неизвестная ошибка
     security:
       - jwt: []

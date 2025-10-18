@@ -32,15 +32,11 @@ components:
     User:
       $ref: './users/schemas.yaml#/User'
     UserRole:
-      $ref: './users/schemas.yaml#/UseerRole'
-    UserList:
-      $ref: './users/schemas.yaml#/UserList'
+      $ref: './users/schemas.yaml#/UserRole'
     UserRequestBody:
       $ref: './users/schemas.yaml#/UserRequestBody'
-
-    #Tables
-    Table:
-      $ref: './tables/schemas.yaml#/Table'
+    PaginationMeta:
+      $ref: './common/schemas.yaml#/PaginationMeta'
 
   securitySchemes:
     $ref: './common/security.yaml'
