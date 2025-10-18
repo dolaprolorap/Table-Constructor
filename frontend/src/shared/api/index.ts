@@ -1,5 +1,6 @@
 export { useTokenStore } from './TokenStore'
-export type { ApiServiceReturn, ApiServiceErrorReturn, ServerError } from './types'
+export type { ApiServiceReturn, ApiServiceErrorReturn, ServerError, ApiServiceReturnWithPaginationMeta, ApiCreateServiceReturn } from './types'
 export { useAuthMiddleware } from './middleware'
+export { usePaginationMeta } from './lib/pagination/usePaginationMeta'
 export { useFetch } from './fetch/useFetch'
 export { ApiStatuses } from './config/statuses'
