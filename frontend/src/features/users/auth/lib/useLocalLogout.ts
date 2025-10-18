@@ -19,7 +19,6 @@ export function useLocalLogout(): UseLocalLogoutReturn {
 		userStore.clearAuthenticatedUser()
 
 		tokenStore.removeAccessToken()
-		tokenStore.removeRefreshToken()
 
 		logoutLoginRedirect.emit()
 	}

@@ -45,7 +45,7 @@ export function useGetUsers(): UseGetUsersReturn {
 	const saveUsers = (): void => {
 		const responseValue = response.value
 
-		if (!responseValue || !responseValue.data) {
+		if (!responseValue) {
 			return
 		}
 
