@@ -42,10 +42,7 @@ RowRequestBody:
       type: object
       additionalProperties: false
       properties:
-        page:
-          type: number
-        pageSize:
-          type: number
+      # Поменять
         searchString:
           type: string
         sortColumn:

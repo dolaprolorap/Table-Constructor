@@ -14,7 +14,7 @@ TablesPath:
         required: false
         schema:
           type: number
-      - name: pageSize
+      - name: page_size
         in: query
         required: false
         schema:

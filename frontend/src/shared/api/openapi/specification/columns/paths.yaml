@@ -13,10 +13,7 @@ ColumnPath:
     responses:
       201:
         description: Table was successfully created
-        content:
-          application/json:
-            schema:
-              $ref: './schemas.yaml#/ColumnListResponseBody'
+        # data : {id }
       default:
         description: Unexpected error
 
@@ -41,10 +38,6 @@ ColumnIdPath:
     responses:
       200:
         description: Column was successfully updated
-        content:
-          application/json:
-            schema:
-              $ref: './schemas.yaml#/ColumnListResponseBody'
       default:
         description: Unexpected error
     security:
