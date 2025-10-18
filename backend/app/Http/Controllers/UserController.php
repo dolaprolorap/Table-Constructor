@@ -8,10 +8,12 @@ use App\Exceptions\BusinessLogicException;
 use App\Exceptions\InfrastructureException;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\PaginateAllUsersRequest;
 use App\Services\UserService;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Throwable;
-use UserResponseHandler;
+use App\Http\Responses\Handlers\UserResponseHandler;
 
 final readonly class UserController
 {
@@ -21,9 +23,11 @@ final readonly class UserController
     ) {
     }
 
-    public function login(LoginRequest $request): string
+    public function login(LoginRequest $request): JsonResponse
     {
-        return $this->userService->login($request);
+        $user = $this->userService->login($request);
+
+        return $this->responseHandler->handleLogin($user);
     }
 
     /**
@@ -36,5 +40,26 @@ final readonly class UserController
         $user = $this->userService->create($request);
 
         return $this->responseHandler->handleCreate($user);
+    }
+
+    public function logout(FormRequest $request): JsonResponse
+    {
+        $this->userService->logout($request->user());
+
+        return $this->responseHandler->handleLogout();
+    }
+
+    public function paginateAll(PaginateAllUsersRequest $request): JsonResponse
+    {
+        $paginator = $this->userService->paginateAll($request);
+
+        return $this->responseHandler->handlePaginateAll($paginator);
+    }
+
+    public function delete(int $userId): JsonResponse
+    {
+        $this->userService->delete($userId);
+
+        return $this->responseHandler->handleDelete();
     }
 }

@@ -12,7 +12,27 @@ final readonly class UserPolicy
     ) {
     }
 
+    public function login(User $user): bool
+    {
+        return true;
+    }
+
+    public function logout(User $user): bool
+    {
+        return true;
+    }
+
     public function create(User $user): bool
+    {
+        return $this->userRoleCheckService->isAdmin($user->id);
+    }
+
+    public function paginateAll(User $user): bool
+    {
+        return $this->userRoleCheckService->isAdmin($user->id);
+    }
+
+    public function delete(User $user): bool
     {
         return $this->userRoleCheckService->isAdmin($user->id);
     }

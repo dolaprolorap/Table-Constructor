@@ -6,7 +6,7 @@ namespace App\Domain;
 
 enum RolesEnum: string
 {
-    case ADMIN = 'admin';
-    case EDITOR = 'editor';
-    case VIEWER = 'viewer';
+    case ADMIN = 'ADMIN';
+    case EDITOR = 'EDITOR';
+    case VIEWER = 'VIEWER';
 }

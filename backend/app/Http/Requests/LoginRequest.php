@@ -19,4 +19,11 @@ final class LoginRequest extends FormRequest
             'password' => 'required|string',
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        if (isset($this->data)) {
+            $this->merge($this->data);
+        }
+    }
 }

@@ -8,23 +8,30 @@ use App\Components\TransactionManager;
 use App\Exceptions\BusinessLogicException;
 use App\Exceptions\InfrastructureException;
 use App\Http\Requests\CreateUserRequest;
-use app\Http\Requests\LoginRequest;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\PaginateAllUsersRequest;
+use App\Models\PersonalAccessToken;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserInfo;
-use App\Models\UserRole;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\UnauthorizedException;
 use Throwable;
 
 final readonly class UserService
 {
+    private const AUTH_TOKEN = 'auth_token';
+
+    private const DEFAULT_PAGE = 1;
+    private const DEFAULT_PAGE_SIZE = 10;
+
     public function __construct(
         private TransactionManager $transactionManager,
     ) {
     }
 
-    public function login(LoginRequest $request): string
+    public function login(LoginRequest $request): User
     {
         /** @var User $user */
         $user = User::where(
@@ -33,10 +40,14 @@ final readonly class UserService
         )->first();
 
         if (Hash::check($request->password, $user->password)) {
-            return $user->createToken('token')->plainTextToken;
+            $plainTextToken = $user->createToken(self::AUTH_TOKEN)->plainTextToken;
+
+            $user->plainToken = $plainTextToken;
+
+            return $user;
         }
 
-        throw new UnauthorizedException();
+        throw new UnauthorizedException('Неверный логин или пароль');
     }
 
     /**
@@ -61,6 +72,49 @@ final readonly class UserService
         return $user;
     }
 
+    public function logout(User $user): void
+    {
+        PersonalAccessToken::query()
+            ->where('tokenable_type', User::class)
+            ->where('tokenable_id', $user->id)
+            ->delete();
+    }
+
+    public function paginateAll(PaginateAllUsersRequest $request): LengthAwarePaginator
+    {
+        $query = User::query();
+
+        if ($request->login !== null) {
+            $query->where(
+                'login',
+                'ILIKE',
+                sprintf('%%%s%%', $request->login)
+            );
+        }
+
+        if ($request->role !== null) {
+            $role = Role::where('slug', $request->role)->first();
+
+            $query->where(
+                'role_id',
+                $role->id
+            );
+        }
+
+        $page = $request->page ?? self::DEFAULT_PAGE;
+        $pageSize = $request->pageSize ?? self::DEFAULT_PAGE_SIZE;
+
+        return $query->paginate(perPage: $pageSize, page: $page);
+    }
+
+    public function delete(int $userId): void
+    {
+        /** @var User $user */
+        $user = User::find($userId);
+
+        $user?->delete();
+    }
+
     /**
      * @throws BusinessLogicException
      */
@@ -75,24 +129,23 @@ final readonly class UserService
             );
         }
 
-        $user = User::insert([
-            'login' => $request->login,
-            'password' => Hash::make($request->password),
-        ]);
-
-        $userInfo = UserInfo::insert([
-            'last_name' => $request->last_name,
-            'first_name' => $request->first_name,
-            'middle_name' => $request->middle_name,
-            'user_id' => $user->id,
-        ]);
-
         $role = Role::where('slug', $request->role)->first();
 
-        $userRole = UserRole::insert([
-            'user_id' => $user->id,
-            'role_id' => $role->id
-        ]);
+        $user = new User();
+
+        $user->login = $request->login;
+        $user->password = Hash::make($request->password);
+        $user->role_id = $role->id;
+
+        $user->save();
+
+        $userInfo = new UserInfo();
+
+        $userInfo->last_name = $request->last_name;
+        $userInfo->first_name = $request->first_name;
+        $userInfo->middle_name = $request->middle_name;
+
+        $user->userInfo()->save($userInfo);
 
         return $user;
     }
