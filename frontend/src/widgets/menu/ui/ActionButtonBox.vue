@@ -33,7 +33,7 @@ function onCloseImportModal() {
 }
 
 function onCreateTable() {
-    createModalRef.value?.open()
+  createModalRef.value?.open()
   console.log('Создать таблицу')
 }
 

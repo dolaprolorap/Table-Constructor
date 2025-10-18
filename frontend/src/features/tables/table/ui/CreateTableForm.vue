@@ -68,21 +68,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, toRaw, isProxy } from 'vue'
 
 export type DataType = 'string' | 'number' | 'timestamp' | 'enum'
-
-export interface Column {
-  id: number
-  name: string
-  type: DataType | ''
-}
-
-export interface Props {
-  title: string
-  columns: Column[]
-}
-
+export interface Column { id: number; name: string; type: DataType | '' }
+export interface Props { title: string; columns: Column[] }
 export interface Emits {
   (event: 'update:title', value: string): void
   (event: 'update:columns', value: Column[]): void
@@ -90,20 +80,30 @@ export interface Emits {
 }
 
 const MAX_COLUMNS = 50
-
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
+function cloneColumns(src: unknown): Column[] {
+  const raw = isProxy(src) ? toRaw(src as any) : src
+  if (!Array.isArray(raw)) return [{ id: 1, name: '', type: '' }]
+  return raw.map((c: any) => ({
+    id: Number(c?.id ?? Date.now() + Math.random()),
+    name: String(c?.name ?? ''),
+    type: (['string','number','timestamp','enum'] as const).includes(c?.type) ? c.type : ''
+  }))
+}
+
 const internalTitle = ref<string>(props.title)
 const internalColumns = ref<Column[]>(
-  props.columns?.length ? structuredClone(props.columns) : [{ id: 1, name: '', type: '' }]
+  props.columns?.length ? cloneColumns(props.columns) : [{ id: 1, name: '', type: '' }]
 )
 const columnsCount = ref<number>(internalColumns.value.length)
 
 watch(internalTitle, (value) => emit('update:title', value))
+
 watch(
   internalColumns,
-  (value) => emit('update:columns', structuredClone(value)),
+  (value) => emit('update:columns', cloneColumns(value)),
   { deep: true }
 )
 
@@ -113,25 +113,28 @@ watch(
     if (value !== internalTitle.value) internalTitle.value = value
   }
 )
+
 watch(
   () => props.columns,
   (value) => {
-    const asJson = JSON.stringify(value)
-    const localJson = JSON.stringify(internalColumns.value)
-    if (asJson !== localJson) {
-      internalColumns.value = structuredClone(value)
-      columnsCount.value = internalColumns.value.length
+    const next = cloneColumns(value)
+    const changed =
+      next.length !== internalColumns.value.length ||
+      next.some((col, i) => {
+        const cur = internalColumns.value[i]
+        return !cur || cur.id !== col.id || cur.name !== col.name || cur.type !== col.type
+      })
+
+    if (changed) {
+      internalColumns.value = next
+      columnsCount.value = next.length
     }
   },
   { deep: true }
 )
 
 const addColumn = (): void => {
-  internalColumns.value.push({
-    id: Date.now() + Math.random(),
-    name: '',
-    type: '',
-  })
+  internalColumns.value.push({ id: Date.now() + Math.random(), name: '', type: '' })
   columnsCount.value = internalColumns.value.length
 }
 
@@ -156,7 +159,7 @@ const onSubmit = (): void => {
         name: column.name.trim(),
         type: column.type,
       }))
-      .filter((column) => column.name && column.type) as Column[],
+      .filter((c): c is Column => Boolean(c.name && c.type)),
   })
 }
 </script>
