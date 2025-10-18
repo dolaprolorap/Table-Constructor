@@ -1,0 +1,22 @@
+PaginationMeta:
+  type: object
+  properties:
+    currentPage:
+      type: integer
+    from:
+      type: integer
+    lastPage:
+      type: integer
+    perPage:
+      type: integer
+    to:
+      type: integer
+    total:
+      type: integer
+  required:
+    - from
+    - lastPage
+    - perPage
+    - to
+    - total
+    - currentPage

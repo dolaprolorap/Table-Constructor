@@ -24,7 +24,12 @@ UsersPath:
         content:
           application/json:
             schema:
-              $ref: './schemas.yaml#/UserList'
+              users:
+                type: array
+                items:
+                  $ref: './schemas.yaml#/User'
+              meta:
+                $ref: '../common/schemas.yaml#/PaginationMeta'
       default:
         description: Unexpected error
     security:
@@ -33,12 +38,18 @@ UsersPath:
     tags:
       - users
     operationId: addUser
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './schemas.yaml#/UserRequestBody'
     responses:
-      200:
+      201:
         content:
           application/json:
             schema:
-              $ref: './schemas.yaml#/UserRequestBody'
+              $ref: './schemas.yaml#/User'
       default:
         description: Unexpected error
     security:
@@ -57,7 +68,6 @@ UsersIdPath:
     operationId: deleteUser
     responses:
       200:
-        description: The categories are successfully detached from the user
         content:
           application/json:
             schema:

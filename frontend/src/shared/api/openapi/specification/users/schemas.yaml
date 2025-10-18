@@ -28,11 +28,6 @@ User:
     - role
   description: Модель пользователя системы
 
-UserList:
-  type: array
-  items:
-    $ref: '#/User'
-
 UserRequestBody:
   type: object
   properties:
