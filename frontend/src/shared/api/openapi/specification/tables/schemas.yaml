@@ -1,0 +1,10 @@
+Table:
+  type: object
+  properties:
+    id:
+      type: number
+      description: Уникальный идентификатор таблицы
+    full_name:
+      type: string
+      example: 'Таблицы 1'
+      description: Имя таблицы
