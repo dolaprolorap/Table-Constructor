@@ -8,95 +8,58 @@ export type User = {
 	/**
 	 * Уникальный идентификатор пользователя
 	 */
-	id: string;
+	id: number;
 
 	/**
 	 * Email адрес пользователя
 	 */
-	email: string;
-
-	/**
-	 * Полное имя пользователя
-	 */
-	full_name: string;
+	login: string;
+	first_name: string;
+	last_name: string;
+	middle_name: string;
 	role: UserRole;
 };
 
-export type UserRole = 'CONTRACTOR' | 'CUSTOMER' | 'INSPECTOR';
+export type UserRole = 'ADMIN' | 'EDITOR' | 'VIEWER';
 
 export const UserRole = {
-	CONTRACTOR: 'CONTRACTOR',
-	CUSTOMER: 'CUSTOMER',
-	INSPECTOR: 'INSPECTOR'
+	ADMIN: 'ADMIN',
+	EDITOR: 'EDITOR',
+	VIEWER: 'VIEWER'
 } as const
 
-/**
- * Модель проекта
- */
-export type Project = {
+export type UserRequestBody = {
 
 	/**
-	 * Уникальный идентификатор проекта
+	 * Email адрес пользователя
 	 */
-	id: string;
-
-	/**
-	 * Название проекта
-	 */
-	name: string;
-
-	/**
-	 * ID заказчика
-	 */
-	customer_id: string;
-
-	/**
-	 * ID подрядчика
-	 */
-	contractor_id?: (string) | null;
-
-	/**
-	 * ID геоточки проекта
-	 */
-	geopoint_id: string;
-
-	/**
-	 * Дата начала проекта
-	 */
-	start_date: Date;
-
-	/**
-	 * Планируемая дата завершения
-	 */
-	end_date: Date;
-	status: ProjectStatus;
+	login: string;
+	first_name: string;
+	last_name: string;
+	middle_name: string;
+	password: string;
+	role: UserRole;
 };
 
-/**
- * Статус проекта
- */
-export type ProjectStatus = 'CREATED' | 'BEING_INITIALIZED' | 'ACTIVE' | 'FINISHED';
-
-/**
- * Статус проекта
- */
-export const ProjectStatus = {
-	CREATED: 'CREATED',
-	BEING_INITIALIZED: 'BEING_INITIALIZED',
-	ACTIVE: 'ACTIVE',
-	FINISHED: 'FINISHED'
-} as const
+export type PaginationMeta = {
+	currentPage: number;
+	from: number;
+	lastPage: number;
+	perPage: number;
+	to: number;
+	total: number;
+};
 
 export type UserLoginData = {
 	body: {
-		email: string;
+		login: string;
 		password: string;
 	};
 };
 
 export type UserLoginResponse = ({
-	refresh_token: string;
-	access_token: string;
+	user: User;
+	token: string;
 });
 
 export type UserLoginError = (unknown);
@@ -105,46 +68,37 @@ export type UserLogoutResponse = (void);
 
 export type UserLogoutError = (unknown);
 
-export type RefreshTokenData = {
-	body: {
-		refresh_token: string;
+export type GetUsersData = {
+	query?: {
+		login?: string;
+		page?: number;
+		pageSize?: number;
 	};
 };
 
-export type RefreshTokenResponse = ({
-	access_token: string;
+export type GetUsersResponse = ({
+	users?: Array<User>;
+	meta?: PaginationMeta;
 });
 
-export type RefreshTokenError = unknown;
+export type GetUsersError = (unknown);
 
-export type GetAuthenticatedUserResponse = (User);
+export type AddUserData = {
+	body: UserRequestBody;
+};
 
-export type GetAuthenticatedUserError = (unknown);
+export type AddUserResponse = (User);
 
-export type GetAllProjectsResponse = (Array<Project>);
+export type AddUserError = (unknown);
 
-export type GetAllProjectsError = (unknown);
+export type DeleteUserData = {
+	path: {
+		user_id: number;
+	};
+};
 
-export type GetAllProjectsResponseTransformer = (data: any) => Promise<GetAllProjectsResponse>;
+export type DeleteUserResponse = ({
+	id?: number;
+});
 
-export type ProjectModelResponseTransformer = (data: any) => Project;
-
-export const ProjectModelResponseTransformer: ProjectModelResponseTransformer = data => {
-	if (data?.start_date) {
-		data.start_date = new Date(data.start_date)
-	}
-
-	if (data?.end_date) {
-		data.end_date = new Date(data.end_date)
-	}
-
-	return data
-}
-
-export const GetAllProjectsResponseTransformer: GetAllProjectsResponseTransformer = async data => {
-	if (Array.isArray(data)) {
-		data.forEach(ProjectModelResponseTransformer)
-	}
-
-	return data
-}
+export type DeleteUserError = (unknown);

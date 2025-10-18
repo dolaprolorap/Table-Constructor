@@ -2,15 +2,11 @@
 
 import { createClient, createConfig, type Options } from '@hey-api/client-axios'
 
-import { type UserLoginData, type UserLoginError, type UserLoginResponse, type UserLogoutError, type UserLogoutResponse, type RefreshTokenData, type RefreshTokenError, type RefreshTokenResponse, type GetAuthenticatedUserError, type GetAuthenticatedUserResponse, type GetAllProjectsError, type GetAllProjectsResponse, GetAllProjectsResponseTransformer } from './types.gen'
+import type { UserLoginData, UserLoginError, UserLoginResponse, UserLogoutError, UserLogoutResponse, GetUsersData, GetUsersError, GetUsersResponse, AddUserData, AddUserError, AddUserResponse, DeleteUserData, DeleteUserError, DeleteUserResponse } from './types.gen'
 
 export const client = createClient(createConfig())
 
 export class AuthService {
-
-	/**
-	 * Вход пользователя в систему
-	 */
 	public static userLogin<ThrowOnError extends boolean = false>(options: Options<UserLoginData, ThrowOnError>) {
 		return (options?.client ?? client).post<UserLoginResponse, UserLoginError, ThrowOnError>({
 			...options,
@@ -18,9 +14,6 @@ export class AuthService {
 		})
 	}
 
-	/**
-	 * Выход из аккаунта
-	 */
 	public static userLogout<ThrowOnError extends boolean = false>(options?: Options<unknown, ThrowOnError>) {
 		return (options?.client ?? client).post<UserLogoutResponse, UserLogoutError, ThrowOnError>({
 			...options,
@@ -28,38 +21,27 @@ export class AuthService {
 		})
 	}
 
-	/**
-	 * Обновление токена
-	 */
-	public static refreshToken<ThrowOnError extends boolean = false>(options: Options<RefreshTokenData, ThrowOnError>) {
-		return (options?.client ?? client).post<RefreshTokenResponse, RefreshTokenError, ThrowOnError>({
-			...options,
-			url: '/auth/refresh'
-		})
-	}
-
-	/**
-	 * Получает аунтефицированого пользователя по id
-	 */
-	public static getAuthenticatedUser<ThrowOnError extends boolean = false>(options?: Options<unknown, ThrowOnError>) {
-		return (options?.client ?? client).get<GetAuthenticatedUserResponse, GetAuthenticatedUserError, ThrowOnError>({
-			...options,
-			url: '/auth/me'
-		})
-	}
-
 }
 
-export class ProjectsService {
-
-	/**
-	 * Получает все проекты
-	 */
-	public static getAllProjects<ThrowOnError extends boolean = false>(options?: Options<unknown, ThrowOnError>) {
-		return (options?.client ?? client).get<GetAllProjectsResponse, GetAllProjectsError, ThrowOnError>({
+export class UsersService {
+	public static getUsers<ThrowOnError extends boolean = false>(options?: Options<GetUsersData, ThrowOnError>) {
+		return (options?.client ?? client).get<GetUsersResponse, GetUsersError, ThrowOnError>({
 			...options,
-			url: '/project/get',
-			responseTransformer: GetAllProjectsResponseTransformer
+			url: '/users'
+		})
+	}
+
+	public static addUser<ThrowOnError extends boolean = false>(options: Options<AddUserData, ThrowOnError>) {
+		return (options?.client ?? client).post<AddUserResponse, AddUserError, ThrowOnError>({
+			...options,
+			url: '/users'
+		})
+	}
+
+	public static deleteUser<ThrowOnError extends boolean = false>(options: Options<DeleteUserData, ThrowOnError>) {
+		return (options?.client ?? client).delete<DeleteUserResponse, DeleteUserError, ThrowOnError>({
+			...options,
+			url: '/users/{id}'
 		})
 	}
 

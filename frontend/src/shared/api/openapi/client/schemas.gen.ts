@@ -4,95 +4,93 @@ export const UserSchema = {
 	type: 'object',
 	properties: {
 		id: {
-			type: 'string',
-			format: 'uuid',
-			example: '550e8400-e29b-41d4-a716-446655440000',
-			description: 'Уникальный идентификатор пользователя'
+			type: 'number',
+			description: 'Уникальный идентификатор пользователя',
+			example: 1
 		},
-		email: {
+		login: {
 			type: 'string',
-			format: 'email',
-			example: 'ivan.ivanov@example.com',
-			description: 'Email адрес пользователя'
+			description: 'Email адрес пользователя',
+			example: 'ivanov@example.com'
 		},
-		full_name: {
+		first_name: {
 			type: 'string',
-			example: 'Иван Иванов',
-			description: 'Полное имя пользователя'
+			example: 'Иван'
+		},
+		last_name: {
+			type: 'string',
+			example: 'Иванов'
+		},
+		middle_name: {
+			type: 'string',
+			example: 'Иванович'
 		},
 		role: {
 			$ref: '#/components/schemas/UserRole'
 		}
 	},
-	required: [ 'id', 'email', 'full_name', 'role' ],
+	required: [ 'id', 'login', 'first_name', 'last_name', 'middle_name', 'role' ],
 	description: 'Модель пользователя системы'
 } as const
 
 export const UserRoleSchema = {
 	type: 'string',
-	enum: [ 'CONTRACTOR', 'CUSTOMER', 'INSPECTOR' ],
-	example: 'CUSTOMER'
+	enum: [ 'ADMIN', 'EDITOR', 'VIEWER' ],
+	example: 'ADMIN'
 } as const
 
-export const ProjectSchema = {
+export const UserRequestBodySchema = {
 	type: 'object',
-	required: [ 'id', 'name', 'customer_id', 'status', 'start_date', 'end_date', 'geopoint_id' ],
 	properties: {
-		id: {
+		login: {
 			type: 'string',
-			format: 'uuid',
-			example: '550e8400-e29b-41d4-a716-446655440000',
-			description: 'Уникальный идентификатор проекта'
+			description: 'Email адрес пользователя',
+			example: 'petrov@example.com'
 		},
-		name: {
+		first_name: {
 			type: 'string',
-			minLength: 1,
-			maxLength: 255,
-			example: 'Благоустройство сквера в центре города',
-			description: 'Название проекта'
+			example: 'Петр'
 		},
-		customer_id: {
+		last_name: {
 			type: 'string',
-			format: 'uuid',
-			example: '550e8400-e29b-41d4-a716-446655440001',
-			description: 'ID заказчика'
+			example: 'Петров'
 		},
-		contractor_id: {
+		middle_name: {
 			type: 'string',
-			format: 'uuid',
-			example: '550e8400-e29b-41d4-a716-446655440002',
-			description: 'ID подрядчика',
-			nullable: true
+			example: 'Петрович'
 		},
-		geopoint_id: {
+		password: {
 			type: 'string',
-			format: 'uuid',
-			example: '550e8400-e29b-41d4-a716-446655440003',
-			description: 'ID геоточки проекта'
+			example: 'securePassword123'
 		},
-		start_date: {
-			type: 'string',
-			format: 'date-time',
-			example: '2024-01-15T10:30:00Z',
-			description: 'Дата начала проекта'
-		},
-		end_date: {
-			type: 'string',
-			format: 'date-time',
-			example: '2024-12-31T23:59:59Z',
-			description: 'Планируемая дата завершения'
-		},
-		status: {
-			$ref: '#/components/schemas/ProjectStatus',
-			example: 'CREATED'
+		role: {
+			$ref: '#/components/schemas/UserRole'
 		}
 	},
-	description: 'Модель проекта'
+	required: [ 'login', 'password', 'first_name', 'last_name', 'middle_name', 'role' ]
 } as const
 
-export const ProjectStatusSchema = {
-	type: 'string',
-	enum: [ 'CREATED', 'BEING_INITIALIZED', 'ACTIVE', 'FINISHED' ],
-	example: 'CREATED',
-	description: 'Статус проекта'
+export const PaginationMetaSchema = {
+	type: 'object',
+	properties: {
+		currentPage: {
+			type: 'integer'
+		},
+		from: {
+			type: 'integer'
+		},
+		lastPage: {
+			type: 'integer'
+		},
+		perPage: {
+			type: 'integer'
+		},
+		to: {
+			type: 'integer'
+		},
+		total: {
+			type: 'integer'
+		}
+	},
+	required: [ 'from', 'lastPage', 'perPage', 'to', 'total', 'currentPage' ]
 } as const

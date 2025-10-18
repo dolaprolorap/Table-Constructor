@@ -17,6 +17,9 @@ Login:
             required:
               - login
               - password
+          example:
+            login: "ivanov@example.com"
+            password: "myPassword123"
     responses:
       200:
         description: Пользователь успешно авторизован
@@ -32,6 +35,15 @@ Login:
               required:
                 - user
                 - token
+            example:
+              user:
+                id: 1
+                login: "ivanov@example.com"
+                first_name: "Иван"
+                last_name: "Иванов"
+                middle_name: "Иванович"
+                role: "ADMIN"
+              token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
       default:
         description: Unexpected error
 

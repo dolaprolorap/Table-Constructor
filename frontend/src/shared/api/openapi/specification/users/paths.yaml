@@ -8,28 +8,54 @@ UsersPath:
         required: false
         schema:
           type: string
+        example: "ivanov@example.com"
       - name: page
         in: query
         required: false
         schema:
           type: number
+        example: 1
       - name: pageSize
         in: query
         required: false
         schema:
           type: number
+        example: 20
     operationId: getUsers
     responses:
       200:
         content:
           application/json:
             schema:
+              type: object
+              properties:
+                users:
+                  type: array
+                  items:
+                    $ref: './schemas.yaml#/User'
+                meta:
+                  $ref: '../common/schemas.yaml#/PaginationMeta'
+            example:
               users:
-                type: array
-                items:
-                  $ref: './schemas.yaml#/User'
+                - id: 1
+                  login: "ivanov@example.com"
+                  first_name: "Иван"
+                  last_name: "Иванов"
+                  middle_name: "Иванович"
+                  role: "ADMIN"
+                - id: 2
+                  login: "petrov@example.com"
+                  first_name: "Петр"
+                  last_name: "Петров"
+                  middle_name: "Петрович"
+                  role: "EDITOR"
               meta:
-                $ref: '../common/schemas.yaml#/PaginationMeta'
+                currentPage: 1
+                from: 1
+                lastPage: 1
+                perPage: 5
+                to: 1
+                total: 2
       default:
         description: Unexpected error
     security:
@@ -44,12 +70,26 @@ UsersPath:
         application/json:
           schema:
             $ref: './schemas.yaml#/UserRequestBody'
+          example:
+            login: "sidorov@example.com"
+            first_name: "Сергей"
+            last_name: "Сидоров"
+            middle_name: "Сергеевич"
+            password: "securePassword123"
+            role: "VIEWER"
     responses:
       201:
         content:
           application/json:
             schema:
               $ref: './schemas.yaml#/User'
+            example:
+              id: 3
+              login: "sidorov@example.com"
+              first_name: "Сергей"
+              last_name: "Сидоров"
+              middle_name: "Сергеевич"
+              role: "VIEWER"
       default:
         description: Unexpected error
     security:
@@ -62,6 +102,7 @@ UsersIdPath:
       required: true
       schema:
         type: integer
+      example: 1
   delete:
     tags:
       - users
@@ -75,6 +116,8 @@ UsersIdPath:
               properties:
                 id:
                   type: number
+            example:
+              id: 1
       default:
         description: Unexpected error
     security:

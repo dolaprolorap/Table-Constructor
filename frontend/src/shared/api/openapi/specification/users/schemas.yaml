@@ -1,10 +1,10 @@
 UserRole:
   type: string
   enum:
-    - CONTRACTOR
-    - CUSTOMER
-    - INSPECTOR
-  example: CUSTOMER
+    - ADMIN
+    - EDITOR
+    - VIEWER
+  example: ADMIN
 
 User:
   type: object
@@ -12,19 +12,28 @@ User:
     id:
       type: number
       description: Уникальный идентификатор пользователя
+      example: 1
     login:
       type: string
       description: Email адрес пользователя
-    full_name:
+      example: ivanov@example.com
+    first_name:
       type: string
-      example: 'Иван Иванов'
-      description: Полное имя пользователя
+      example: Иван
+    last_name:
+      type: string
+      example: Иванов
+    middle_name:
+      type: string
+      example: Иванович
     role:
       $ref: '#/UserRole'
   required:
     - id
     - login
-    - full_name
+    - first_name
+    - last_name
+    - middle_name
     - role
   description: Модель пользователя системы
 
@@ -34,16 +43,25 @@ UserRequestBody:
     login:
       type: string
       description: Email адрес пользователя
-    full_name:
+      example: petrov@example.com
+    first_name:
       type: string
-      example: 'Иван Иванов'
-      description: Полное имя пользователя
+      example: Петр
+    last_name:
+      type: string
+      example: Петров
+    middle_name:
+      type: string
+      example: Петрович
     password:
       type: string
+      example: "securePassword123"
     role:
       $ref: '#/UserRole'
   required:
     - login
     - password
-    - full_name
+    - first_name
+    - last_name
+    - middle_name
     - role
