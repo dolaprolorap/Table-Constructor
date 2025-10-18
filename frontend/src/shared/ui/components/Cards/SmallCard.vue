@@ -6,7 +6,7 @@
     :title="title"
   >
     <CCardBody class="text-center">
-      <CIcon :icon="iconsSet.fileIcon" size="xl" class="card-icon mb-2" />
+      <CIcon :icon="iconsSet.tableIcon" size="xl" class="card-icon mb-2" />
       <CCardTitle class="card-title">{{ title }}</CCardTitle>
     </CCardBody>
   </CCard>

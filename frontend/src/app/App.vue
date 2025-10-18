@@ -1,6 +1,5 @@
 <template>
   <RouterView />
-  fsdfdsf
 </template>
 
 <script setup lang="ts">
