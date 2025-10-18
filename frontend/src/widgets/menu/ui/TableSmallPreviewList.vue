@@ -1,6 +1,6 @@
 <template>
     <MenuToolbar v-model:search-title="searchTitle"/>
-    <div id="tables-cards" class="p-3">
+    <div id="tables-cards" class="mt-4">
         <div v-if="isLoading" class="loading-state">
             <CSpinner color="primary" size="lg" />
             <p class="loading-text">Загрузка таблиц...</p>

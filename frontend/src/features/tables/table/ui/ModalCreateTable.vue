@@ -5,70 +5,50 @@
     </template>
 
     <template #modal-body>
-      <div class="modal-body-content">
-        <label class="field-label" for="table-title">Название таблицы</label>
-
-        <CInputGroup>
-          <CInputGroupText>#</CInputGroupText>
-          <CFormInput
-            id="table-title"
-            v-model.trim="title"
-            :invalid="isTouched && !isValid"
-            placeholder="Например: Продажи за 2025 год"
-            autocomplete="off"
-            @keyup.enter="tryCreate"
-          />
-        </CInputGroup>
-
-        <small class="hint">Поле обязательно для заполнения</small>
-        <div v-if="isTouched && !isValid" class="error-text">
-          Укажите название таблицы.
-        </div>
-      </div>
-    </template>
-
-    <template #modal-footer>
-      <div class="footer-actions">
-        <CButton color="secondary" variant="outline" @click="close">
-          Отмена
-        </CButton>
-        <CButton color="primary" :disabled="!isValid" @click="tryCreate">
-          Создать
-        </CButton>
-      </div>
+      <CreateTableForm
+        v-model:title="title"
+        v-model:columns="columns"
+        @submit="handleSubmit"
+      />
     </template>
   </BaseModal>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { CButton, CFormInput, CInputGroup, CInputGroupText } from '@coreui/vue'
+import { ref } from 'vue'
 import { BaseModal } from '@/shared/ui/components'
+import CreateTableForm from './CreateTableForm.vue'
+
+type DataType = 'string' | 'number' | 'timestamp' | 'enum'
+
+type Column = { 
+    id: number; 
+    name: string; 
+    type: DataType | '' 
+}
 
 const emit = defineEmits<{
-  (e: 'create', payload: { title: string }): void
+  (event: 'create', payload: { 
+    title: string;
+    columns: Column[] }): void
 }>()
 
 const isVisible = ref(false)
-const title = ref('')
-const isTouched = ref(false)
-
-const isValid = computed(() => title.value.trim().length > 0)
+const title = ref<string>('')
+const columns = ref<Column[]>([{ id: 1, name: '', type: '' }])
 
 function open() {
   isVisible.value = true
   title.value = ''
-  isTouched.value = false
+  columns.value = [{ id: 1, name: '', type: '' }]
 }
 
 function close() {
   isVisible.value = false
 }
 
-function tryCreate() {
-  isTouched.value = true
-  if (!isValid.value) return
-  emit('create', { title: title.value.trim() })
+function handleSubmit(payload: { title: string; columns: Column[] }) {
+  emit('create', payload)
   close()
 }
 
@@ -81,21 +61,17 @@ defineExpose({ open, close })
   flex-direction: column;
   gap: 0.75rem;
 }
-
 .field-label {
   font-size: 0.95rem;
   color: var(--cui-body-color, #212529);
 }
-
 .hint {
   color: var(--cui-text-muted, #6c757d);
 }
-
 .error-text {
-  color: #dc3545; /* danger */
+  color: #dc3545;
   font-size: 0.9rem;
 }
-
 .footer-actions {
   display: flex;
   gap: 8px;

@@ -3,7 +3,6 @@
     <template #page-title>
       Доступные таблицы
     </template>
-
     <ActionButtonBox class="mb-3" />
     <TableSmallPreviewList />
   </PageContainer>

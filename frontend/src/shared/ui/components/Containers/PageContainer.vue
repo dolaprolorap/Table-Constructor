@@ -3,7 +3,7 @@
     fluid
     class="page__container"
   >
-    <h1 class="mb-3">
+    <h1 class="mb-4">
       <slot name="page-title"></slot>
     </h1>
 
