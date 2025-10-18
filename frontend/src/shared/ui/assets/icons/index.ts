@@ -22,7 +22,7 @@ import {
 	cilCheck as checkIcon,
 	cilTask as verifyIcon,
 	cilFile as fileIcon,
-	cilChartLine as tableIcon,
+	cilViewModule as tableIcon,
 	cilViewQuilt as logoIcon
 } from '@coreui/icons'
 

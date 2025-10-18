@@ -1,6 +1,6 @@
 <template>
     <MenuToolbar v-model:search-title="searchTitle"/>
-    <div id="tables-cards" class="p-3">
+    <div id="tables-cards" class="mt-4">
         <div v-if="isLoading" class="loading-state">
             <CSpinner color="primary" size="lg" />
             <p class="loading-text">Загрузка таблиц...</p>
@@ -17,14 +17,15 @@
             class="mt-3" />
     </div>
 </template>
-
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { CSpinner } from '@coreui/vue'
 import { MenuToolbar } from '..'
 import { SmallCard, BaseTablePagination, BaseTablePaginationConfig } from '@/shared/ui/components'
-import { useTableStore } from '@/entities/tables/tables'
-import { useGetAllTables } from '@/entities/tables/tables'
+import { useTableStore, useGetAllTables } from '@/entities/tables/tables'
+
+const router = useRouter()
 
 const tableStore = useTableStore()
 const { getAllTables, isLoading, error, paginationMeta } = useGetAllTables()
@@ -34,19 +35,19 @@ const itemsPerPage = ref<number>(Number(BaseTablePaginationConfig.DEFAULT_ITEMS_
 const searchTitle = ref<string>('')
 
 const sendRequest = (): void => {
-    getAllTables({
-        page: currentPage.value,
-        pageSize: itemsPerPage.value,
-        title: searchTitle.value
-    })
+  getAllTables({
+    page: currentPage.value,
+    pageSize: itemsPerPage.value,
+    title: searchTitle.value
+  })
 }
-
 watch([currentPage, itemsPerPage, searchTitle], sendRequest, { immediate: true })
 
 function onSelect(id: number) {
-
+  router.push({ name: 'Таблица', params: { tableId: String(id) } })
 }
 </script>
+
 
 <style scoped>
 #tables-cards {
