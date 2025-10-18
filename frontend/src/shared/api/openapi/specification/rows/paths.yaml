@@ -92,10 +92,6 @@ RowIdPath:
     responses:
       200:
         description: Row was successfully updated
-        content:
-          application/json:
-            schema:
-              $ref: './schemas.yaml#/RowListResponseBody'
       default:
         description: Unexpected error
     security:
