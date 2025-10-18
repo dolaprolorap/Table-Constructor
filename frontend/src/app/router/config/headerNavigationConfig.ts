@@ -19,20 +19,20 @@ const BaseNavigation: HeaderNavigationConfig = [
 	}
 ]
 
-const CustomerNavigation: HeaderNavigationConfig = [
+const AdminNavigation: HeaderNavigationConfig = [
 	...BaseNavigation
 ]
 
-const BuilderNavigation: HeaderNavigationConfig = [
+const EditorNavigation: HeaderNavigationConfig = [
 	...BaseNavigation
 ]
 
-const InspectorNavigation: HeaderNavigationConfig = [
+const ViewerNavigation: HeaderNavigationConfig = [
 	...BaseNavigation
 ]
 
 export const headerNavigationDefaultConfig: NavigationConfig = {
-	customer: CustomerNavigation,
-	builder: BuilderNavigation,
-	inspector: InspectorNavigation,
+	admin: AdminNavigation,
+	editor: EditorNavigation,
+	viewer: ViewerNavigation,
 }

@@ -4,11 +4,10 @@
 // Import styles
 @import '@coreui/coreui/scss/coreui';
 
+// Custom styles for this theme
+@import 'theme';
+
 // Custom
 @import 'custom/overrides';
 @import 'custom/display';
 @import 'custom/tables';
-
-body {
-    background-color: var(--cui-gray-100);
-}

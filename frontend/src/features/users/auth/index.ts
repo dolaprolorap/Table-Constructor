@@ -1,3 +1,6 @@
+import UserAvatar from './ui/UserAvatar.vue'
+
+export { UserAvatar }
 export { useAuthenticatedUserStore } from './model/AuthenticatedUserStore'
 export { useLocalLogout } from './lib/useLocalLogout'
 export { useUserLogin } from './api/useUserLogin'

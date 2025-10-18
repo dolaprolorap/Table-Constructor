@@ -1,8 +1,11 @@
-import AppHeader from './ui/AppHeader.vue'
+import AppHeader from './header/ui/AppHeader.vue'
+import AppSidebar from './sidebar/ui/AppSidebar.vue'
 
-export { AppHeader }
+export { AppHeader, AppSidebar }
+export { useSidebarStore } from './sidebar/model/SidebareStore'
+
 export {
 	HeaderConfigTypes,
 	type HeaderLinkConfig,
 	type HeaderNavigationConfig
-} from './model/types'
+} from './types'

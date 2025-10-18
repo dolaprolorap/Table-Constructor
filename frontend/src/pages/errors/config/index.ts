@@ -1,1 +1,1 @@
-export const NOT_FOUND_PAGE_NAME = 'NotFound'
+export const NOT_FOUND_PAGE_NAME = '404'
