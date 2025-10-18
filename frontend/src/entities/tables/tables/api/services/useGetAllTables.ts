@@ -49,6 +49,7 @@ export function useGetAllTables(): UseGetAllTablesReturn {
 
   const saveTables = (): void => {
     const res = response.value
+
     if (!res || !res.data) return
 
     tables.value = res.data as unknown as Table[]

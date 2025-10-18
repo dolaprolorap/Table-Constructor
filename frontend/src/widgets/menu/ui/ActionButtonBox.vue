@@ -1,18 +1,15 @@
 <template>
-    <PageContainer>
-        <div class="actions">
-            <CButton color="primary">Создать таблицу</CButton>
-            <CButton color="secondary" class="import-btn">
-                <CIcon :icon="iconsSet.fileIcon" class="me-2" />
-                <span>Импорт таблицы</span>
-            </CButton>
-        </div>
-    </PageContainer>
+    <div class="actions">
+        <CButton color="primary">Создать таблицу</CButton>
+        <CButton color="secondary" class="import-btn">
+            <CIcon :icon="iconsSet.fileIcon" class="me-2" />
+            <span>Импорт таблицы</span>
+        </CButton>
+    </div>
 </template>
 
 <script setup lang="ts">
 import { CButton } from '@coreui/vue'
-import { PageContainer } from '@/shared/ui/components';
 import { iconsSet } from '@/shared/ui/assets/icons';
 </script>
 

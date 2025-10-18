@@ -67,6 +67,7 @@ export type Table = {
 
 export type TableResponseBody = {
 	data: Table;
+	meta?: PaginationMeta;
 };
 
 export type TableListResponseBody = {
@@ -256,7 +257,7 @@ export type CreateTableData = {
 	body: TableRequestBody;
 };
 
-export type CreateTableResponse = (TableListResponseBody);
+export type CreateTableResponse = (unknown);
 
 export type CreateTableError = (unknown);
 
@@ -277,7 +278,7 @@ export type UpdateTableData = {
 	};
 };
 
-export type UpdateTableResponse = (TableListResponseBody);
+export type UpdateTableResponse = (unknown);
 
 export type UpdateTableError = (unknown);
 
