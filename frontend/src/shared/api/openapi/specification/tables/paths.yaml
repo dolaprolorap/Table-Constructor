@@ -33,8 +33,8 @@ TablesPath:
                 $ref: './examples.yaml#/TableListResponseExample'
       default:
         description: Unexpected error
-    security:
-      - jwt: []
+    # security:
+    #   - jwt: []
   post:
     tags:
       - tables
