@@ -8,12 +8,12 @@ export type User = {
 	/**
 	 * Уникальный идентификатор пользователя
 	 */
-	id: string;
+	id: number;
 
 	/**
 	 * Email адрес пользователя
 	 */
-	email: string;
+	login: string;
 
 	/**
 	 * Полное имя пользователя
@@ -22,81 +22,76 @@ export type User = {
 	role: UserRole;
 };
 
-export type UserRole = 'CONTRACTOR' | 'CUSTOMER' | 'INSPECTOR';
+export type UserRole = 'ADMIN' | 'EDITOR' | 'VIEWER';
 
 export const UserRole = {
-	CONTRACTOR: 'CONTRACTOR',
-	CUSTOMER: 'CUSTOMER',
-	INSPECTOR: 'INSPECTOR'
+	ADMIN: 'ADMIN',
+	EDITOR: 'EDITOR',
+	VIEWER: 'VIEWER'
 } as const
 
-/**
- * Модель проекта
- */
-export type Project = {
+export type UserRequestBody = {
 
 	/**
-	 * Уникальный идентификатор проекта
+	 * Email адрес пользователя
 	 */
-	id: string;
+	login: string;
 
 	/**
-	 * Название проекта
+	 * Полное имя пользователя
 	 */
-	name: string;
-
-	/**
-	 * ID заказчика
-	 */
-	customer_id: string;
-
-	/**
-	 * ID подрядчика
-	 */
-	contractor_id?: (string) | null;
-
-	/**
-	 * ID геоточки проекта
-	 */
-	geopoint_id: string;
-
-	/**
-	 * Дата начала проекта
-	 */
-	start_date: Date;
-
-	/**
-	 * Планируемая дата завершения
-	 */
-	end_date: Date;
-	status: ProjectStatus;
+	full_name: string;
+	password: string;
+	role: UserRole;
 };
 
-/**
- * Статус проекта
- */
-export type ProjectStatus = 'CREATED' | 'BEING_INITIALIZED' | 'ACTIVE' | 'FINISHED';
+export type PaginationMeta = {
+	currentPage: number;
+	from: number;
+	lastPage: number;
+	perPage: number;
+	to: number;
+	total: number;
+};
 
-/**
- * Статус проекта
- */
-export const ProjectStatus = {
-	CREATED: 'CREATED',
-	BEING_INITIALIZED: 'BEING_INITIALIZED',
-	ACTIVE: 'ACTIVE',
-	FINISHED: 'FINISHED'
-} as const
+export type Table = {
+
+	/**
+	 * Уникальный идентификатор таблицы
+	 */
+	id?: number;
+
+	/**
+	 * Имя таблицы
+	 */
+	full_name?: string;
+};
+
+export type TableResponseBody = {
+	data: Table;
+};
+
+export type TableListResponseBody = {
+	data: Array<Table>;
+};
+
+export type TableRequestBody = {
+	data: {
+		id: number;
+		title?: string;
+	};
+};
 
 export type UserLoginData = {
 	body: {
-		email: string;
+		login: string;
 		password: string;
 	};
 };
 
 export type UserLoginResponse = ({
-	refresh_token: string;
-	access_token: string;
+	user: User;
+	token: string;
 });
 
 export type UserLoginError = (unknown);
@@ -105,46 +100,77 @@ export type UserLogoutResponse = (void);
 
 export type UserLogoutError = (unknown);
 
-export type RefreshTokenData = {
-	body: {
-		refresh_token: string;
+export type GetUsersData = {
+	query?: {
+		login?: string;
+		page?: number;
+		pageSize?: number;
 	};
 };
 
-export type RefreshTokenResponse = ({
-	access_token: string;
+export type GetUsersResponse = (unknown);
+
+export type GetUsersError = (unknown);
+
+export type AddUserData = {
+	body: UserRequestBody;
+};
+
+export type AddUserResponse = (User);
+
+export type AddUserError = (unknown);
+
+export type DeleteUserData = {
+	path: {
+		user_id: number;
+	};
+};
+
+export type DeleteUserResponse = ({
+	id?: number;
 });
 
-export type RefreshTokenError = unknown;
+export type DeleteUserError = (unknown);
 
-export type GetAuthenticatedUserResponse = (User);
+export type GetAllTablesResponse = (TableListResponseBody);
 
-export type GetAuthenticatedUserError = (unknown);
+export type GetAllTablesError = (unknown);
 
-export type GetAllProjectsResponse = (Array<Project>);
+export type CreateTableData = {
+	body: TableRequestBody;
+};
 
-export type GetAllProjectsError = (unknown);
+export type CreateTableResponse = (TableListResponseBody);
 
-export type GetAllProjectsResponseTransformer = (data: any) => Promise<GetAllProjectsResponse>;
+export type CreateTableError = (unknown);
 
-export type ProjectModelResponseTransformer = (data: any) => Project;
+export type GetTabletByIdData = {
+	path: {
+		id: number;
+	};
+};
 
-export const ProjectModelResponseTransformer: ProjectModelResponseTransformer = data => {
-	if (data?.start_date) {
-		data.start_date = new Date(data.start_date)
-	}
+export type GetTabletByIdResponse = (TableResponseBody);
 
-	if (data?.end_date) {
-		data.end_date = new Date(data.end_date)
-	}
+export type GetTabletByIdError = (unknown);
 
-	return data
-}
+export type UpdateTableData = {
+	body: TableRequestBody;
+	path: {
+		id: number;
+	};
+};
 
-export const GetAllProjectsResponseTransformer: GetAllProjectsResponseTransformer = async data => {
-	if (Array.isArray(data)) {
-		data.forEach(ProjectModelResponseTransformer)
-	}
+export type UpdateTableResponse = (TableListResponseBody);
 
-	return data
-}
+export type UpdateTableError = (unknown);
+
+export type DeleteTablesData = {
+	path: {
+		id: number;
+	};
+};
+
+export type DeleteTablesResponse = (unknown);
+
+export type DeleteTablesError = (unknown);

@@ -1,0 +1,43 @@
+Table:
+  type: object
+  properties:
+    id:
+      type: integer
+      description: Уникальный идентификатор таблицы
+    full_name:
+      type: string
+      example: 'Таблицы 1'
+      description: Имя таблицы
+      
+TableResponseBody:
+  type: object
+  properties:
+    data:
+      $ref: '#/Table'
+  required:
+    - data
+
+TableListResponseBody:
+  type: object
+  properties:
+    data:
+      type: array
+      items:
+        $ref: '#/Table'
+  required:
+    - data
+
+TableRequestBody:
+  type: object
+  properties:
+    data:
+      type: object
+      properties:
+        id:
+          type: number
+        title:
+          type: string
+      required:
+        - id
+  required:
+    - data

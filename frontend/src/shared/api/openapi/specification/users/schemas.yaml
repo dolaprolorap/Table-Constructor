@@ -1,10 +1,10 @@
 UserRole:
   type: string
   enum:
-    - CONTRACTOR
-    - CUSTOMER
-    - INSPECTOR
-  example: CUSTOMER
+    - ADMIN
+    - EDITOR
+    - VIEWER
+  example: VIEWER
 
 User:
   type: object

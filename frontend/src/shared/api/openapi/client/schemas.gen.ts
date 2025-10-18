@@ -4,15 +4,11 @@ export const UserSchema = {
 	type: 'object',
 	properties: {
 		id: {
-			type: 'string',
-			format: 'uuid',
-			example: '550e8400-e29b-41d4-a716-446655440000',
+			type: 'number',
 			description: 'Уникальный идентификатор пользователя'
 		},
-		email: {
+		login: {
 			type: 'string',
-			format: 'email',
-			example: 'ivan.ivanov@example.com',
 			description: 'Email адрес пользователя'
 		},
 		full_name: {
@@ -24,75 +20,116 @@ export const UserSchema = {
 			$ref: '#/components/schemas/UserRole'
 		}
 	},
-	required: [ 'id', 'email', 'full_name', 'role' ],
+	required: [ 'id', 'login', 'full_name', 'role' ],
 	description: 'Модель пользователя системы'
 } as const
 
 export const UserRoleSchema = {
 	type: 'string',
-	enum: [ 'CONTRACTOR', 'CUSTOMER', 'INSPECTOR' ],
-	example: 'CUSTOMER'
+	enum: [ 'ADMIN', 'EDITOR', 'VIEWER' ],
+	example: 'VIEWER'
 } as const
 
-export const ProjectSchema = {
+export const UserRequestBodySchema = {
 	type: 'object',
-	required: [ 'id', 'name', 'customer_id', 'status', 'start_date', 'end_date', 'geopoint_id' ],
 	properties: {
-		id: {
+		login: {
 			type: 'string',
-			format: 'uuid',
-			example: '550e8400-e29b-41d4-a716-446655440000',
-			description: 'Уникальный идентификатор проекта'
+			description: 'Email адрес пользователя'
 		},
-		name: {
+		full_name: {
 			type: 'string',
-			minLength: 1,
-			maxLength: 255,
-			example: 'Благоустройство сквера в центре города',
-			description: 'Название проекта'
+			example: 'Иван Иванов',
+			description: 'Полное имя пользователя'
 		},
-		customer_id: {
-			type: 'string',
-			format: 'uuid',
-			example: '550e8400-e29b-41d4-a716-446655440001',
-			description: 'ID заказчика'
+		password: {
+			type: 'string'
 		},
-		contractor_id: {
-			type: 'string',
-			format: 'uuid',
-			example: '550e8400-e29b-41d4-a716-446655440002',
-			description: 'ID подрядчика',
-			nullable: true
-		},
-		geopoint_id: {
-			type: 'string',
-			format: 'uuid',
-			example: '550e8400-e29b-41d4-a716-446655440003',
-			description: 'ID геоточки проекта'
-		},
-		start_date: {
-			type: 'string',
-			format: 'date-time',
-			example: '2024-01-15T10:30:00Z',
-			description: 'Дата начала проекта'
-		},
-		end_date: {
-			type: 'string',
-			format: 'date-time',
-			example: '2024-12-31T23:59:59Z',
-			description: 'Планируемая дата завершения'
-		},
-		status: {
-			$ref: '#/components/schemas/ProjectStatus',
-			example: 'CREATED'
+		role: {
+			$ref: '#/components/schemas/UserRole'
 		}
 	},
-	description: 'Модель проекта'
+	required: [ 'login', 'password', 'full_name', 'role' ]
 } as const
 
-export const ProjectStatusSchema = {
-	type: 'string',
-	enum: [ 'CREATED', 'BEING_INITIALIZED', 'ACTIVE', 'FINISHED' ],
-	example: 'CREATED',
-	description: 'Статус проекта'
+export const PaginationMetaSchema = {
+	type: 'object',
+	properties: {
+		currentPage: {
+			type: 'integer'
+		},
+		from: {
+			type: 'integer'
+		},
+		lastPage: {
+			type: 'integer'
+		},
+		perPage: {
+			type: 'integer'
+		},
+		to: {
+			type: 'integer'
+		},
+		total: {
+			type: 'integer'
+		}
+	},
+	required: [ 'from', 'lastPage', 'perPage', 'to', 'total', 'currentPage' ]
+} as const
+
+export const TableSchema = {
+	type: 'object',
+	properties: {
+		id: {
+			type: 'integer',
+			description: 'Уникальный идентификатор таблицы'
+		},
+		full_name: {
+			type: 'string',
+			example: 'Таблицы 1',
+			description: 'Имя таблицы'
+		}
+	}
+} as const
+
+export const TableResponseBodySchema = {
+	type: 'object',
+	properties: {
+		data: {
+			$ref: '#/components/schemas/Table'
+		}
+	},
+	required: ['data']
+} as const
+
+export const TableListResponseBodySchema = {
+	type: 'object',
+	properties: {
+		data: {
+			type: 'array',
+			items: {
+				$ref: '#/components/schemas/Table'
+			}
+		}
+	},
+	required: ['data']
+} as const
+
+export const TableRequestBodySchema = {
+	type: 'object',
+	properties: {
+		data: {
+			type: 'object',
+			properties: {
+				id: {
+					type: 'number'
+				},
+				title: {
+					type: 'string'
+				}
+			},
+			required: ['id']
+		}
+	},
+	required: ['data']
 } as const
