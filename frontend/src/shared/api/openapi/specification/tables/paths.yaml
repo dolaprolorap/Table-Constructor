@@ -28,6 +28,9 @@ TablesPath:
               $ref: './schemas.yaml#/TableListResponseBody'
               meta:
                 $ref: '../common/schemas.yaml#/PaginationMeta'
+            examples:
+              default:
+                $ref: './examples.yaml#/TableListResponseExample'
       default:
         description: Unexpected error
     security:

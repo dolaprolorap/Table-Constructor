@@ -167,8 +167,6 @@ export type RowListResponseBody = {
 
 export type RowRequestBody = {
 	data: {
-		page?: number;
-		pageSize?: number;
 		searchString?: string;
 		sortColumn?: 'ASC' | 'DESC';
 	};
@@ -246,7 +244,7 @@ export type DeleteUserError = (unknown);
 export type GetAllTablesData = {
 	query?: {
 		page?: number;
-		pageSize?: number;
+		page_size?: number;
 	};
 };
 
@@ -297,7 +295,7 @@ export type CreateColumnData = {
 	body: ColumnRequestBody;
 };
 
-export type CreateColumnResponse = (ColumnListResponseBody);
+export type CreateColumnResponse = (unknown);
 
 export type CreateColumnError = (unknown);
 
@@ -308,7 +306,7 @@ export type UpdateColumnsData = {
 	};
 };
 
-export type UpdateColumnsResponse = (ColumnListResponseBody);
+export type UpdateColumnsResponse = (unknown);
 
 export type UpdateColumnsError = (unknown);
 
@@ -360,7 +358,7 @@ export type UpdateRowData = {
 	};
 };
 
-export type UpdateRowResponse = (RowListResponseBody);
+export type UpdateRowResponse = (unknown);
 
 export type UpdateRowError = (unknown);
 

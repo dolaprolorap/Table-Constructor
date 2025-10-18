@@ -1,0 +1,91 @@
+TableListResponseExample:
+  value:
+    jsonapi:
+      version: '1.0'
+    data:
+      - type: tables
+        id: '1'
+        attributes:
+          title: Продажи за 2025 год
+        links:
+          self: http://localhost:8000/api/v1/tables/1
+        meta:
+          created_at: '2025-03-03T14:27:35.000000Z'
+          updated_at: '2025-03-03T14:27:35.000000Z'
+      - type: tables
+        id: '2'
+        attributes:
+          title: Клиенты компании
+        links:
+          self: http://localhost:8000/api/v1/tables/2
+        meta:
+          created_at: '2025-03-03T14:28:01.000000Z'
+          updated_at: '2025-03-03T14:28:01.000000Z'
+      - type: tables
+        id: '3'
+        attributes:
+          title: Отчёты по регионам
+        links:
+          self: http://localhost:8000/api/v1/tables/3
+        meta:
+          created_at: '2025-03-03T14:28:18.000000Z'
+          updated_at: '2025-03-03T14:28:18.000000Z'
+
+TableResponseExample:
+  value:
+    jsonapi:
+      version: '1.0'
+    data:
+      type: tables
+      id: '1'
+      attributes:
+        title: Продажи за 2025 год
+      links:
+        self: http://localhost:8000/api/v1/tables/1
+      meta:
+        created_at: '2025-03-03T14:27:35.000000Z'
+        updated_at: '2025-03-03T14:27:35.000000Z'
+
+TableCreateRequestExample:
+  value:
+    data:
+      type: tables
+      attributes:
+        title: Новая таблица
+
+TableCreateResponseExample:
+  value:
+    jsonapi:
+      version: '1.0'
+    data:
+      type: tables
+      id: '4'
+      attributes:
+        title: Новая таблица
+      links:
+        self: http://localhost:8000/api/v1/tables/4
+      meta:
+        created_at: '2025-03-03T14:30:00.000000Z'
+        updated_at: '2025-03-03T14:30:00.000000Z'
+
+TableUpdateResponseExample:
+  value:
+    jsonapi:
+      version: '1.0'
+    data:
+      type: tables
+      id: '1'
+      attributes:
+        title: Обновлённая таблица
+      links:
+        self: http://localhost:8000/api/v1/tables/1
+      meta:
+        created_at: '2025-03-03T14:27:35.000000Z'
+        updated_at: '2025-03-03T15:05:12.000000Z'
+
+TableDeleteResponseExample:
+  value:
+    jsonapi:
+      version: '1.0'
+    meta:
+      message: Таблица успешно удалена

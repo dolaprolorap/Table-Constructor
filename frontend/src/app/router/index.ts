@@ -43,7 +43,12 @@ const router = createRouter({
 							return module.NotFound
 						})
 					}
-				}
+				},
+				{
+					path: '',
+					name: 'HomeIndex',
+					component: () => import('@/pages/menu').then(m => m.MenuPage),
+				},
 			]
 		}
 	]
@@ -57,7 +62,7 @@ router.beforeEach((to, from) => {
 	const initialMiddleware: MiddlewareHandler[] = []
 	const combinedMiddleware = to.matched.reduce((meta, route) => {
 		const currentMiddleware = route.meta.middleware || []
-		const mergedMiddleware = [ ...meta, ...currentMiddleware ]
+		const mergedMiddleware = [...meta, ...currentMiddleware]
 
 		return mergedMiddleware
 	}, initialMiddleware)
