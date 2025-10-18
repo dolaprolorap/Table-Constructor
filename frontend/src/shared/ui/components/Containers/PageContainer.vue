@@ -4,16 +4,14 @@
     class="page__container"
   >
     <h1 class="mb-3">
-      <slot name="page-title" />
+      <slot name="page-title"></slot>
     </h1>
 
-    <slot />
+    <slot></slot>
   </CContainer>
 </template>
 
 <style lang="scss" scoped>
-@import '@/shared/ui/styles/styles.scss';
-
 .page__container {
     padding-left: 1.5rem;
     padding-right: 1.5rem;

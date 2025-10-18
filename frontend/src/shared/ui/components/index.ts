@@ -3,6 +3,7 @@ import TableObjectWithAccordion from './Accordion/TableObjectWithAccordion.vue'
 // Buttons
 import FilterButton from './Buttons/FilterButton.vue'
 // Containers
+import FullPageContainer from './Containers/FullPageContainer.vue'
 import PageContainer from './Containers/PageContainer.vue'
 // Dividers
 import BaseDivider from './Dividers/BaseDivider.vue'
@@ -37,6 +38,7 @@ export {
 	BaseFormSubheader,
 	TableObjectWithAccordion,
 	PageContainer,
+	FullPageContainer,
 	FullPageLoader,
 	DataLoader,
 	BaseLoader,
