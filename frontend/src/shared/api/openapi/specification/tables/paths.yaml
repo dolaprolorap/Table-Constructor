@@ -4,6 +4,11 @@ TablesPath:
       - tables
     summary: Get all tables
     operationId: getAllTables
+    parameters:
+      - name: title
+        required: false
+        schema:
+          type: string
     responses:
       200:
         description: Successfully got a list of the tables
@@ -11,6 +16,8 @@ TablesPath:
           application/json:
             schema:
               $ref: './schemas.yaml#/TableListResponseBody'
+              meta:
+                $ref: '../common/schemas.yaml#/PaginationMeta'
       default:
         description: Unexpected error
     security:

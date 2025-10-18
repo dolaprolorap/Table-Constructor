@@ -4,11 +4,12 @@ Table:
     id:
       type: integer
       description: Уникальный идентификатор таблицы
-    full_name:
+    title:
       type: string
       example: 'Таблицы 1'
       description: Имя таблицы
-      
+    meta:
+  
 TableResponseBody:
   type: object
   properties:
