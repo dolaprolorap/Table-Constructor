@@ -3,6 +3,7 @@ import type { UserRoles } from '@/entities/users'
 import { HeaderConfigTypes, type HeaderNavigationConfig } from '@/widgets/layout'
 
 import { MenuPageConfig } from '@/pages/menu'
+import { UsersPageConfig } from '@/pages/users'
 
 export type NavigationConfig = {
 	[role in UserRoles]: HeaderNavigationConfig;
@@ -11,13 +12,18 @@ export type NavigationConfig = {
 const BaseNavigation: HeaderNavigationConfig = [
 	{
 		type: HeaderConfigTypes.link,
-		label: 'Меню',
+		label: MenuPageConfig.MENU_PAGE_NAME,
 		to: MenuPageConfig.MENU_PAGE_PATH
 	}
 ]
 
 const AdminNavigation: HeaderNavigationConfig = [
-	...BaseNavigation
+	...BaseNavigation,
+	{
+		type: HeaderConfigTypes.link,
+		label: UsersPageConfig.USERS_PAGE_NAME,
+		to: UsersPageConfig.USERS_PAGE_PATH
+	}
 ]
 
 const EditorNavigation: HeaderNavigationConfig = [

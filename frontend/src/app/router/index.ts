@@ -4,6 +4,7 @@ import { ErrorsPageConfig } from '@/pages/errors'
 import { LoginPageConfig } from '@/pages/login'
 import { MenuPageConfig } from '@/pages/menu'
 import { ProfilePageConfig } from '@/pages/profile'
+import { UsersPageConfig } from '@/pages/users'
 
 import { BASE_PAGE_NAME, BASE_PAGE_PATH } from './config'
 import { middlewarePipeline } from './middleware'
@@ -55,6 +56,15 @@ const router = createRouter({
 					component: (): ConcreteComponent => {
 						return import('@/pages/profile').then(module => {
 							return module.ProfileView
+						})
+					}
+				},
+				{
+					path: UsersPageConfig.USERS_PAGE_PATH,
+					name: UsersPageConfig.USERS_PAGE_NAME,
+					component: (): ConcreteComponent => {
+						return import('@/pages/users').then(module => {
+							return module.UsersPage
 						})
 					}
 				},
