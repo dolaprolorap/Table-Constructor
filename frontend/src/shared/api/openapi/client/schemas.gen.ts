@@ -121,6 +121,9 @@ export const TableResponseBodySchema = {
 	properties: {
 		data: {
 			$ref: '#/components/schemas/Table'
+		},
+		meta: {
+			$ref: '#/components/schemas/PaginationMeta'
 		}
 	},
 	required: ['data']

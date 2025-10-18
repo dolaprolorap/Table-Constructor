@@ -32,33 +32,34 @@ import { BaseTablePagination, BaseTablePaginationConfig } from './Pagination/Bas
 //Wrappers
 import { TruncateTextWrapper, TextWithIconWrapper } from './Wrappers'
 //Cards
-
+import SmallCard from './Cards/SmallCard.vue'
 export {
-	BaseDivider,
-	BaseFormSubheader,
-	TableObjectWithAccordion,
-	PageContainer,
-	FullPageContainer,
-	FullPageLoader,
-	DataLoader,
-	BaseLoader,
-	CustomNavLink,
-	BaseLink,
-	BaseModal,
-	ErrorMessageModal,
-	MultiSelect,
-	BaseSearchInput,
-	BaseFormInput,
-	BaseSelect,
-	BaseTextareaInput,
-	BaseSearchWithPrompt,
-	SelectWithInfiniteScroll,
-	FormControlsSharedConfig,
-	BaseTablePagination,
-	BaseTablePaginationConfig,
-	FilterButton,
-	TruncateTextWrapper,
-	TextWithIconWrapper
+  BaseDivider,
+  BaseFormSubheader,
+  TableObjectWithAccordion,
+  PageContainer,
+  FullPageContainer,
+  FullPageLoader,
+  DataLoader,
+  BaseLoader,
+  CustomNavLink,
+  BaseLink,
+  BaseModal,
+  ErrorMessageModal,
+  MultiSelect,
+  BaseSearchInput,
+  BaseFormInput,
+  BaseSelect,
+  BaseTextareaInput,
+  BaseSearchWithPrompt,
+  SelectWithInfiniteScroll,
+  FormControlsSharedConfig,
+  BaseTablePagination,
+  BaseTablePaginationConfig,
+  FilterButton,
+  TruncateTextWrapper,
+  TextWithIconWrapper,
+  SmallCard
 }
 
 export { DefaultSelectOptions, type AllOption, type NoneOption, type SelectOption } from './FormControls/shared'

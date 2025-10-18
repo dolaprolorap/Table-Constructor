@@ -62,7 +62,7 @@ const { getAllContests, isLoading, error, paginationMeta } = useGetAllContests()
 
 const sendRequest = (): void => {
   getAllContests({
-    // eslint-disable-next-line no-undefined
+  // eslint-disable-next-line no-undefined
     status: contestStatus.value ? contestStatus.value : undefined,
     page: currentPage.value,
     pageSize: itemsPerPage.value,

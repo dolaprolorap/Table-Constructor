@@ -26,12 +26,13 @@ TablesPath:
           application/json:
             schema:
               $ref: './schemas.yaml#/TableListResponseBody'
-              meta:
-                $ref: '../common/schemas.yaml#/PaginationMeta'
+            examples:
+              default:
+                $ref: './examples.yaml#/TableListResponseExample'
       default:
         description: Unexpected error
-    security:
-      - jwt: []
+    # security:
+    #   - jwt: []
   post:
     tags:
       - tables
@@ -46,10 +47,6 @@ TablesPath:
     responses:
       201:
         description: Table was successfully created
-        content:
-          application/json:
-            schema:
-              $ref: './schemas.yaml#/TableListResponseBody'
       default:
         description: Unexpected error
 
@@ -90,10 +87,6 @@ TableIdPath:
     responses:
       200:
         description: Table was successfully updated
-        content:
-          application/json:
-            schema:
-              $ref: './schemas.yaml#/TableListResponseBody'
       default:
         description: Unexpected error
     security:

@@ -20,7 +20,9 @@ import {
 	cilSearch as searchIcon,
 	cilCalendar as calendarIcon,
 	cilCheck as checkIcon,
-	cilTask as verifyIcon
+	cilTask as verifyIcon,
+	cilFile as fileIcon,
+	cilChartLine as tableIcon
 } from '@coreui/icons'
 
 import { eyeIcon } from './eyeIcon'
@@ -49,6 +51,8 @@ interface IconSet {
 	calendarIcon: string[];
 	checkIcon: string[];
 	verifyIcon: string[];
+	fileIcon: string[];
+	tableIcon: string[];
 }
 
 export const iconsSet: IconSet = {
@@ -74,5 +78,7 @@ export const iconsSet: IconSet = {
 	searchIcon,
 	calendarIcon,
 	checkIcon,
-	verifyIcon
+	verifyIcon,
+	fileIcon,
+	tableIcon
 }
