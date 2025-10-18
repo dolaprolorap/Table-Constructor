@@ -33,6 +33,12 @@ paths:
   /columns/{id}:
     $ref: './columns/paths.yaml#/ColumnIdPath'
 
+  # Rows
+  /rows:
+    $ref: './rows/paths.yaml#/RowsPath'
+  /rows/{id}:
+    $ref: './rows/paths.yaml#/RowIdPath'
+
 components:
   schemas:
     User:
@@ -62,5 +68,14 @@ components:
     ColumnRequestBody:
       $ref: './columns/schemas.yaml#/ColumnRequestBody'
 
+    Rows:
+      $ref: './rows/schemas.yaml#/Rows'
+    RowsResponseBody:
+      $ref: './rows/schemas.yaml#/RowsResponseBody'
+    RowListResponseBody:
+      $ref: './rows/schemas.yaml#/RowListResponseBody'
+    RowRequestBody:
+      $ref: './rows/schemas.yaml#/RowRequestBody'
+  
   securitySchemes:
     $ref: './common/security.yaml'

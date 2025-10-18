@@ -1,11 +1,11 @@
 RowsPath:
   get:
-    tags:
-      - rows
+    tags: [rows]
     summary: Get all rows
     operationId: getAllRows
     parameters:
       - name: search_string
+        in: query
         required: false
         schema:
           type: string
@@ -22,15 +22,16 @@ RowsPath:
       - name: sort_type
         in: query
         required: false
+        schema:
+          type: string
+          enum: [ASC, DESC]
     responses:
       200:
-        description: Successfully got a list of the tables
+        description: Successfully got a list of the rows
         content:
           application/json:
             schema:
               $ref: './schemas.yaml#/RowListResponseBody'
-              meta:
-                $ref: '../common/schemas.yaml#/PaginationMeta'
       default:
         description: Unexpected error
     security:
@@ -61,11 +62,9 @@ RowIdPath:
     - name: id
       in: path
       required: true
-      schema:
-        type: integer
+      schema: { type: integer }
   get:
-    tags:
-      - rows
+    tags: [rows]
     summary: Gets the row by id
     operationId: getRowById
     responses:
@@ -74,16 +73,16 @@ RowIdPath:
         content:
           application/json:
             schema:
-              $ref: './schemas.yaml#/TableResponseBody'
+              $ref: './schemas.yaml#/RowsResponseBody'
       default:
         description: Unexpected error
     security:
       - jwt: []
   put:
     tags:
-      - tables
-    summary: Updates table
-    operationId: updateTable
+      - rows
+    summary: Updates row
+    operationId: updateRow
     requestBody:
       required: true
       content:
@@ -103,12 +102,12 @@ RowIdPath:
       - jwt: []
   delete:
     tags:
-      - row
-    summary: Deletes tables
-    operationId: deleteTables
+      - rows
+    summary: Deletes row
+    operationId: deleteRow
     responses:
       203:
-        description: Category was successfully deleted
+        description: Row was successfully deleted
       default:
         description: Unexpected error
     security:

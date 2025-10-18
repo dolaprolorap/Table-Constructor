@@ -206,3 +206,90 @@ export const ColumnRequestBodySchema = {
 	},
 	required: ['data']
 } as const
+
+export const RowsSchema = {
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		id: {
+			type: 'integer',
+			description: 'Уникальный идентификатор строки'
+		},
+		table_id: {
+			type: 'integer',
+			description: 'Идентификатор таблицы'
+		},
+		data: {
+			type: 'array',
+			items: {
+				type: 'object',
+				properties: {
+					column_id: {
+						type: 'integer',
+						description: 'Внешний ключ на строку'
+					},
+					data: {
+						type: 'string',
+						description: 'Данные ячейки'
+					}
+				}
+			}
+		}
+	},
+	required: [ 'id', 'table_id', 'data' ]
+} as const
+
+export const RowsResponseBodySchema = {
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		data: {
+			$ref: '#/components/schemas/Rows'
+		}
+	},
+	required: ['data']
+} as const
+
+export const RowListResponseBodySchema = {
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		data: {
+			type: 'array',
+			items: {
+				$ref: '#/components/schemas/Rows'
+			}
+		},
+		meta: {
+			$ref: '#/components/schemas/PaginationMeta'
+		}
+	},
+	required: ['data']
+} as const
+
+export const RowRequestBodySchema = {
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		data: {
+			type: 'object',
+			additionalProperties: false,
+			properties: {
+				page: {
+					type: 'number'
+				},
+				pageSize: {
+					type: 'number'
+				},
+				searchString: {
+					type: 'string'
+				},
+				sortColumn: {
+					type: 'string',
+					enum: [ 'ASC', 'DESC' ]
+				}
+			}
+		}
+	},
+	required: ['data']
+} as const

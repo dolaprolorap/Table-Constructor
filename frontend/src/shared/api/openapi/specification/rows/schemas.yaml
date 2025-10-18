@@ -11,32 +11,36 @@ Rows:
     data:
       type: array
       items:
-        $ref: "../cells/schemas.yaml#/components/schemas/Cell"
+        $ref: "../cells/schemas.yaml#/Cells"
   required: [id, table_id, data]
 
 RowsResponseBody:
   type: object
+  additionalProperties: false
   properties:
     data:
       $ref: '#/Rows'
-  required:
-    - data
+  required: [data]
 
 RowListResponseBody:
   type: object
+  additionalProperties: false
   properties:
     data:
       type: array
       items:
         $ref: '#/Rows'
-  required:
-    - data
+    meta:
+      $ref: '../common/schemas.yaml#/PaginationMeta'
+  required: [data]
 
 RowRequestBody:
   type: object
+  additionalProperties: false
   properties:
     data:
       type: object
+      additionalProperties: false
       properties:
         page:
           type: number
@@ -46,10 +50,5 @@ RowRequestBody:
           type: string
         sortColumn:
           type: string
-          enum:
-            - ASC
-            - DESC
-      required:
-        - id
-  required:
-    - data
+          enum: [ASC, DESC]
+  required: [data]
