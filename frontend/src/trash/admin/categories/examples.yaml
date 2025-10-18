@@ -1,0 +1,41 @@
+CategoryListResponseExample:
+  value:
+    jsonapi:
+      version: '1.0'
+    data:
+      - type: categories
+        id: '2'
+        attributes:
+          title: Творческая деятельность
+        links:
+          self: http://localhost:8000/api/v1/categories/2
+        meta:
+          created_at: '2025-03-03T14:27:35.000000Z'
+          updated_at: '2025-03-03T14:27:35.000000Z'
+      - type: categories
+        id: '3'
+        attributes:
+          title: Общественная деятельность
+        links:
+          self: http://localhost:8000/api/v1/categories/3
+        meta:
+          created_at: '2025-03-03T14:27:35.000000Z'
+          updated_at: '2025-03-03T14:27:35.000000Z'
+      - type: categories
+        id: '4'
+        attributes:
+          title: Научная деятельность
+        links:
+          self: http://localhost:8000/api/v1/categories/4
+        meta:
+          created_at: '2025-03-03T14:27:35.000000Z'
+          updated_at: '2025-03-03T14:27:35.000000Z'
+      - type: categories
+        id: '5'
+        attributes:
+          title: Учебная деятельность
+        links:
+          self: http://localhost:8000/api/v1/categories/5
+        meta:
+          created_at: '2025-03-03T14:27:35.000000Z'
+          updated_at: '2025-03-03T14:27:35.000000Z'

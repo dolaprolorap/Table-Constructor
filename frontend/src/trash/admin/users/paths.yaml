@@ -5,11 +5,55 @@ Users:
       - users
     summary: Get all users
     parameters:
+      - name: roles_slugs[]
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: './schemas.yaml#/RoleSlugs'
+        explode: true
+        style: form
       - name: login
         in: query
         required: false
         schema:
           type: string
+      - name: email
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: last_name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: category_ids[]
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: number
+        explode: true
+        style: form
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: include
+        in: query
+        required: true
+        schema:
+          type: string
+          enum: ['userInfo,roles,categories']
     operationId: getUsers
     responses:
       200:

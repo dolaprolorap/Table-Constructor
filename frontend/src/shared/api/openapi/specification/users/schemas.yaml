@@ -10,14 +10,10 @@ User:
   type: object
   properties:
     id:
-      type: string
-      format: uuid
-      example: '550e8400-e29b-41d4-a716-446655440000'
+      type: number
       description: Уникальный идентификатор пользователя
-    email:
+    login:
       type: string
-      format: email
-      example: 'ivan.ivanov@example.com'
       description: Email адрес пользователя
     full_name:
       type: string
@@ -27,7 +23,10 @@ User:
       $ref: '#/UserRole'
   required:
     - id
-    - email
+    - login
     - full_name
     - role
   description: Модель пользователя системы
+
+UserList:
+  
