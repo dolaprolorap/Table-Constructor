@@ -299,12 +299,6 @@ export const RowRequestBodySchema = {
 			type: 'object',
 			additionalProperties: false,
 			properties: {
-				page: {
-					type: 'number'
-				},
-				pageSize: {
-					type: 'number'
-				},
 				searchString: {
 					type: 'string'
 				},

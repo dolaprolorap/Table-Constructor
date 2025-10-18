@@ -8,3 +8,7 @@
 @import 'custom/overrides';
 @import 'custom/display';
 @import 'custom/tables';
+
+body {
+    background-color: var(--cui-gray-100);
+}

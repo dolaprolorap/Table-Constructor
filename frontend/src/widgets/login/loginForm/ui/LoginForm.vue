@@ -33,13 +33,18 @@
       </CForm>
     </CCardBody>
   </CCard>
+
+  <ErrorMessageModal
+    :error="error"
+    :error-message="error?.errorMessage"
+  />
 </template>
 
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
 import { ref } from 'vue'
 
-import { BaseFormInput } from '@/shared/ui/components'
+import { BaseFormInput, ErrorMessageModal } from '@/shared/ui/components'
 
 import { useUserLogin } from '@/features/users/auth'
 
@@ -52,7 +57,7 @@ const { handleSubmit } = useForm({
 const login = ref<string>('')
 const password = ref<string>('')
 
-const { toLogin } = useUserLogin()
+const { toLogin, error } = useUserLogin()
 
 const submitHandler = (): void => {
 	toLogin({
