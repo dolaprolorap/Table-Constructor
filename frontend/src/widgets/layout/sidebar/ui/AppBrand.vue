@@ -12,7 +12,7 @@
     >
       <div class="sidebar-brand-full brand-name">
         <CIcon
-          :icon="iconsSet.bookIcon"
+          :icon="iconsSet.logoIcon"
           class="icon"
           :height="32"
         /> ТАБЛИЦЫ

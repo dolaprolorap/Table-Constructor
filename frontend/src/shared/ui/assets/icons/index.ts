@@ -22,7 +22,8 @@ import {
 	cilCheck as checkIcon,
 	cilTask as verifyIcon,
 	cilFile as fileIcon,
-	cilChartLine as tableIcon
+	cilChartLine as tableIcon,
+	cilViewQuilt as logoIcon
 } from '@coreui/icons'
 
 import { eyeIcon } from './eyeIcon'
@@ -53,6 +54,7 @@ interface IconSet {
 	verifyIcon: string[];
 	fileIcon: string[];
 	tableIcon: string[];
+	logoIcon: string[];
 }
 
 export const iconsSet: IconSet = {
@@ -80,5 +82,6 @@ export const iconsSet: IconSet = {
 	checkIcon,
 	verifyIcon,
 	fileIcon,
-	tableIcon
+	tableIcon,
+	logoIcon
 }
