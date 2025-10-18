@@ -2,7 +2,6 @@ Login:
   post:
     tags:
       - auth
-    summary: Вход пользователя в систему
     operationId: userLogin
     requestBody:
       required: true
@@ -11,12 +10,12 @@ Login:
           schema:
             type: object
             properties:
-              email:
+              login:
                 type: string
               password:
                 type: string
             required:
-              - email
+              - login
               - password
     responses:
       200:
@@ -26,21 +25,20 @@ Login:
             schema:
               type: object
               properties:
-                refresh_token:
-                  type: string
+                user:
+                  $ref: '../users/schemas.yaml#/User'
                 access_token:
                   type: string
               required:
-                - refresh_token
+                - user
                 - access_token
       default:
-        description: Неизвестная ошибка
+        description: Unexpected error
 
 Logout:
   post:
     tags:
       - auth
-    summary: Выход из аккаунта
     operationId: userLogout
     responses:
       204:

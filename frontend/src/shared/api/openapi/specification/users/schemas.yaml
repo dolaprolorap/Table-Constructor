@@ -29,4 +29,26 @@ User:
   description: Модель пользователя системы
 
 UserList:
-  
+  type: array
+  items:
+    $ref: '#/User'
+
+UserRequestBody:
+  type: object
+  properties:
+    login:
+      type: string
+      description: Email адрес пользователя
+    full_name:
+      type: string
+      example: 'Иван Иванов'
+      description: Полное имя пользователя
+    password:
+      type: string
+    role:
+      $ref: '#/UserRole'
+  required:
+    - login
+    - password
+    - full_name
+    - role
