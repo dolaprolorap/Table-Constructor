@@ -1,0 +1,85 @@
+CategoriesPath:
+  get:
+    tags:
+      - achievement categories
+    summary: Gets all achievement categories
+    operationId: getAllCategories
+    responses:
+      200:
+        description: Categories successfully obtained
+        content:
+          application/json:
+            schema:
+              $ref: './schemas.yaml#/AchievementCategoryListResponseBody'
+            examples:
+              categoriesResponse:
+                $ref: './examples.yaml#/CategoryListResponseExample'
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []
+  post:
+    tags:
+      - achievement categories
+    summary: Creates new achievement category
+    operationId: createCategory
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './schemas.yaml#/AchievementCategoryRequestBody'
+    responses:
+      201:
+        description: Category was successfully created
+        content:
+          application/json:
+            schema:
+              $ref: './schemas.yaml#/AchievementCategoryResponseBody'
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []
+
+CategoriesPathId:
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  put:
+    tags:
+      - achievement categories
+    summary: Updates achievement category
+
+    operationId: updateCategory
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './schemas.yaml#/AchievementCategoryRequestBody'
+    responses:
+      200:
+        description: Category was successfully updated
+        content:
+          application/json:
+            schema:
+              $ref: './schemas.yaml#/AchievementCategoryResponseBody'
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []
+  delete:
+    tags:
+      - achievement categories
+    summary: Deletes achievement category
+    operationId: deleteCategory
+    responses:
+      203:
+        description: Category was successfully deleted
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []

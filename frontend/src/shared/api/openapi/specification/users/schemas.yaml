@@ -1,0 +1,49 @@
+UserRole:
+  type: string
+  enum:
+    - ADMIN
+    - EDITOR
+    - VIEWER
+  example: VIEWER
+
+User:
+  type: object
+  properties:
+    id:
+      type: number
+      description: Уникальный идентификатор пользователя
+    login:
+      type: string
+      description: Email адрес пользователя
+    full_name:
+      type: string
+      example: 'Иван Иванов'
+      description: Полное имя пользователя
+    role:
+      $ref: '#/UserRole'
+  required:
+    - id
+    - login
+    - full_name
+    - role
+  description: Модель пользователя системы
+
+UserRequestBody:
+  type: object
+  properties:
+    login:
+      type: string
+      description: Email адрес пользователя
+    full_name:
+      type: string
+      example: 'Иван Иванов'
+      description: Полное имя пользователя
+    password:
+      type: string
+    role:
+      $ref: '#/UserRole'
+  required:
+    - login
+    - password
+    - full_name
+    - role

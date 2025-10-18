@@ -1,0 +1,102 @@
+TablesPath:
+  get:
+    tags:
+      - tables
+    summary: Get all tables
+    operationId: getAllTables
+    parameters:
+      - name: title
+        required: false
+        schema:
+          type: string
+    responses:
+      200:
+        description: Successfully got a list of the tables
+        content:
+          application/json:
+            schema:
+              $ref: './schemas.yaml#/TableListResponseBody'
+              meta:
+                $ref: '../common/schemas.yaml#/PaginationMeta'
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []
+  post:
+    tags:
+      - tables
+    summary: Create new table
+    operationId: createTable
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './schemas.yaml#/TableRequestBody'
+    responses:
+      201:
+        description: Table was successfully created
+        content:
+          application/json:
+            schema:
+              $ref: './schemas.yaml#/TableListResponseBody'
+      default:
+        description: Unexpected error
+
+TableIdPath:
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  get:
+    tags:
+      - tables
+    summary: Gets the table by id
+    operationId: getTabletById
+    responses:
+      200:
+        description: The tables is obtained successfully
+        content:
+          application/json:
+            schema:
+              $ref: './schemas.yaml#/TableResponseBody'
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []
+  put:
+    tags:
+      - tables
+    summary: Updates table
+    operationId: updateTable
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './schemas.yaml#/TableRequestBody'
+    responses:
+      200:
+        description: Table was successfully updated
+        content:
+          application/json:
+            schema:
+              $ref: './schemas.yaml#/TableListResponseBody'
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []
+  delete:
+    tags:
+      - tables
+    summary: Deletes tables
+    operationId: deleteTables
+    responses:
+      203:
+        description: Category was successfully deleted
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []

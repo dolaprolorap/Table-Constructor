@@ -1,0 +1,176 @@
+ContestAttributes:
+  type: object
+  properties:
+    title:
+      type: string
+    description:
+      type: string
+    start_at:
+      type: string
+      format: date-time
+    end_at:
+      type: string
+      format: date-time
+    category_ids:
+      type: array
+      items:
+        type: integer
+  required:
+    - title
+    - description
+    - start_at
+    - end_at
+    - category_ids
+
+Contest:
+  allOf:
+    - $ref: '../../common/jsonapi/schemas.yaml#/EntityIdentifier'
+    - type: object
+      properties:
+        attributes:
+          $ref: '#/ContestAttributes'
+        relationships:
+          type: object
+          properties:
+            categories:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum: ['categories']
+                    required:
+                      - id
+                      - type
+              required:
+                - data
+          required:
+            - categories
+        meta:
+          $ref: '../../common/jsonapi/schemas.yaml#/CreateUpdateTimeMeta'
+      required:
+        - attributes
+        - meta
+        - relationships
+
+ContestMeta:
+  type: object
+  properties:
+    active_only:
+      type: boolean
+    title:
+      type: string
+  required:
+    - active_only
+
+ContestListResponseBody:
+  type: object
+  properties:
+    included:
+      type: array
+      items:
+        $ref: '../categories/schemas.yaml#/AchievementCategory'
+    data:
+      type: array
+      items:
+        $ref: '#/Contest'
+    meta:
+      $ref: '../../common/jsonapi/schemas.yaml#/PaginationMeta'
+  required:
+    - included
+    - data
+    - meta
+
+ContestResponseBody:
+  type: object
+  properties:
+    included:
+      type: array
+      items:
+        $ref: '../categories/schemas.yaml#/AchievementCategory'
+    meta:
+      type: object
+      properties:
+        lastPage:
+          type: integer
+    data:
+      $ref: '#/Contest'
+    links:
+      type: object
+      properties:
+        first: string
+        last: string
+
+  required:
+    - included
+    - data
+
+ContestRequestBody:
+  type: object
+  properties:
+    data:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: ['contests']
+        attributes:
+          type: object
+          properties:
+            title:
+              type: string
+            description:
+              type: string
+            category_ids:
+              type: array
+              items:
+                type: integer
+            start_at:
+              type: string
+            end_at:
+              type: string
+          required:
+            - title
+            - description
+            - category_ids
+            - start_at
+            - end_at
+      required:
+        - type
+        - attributes
+  required:
+    - data
+
+ContestPartialUpdateRequestBody:
+  type: object
+  properties:
+    data:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: ['contests']
+        attributes:
+          type: object
+          properties:
+            title:
+              type: string
+            description:
+              type: string
+            end_at:
+              type: string
+          required:
+            - title
+            - description
+            - end_at
+      required:
+        - type
+        - attributes
+  required:
+    - data

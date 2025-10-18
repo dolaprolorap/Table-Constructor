@@ -1,0 +1,1 @@
+export const USER_STORAGE_NAME = '7d1cc76fc8d327de3ee150c6a23f93638068437c'

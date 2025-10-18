@@ -1,0 +1,117 @@
+{
+  "extends": [
+    "stylelint-config-standard-scss",
+    "stylelint-config-recommended-vue/scss"
+  ],
+  "plugins": [
+    "stylelint-scss",
+    "stylelint-order"
+  ],
+  "files": [
+    "*.vue",
+    "**/*.vue"
+  ],
+  "rules": {
+    "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": true,
+    "scss/dollar-variable-pattern": "^[a-z][a-z0-9-]*$",
+    "scss/selector-no-redundant-nesting-selector": true,
+    "selector-class-pattern": [
+      "^(?:[a-z0-9]+(?:-[a-z0-9]+)*|[a-z0-9]+(?:-[a-z0-9]+)*(?:__(?:[a-z0-9]+(?:-[a-z0-9]+)*))?(?:--(?:[a-z0-9]+(?:-[a-z0-9]+)*))?)$",
+      {
+        "message": "Классы должны быть в в стиле БЭМ или kebab-case (block__element--modifier)"
+      }
+    ],
+    "color-no-invalid-hex": true,
+    "declaration-block-no-duplicate-properties": true,
+    "max-nesting-depth": 3,
+    "shorthand-property-no-redundant-values": true,
+    "order/properties-order": [
+      [
+        "position",
+        "top",
+        "right",
+        "bottom",
+        "left",
+        "z-index",
+        "display",
+        "visibility",
+        "opacity",
+        "flex",
+        "flex-direction",
+        "flex-wrap",
+        "justify-content",
+        "align-items",
+        "grid",
+        "grid-template",
+        "grid-column",
+        "grid-row",
+        "grid-area",
+        "width",
+        "min-width",
+        "max-width",
+        "height",
+        "min-height",
+        "max-height",
+        "margin",
+        "margin-top",
+        "margin-right",
+        "margin-bottom",
+        "margin-left",
+        "padding",
+        "padding-top",
+        "padding-right",
+        "padding-bottom",
+        "padding-left",
+        "border",
+        "border-radius",
+        "box-shadow",
+        "outline",
+        "background",
+        "background-color",
+        "background-image",
+        "background-position",
+        "color",
+        "font",
+        "font-family",
+        "font-size",
+        "font-weight",
+        "line-height",
+        "text-align",
+        "text-decoration",
+        "text-transform",
+        "white-space",
+        "transition",
+        "transform",
+        "animation",
+        "cursor"
+      ],
+      {
+        "unspecified": "bottom"
+      }
+    ],
+    "scss/dollar-variable-colon-space-after": "always",
+    "scss/dollar-variable-colon-space-before": "never",
+    "scss/at-extend-no-missing-placeholder": true,
+    "scss/at-mixin-pattern": "^[a-z][a-z0-9-]*$",
+    "selector-max-id": 0,
+    "selector-max-type": 3,
+    "selector-max-specificity": "0,3,0",
+    "scss/at-function-pattern": "^[a-z][a-z0-9-]*$",
+    "scss/percent-placeholder-pattern": "^[a-z][a-z0-9-]*$",
+    "media-feature-name-no-unknown": true,
+    "media-feature-range-notation": "prefix",
+    "keyframes-name-pattern": "^[a-z][a-z0-9-]*$",
+    "comment-empty-line-before": [
+      "always",
+      {
+        "except": [
+          "first-nested"
+        ],
+        "ignore": [
+          "stylelint-commands"
+        ]
+      }
+    ]
+  }
+}

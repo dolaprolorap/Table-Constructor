@@ -1,0 +1,60 @@
+AchievementCategory:
+  allOf:
+    - $ref: '../../common/jsonapi/schemas.yaml#/EntityIdentifier'
+    - type: object
+      properties:
+        attributes:
+          type: object
+          properties:
+            title:
+              type: string
+            slug:
+              type: string
+          required:
+            - title
+            - slug
+        meta:
+          $ref: '../../common/jsonapi/schemas.yaml#/CreateUpdateTimeMeta'
+      required:
+        - attributes
+        - meta
+
+AchievementCategoryResponseBody:
+  type: object
+  properties:
+    data:
+      $ref: '#/AchievementCategory'
+  required:
+    - data
+
+AchievementCategoryListResponseBody:
+  type: object
+  properties:
+    data:
+      type: array
+      items:
+        $ref: '#/AchievementCategory'
+  required:
+    - data
+
+AchievementCategoryRequestBody:
+  type: object
+  properties:
+    data:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: ['categories']
+        attributes:
+          type: object
+          properties:
+            title:
+              type: string
+          required:
+            - title
+      required:
+        - attributes
+        - type
+  required:
+    - data

@@ -1,0 +1,22 @@
+@mixin app-header {
+  --app-header-bg-color: var(--s-private-color-blue-900);
+  --app-header-sidebar-bg-color: var(--s-private-color-white-1000);
+  --app-header-text-color: var(--s-color-text-light);
+  --app-header-text-acent-color: var(--s-private-color-white-800);
+
+  --app-sidebar-text-color: var(--s-private-color-blue-900);
+  --app-sidebar-text-acent-color: var(--s-private-color-blue-850);
+
+  --app-header-height: 84px;
+  --app-header-icon-size: 40px;
+
+  .header-icon {
+    min-width: var(--app-header-icon-size);
+    min-height: var(--app-header-icon-size);
+
+    width: var(--app-header-icon-size);
+    height: var(--app-header-icon-size);
+
+    fill: var(--app-header-text-acent-color);
+  }
+}
