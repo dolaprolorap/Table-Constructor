@@ -8,7 +8,7 @@ Table:
       type: string
       example: 'Таблицы 1'
       description: Имя таблицы
-
+      
 TableResponseBody:
   type: object
   properties:

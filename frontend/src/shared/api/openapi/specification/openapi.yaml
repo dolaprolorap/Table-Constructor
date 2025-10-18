@@ -37,6 +37,14 @@ components:
       $ref: './users/schemas.yaml#/UserRequestBody'
     PaginationMeta:
       $ref: './common/schemas.yaml#/PaginationMeta'
+    Table: 
+      $ref: './tables/schemas.yaml#/Table'
+    TableResponseBody:
+      $ref: './tables/schemas.yaml#/TableResponseBody'
+    TableListResponseBody:
+      $ref: './tables/schemas.yaml#/TableListResponseBody'
+    TableRequestBody:
+      $ref: './tables/schemas.yaml#/TableRequestBody'
 
   securitySchemes:
     $ref: './common/security.yaml'
