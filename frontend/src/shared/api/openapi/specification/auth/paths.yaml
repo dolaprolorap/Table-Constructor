@@ -10,16 +10,22 @@ Login:
           schema:
             type: object
             properties:
-              login:
+              data:
                 type: string
-              password:
-                type: string
+                properties:
+                  login:
+                    type: string
+                  password:
+                    type: string
+                required:
+                  - login
+                  - password
             required:
-              - login
-              - password
+              - data
           example:
-            login: "ivanov@example.com"
-            password: "myPassword123"
+            data:
+              login: "ivanov@example.com"
+              password: "myPassword123"
     responses:
       200:
         description: Пользователь успешно авторизован
@@ -28,22 +34,28 @@ Login:
             schema:
               type: object
               properties:
-                user:
-                  $ref: '../users/schemas.yaml#/User'
-                token:
-                  type: string
+                data:
+                  type: object
+                  properties:
+                    user:
+                      $ref: '../users/schemas.yaml#/User'
+                    token:
+                      type: string
+                  required:
+                    - user
+                    - token
               required:
-                - user
-                - token
+                - data
             example:
-              user:
-                id: 1
-                login: "ivanov@example.com"
-                first_name: "Иван"
-                last_name: "Иванов"
-                middle_name: "Иванович"
-                role: "ADMIN"
-              token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+              data:
+                user:
+                  id: 1
+                  login: "ivanov@example.com"
+                  first_name: "Иван"
+                  last_name: "Иванов"
+                  middle_name: "Иванович"
+                  role: "ADMIN"
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
       default:
         description: Unexpected error
 

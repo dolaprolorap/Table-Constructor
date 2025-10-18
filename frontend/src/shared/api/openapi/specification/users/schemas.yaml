@@ -37,31 +37,49 @@ User:
     - role
   description: Модель пользователя системы
 
+UserListResponse:
+  type: object
+  properties:
+    data:
+      type: array
+      items:
+        $ref: '#/User'
+    meta:
+      $ref: '../common/schemas.yaml#/PaginationMeta'
+  required:
+    - data
+    - meta
+    
 UserRequestBody:
   type: object
   properties:
-    login:
-      type: string
-      description: Email адрес пользователя
-      example: petrov@example.com
-    first_name:
-      type: string
-      example: Петр
-    last_name:
-      type: string
-      example: Петров
-    middle_name:
-      type: string
-      example: Петрович
-    password:
-      type: string
-      example: "securePassword123"
-    role:
-      $ref: '#/UserRole'
+    data:
+      type: object
+      properties:
+        login:
+          type: string
+          description: Email адрес пользователя
+          example: petrov@example.com
+        first_name:
+          type: string
+          example: Петр
+        last_name:
+          type: string
+          example: Петров
+        middle_name:
+          type: string
+          example: Петрович
+        password:
+          type: string
+          example: "securePassword123"
+        role:
+          $ref: '#/UserRole'
+      required:
+        - login
+        - password
+        - first_name
+        - last_name
+        - middle_name
+        - role
   required:
-    - login
-    - password
-    - first_name
-    - last_name
-    - middle_name
-    - role
+    - data

@@ -14,17 +14,9 @@ export type User = {
 	 * Email адрес пользователя
 	 */
 	login: string;
-<<<<<<< HEAD
 	first_name: string;
 	last_name: string;
 	middle_name: string;
-=======
-
-	/**
-	 * Полное имя пользователя
-	 */
-	full_name: string;
->>>>>>> master
 	role: UserRole;
 };
 
@@ -37,24 +29,18 @@ export const UserRole = {
 } as const
 
 export type UserRequestBody = {
+	data: {
 
-	/**
-	 * Email адрес пользователя
-	 */
-	login: string;
-<<<<<<< HEAD
-	first_name: string;
-	last_name: string;
-	middle_name: string;
-=======
-
-	/**
-	 * Полное имя пользователя
-	 */
-	full_name: string;
->>>>>>> master
-	password: string;
-	role: UserRole;
+		/**
+		 * Email адрес пользователя
+		 */
+		login: string;
+		first_name: string;
+		last_name: string;
+		middle_name: string;
+		password: string;
+		role: UserRole;
+	};
 };
 
 export type PaginationMeta = {
@@ -65,8 +51,6 @@ export type PaginationMeta = {
 	to: number;
 	total: number;
 };
-<<<<<<< HEAD
-=======
 
 export type Table = {
 
@@ -95,18 +79,21 @@ export type TableRequestBody = {
 		title?: string;
 	};
 };
->>>>>>> master
 
 export type UserLoginData = {
 	body: {
-		login: string;
-		password: string;
+		data: {
+			login: string;
+			password: string;
+		};
 	};
 };
 
 export type UserLoginResponse = ({
-	user: User;
-	token: string;
+	data: {
+		user: User;
+		token: string;
+	};
 });
 
 export type UserLoginError = (unknown);
@@ -119,14 +106,14 @@ export type GetUsersData = {
 	query?: {
 		login?: string;
 		page?: number;
-		pageSize?: number;
+		page_size?: number;
+		role?: UserRole;
 	};
 };
 
-<<<<<<< HEAD
 export type GetUsersResponse = ({
-	users?: Array<User>;
-	meta?: PaginationMeta;
+	data: Array<User>;
+	meta: PaginationMeta;
 });
 
 export type GetUsersError = (unknown);
@@ -135,37 +122,17 @@ export type AddUserData = {
 	body: UserRequestBody;
 };
 
-export type AddUserResponse = (User);
-
-export type AddUserError = (unknown);
-
-export type DeleteUserData = {
-	path: {
-		user_id: number;
+export type AddUserResponse = ({
+	data: {
+		id: number;
 	};
-};
-
-export type DeleteUserResponse = ({
-	id?: number;
 });
-
-export type DeleteUserError = (unknown);
-=======
-export type GetUsersResponse = (unknown);
-
-export type GetUsersError = (unknown);
-
-export type AddUserData = {
-	body: UserRequestBody;
-};
-
-export type AddUserResponse = (User);
 
 export type AddUserError = (unknown);
 
 export type DeleteUserData = {
 	path: {
-		user_id: number;
+		id: number;
 	};
 };
 
@@ -217,4 +184,3 @@ export type DeleteTablesData = {
 export type DeleteTablesResponse = (unknown);
 
 export type DeleteTablesError = (unknown);
->>>>>>> master

@@ -1,75 +1,65 @@
 import { watch } from 'vue'
 
 import { useFetch, usePaginationMeta, type ApiServiceReturnWithPaginationMeta } from '@/shared/api'
-import { AchievementsService, type GetAllAchievementsData, type GetAllAchievementsError, type GetAllAchievementsResponse } from '@/shared/api/openapi/client'
+import { UsersService, type GetUsersData, type GetUsersError, type GetUsersResponse } from '@/shared/api/openapi/client'
 
-import { AchievementStatusesToApiMapper } from '../../lib/mappers/achievementStatusesApiMappers'
-import { mapAchievementApiToAchievement } from '../../lib/mappers/apiMappers'
-import { isAchievementExtended } from '../../lib/typeGuards/achievementTypeGuards'
-import type { AchievementStatuses } from '../../model/AchievementStatuses'
-import { useAchievementStore } from '../../model/AchievementStore'
+import { mapApiToUser } from '../lib/apiMappers'
+import { rolesToApiMapper } from '../lib/rolesApiMappers'
+import type { UserRoles } from '../model/Roles'
+import { useUsersStore } from '../model/UsersStore'
 
-interface UseGetAllAchievementsReturn extends ApiServiceReturnWithPaginationMeta<GetAllAchievementsError> {
-	getAllAchievements: (params: GetAllAchievementsParams) => Promise<void>;
+interface UseGetUsersReturn extends ApiServiceReturnWithPaginationMeta<GetUsersError> {
+	getUsers: (params: GetUsersParams) => Promise<void>;
 }
 
-interface GetAllAchievementsParams {
-	title?: string;
-	status?: AchievementStatuses;
-	categorySlugs?: string[];
+interface GetUsersParams {
+	login?: string;
+	role?: UserRoles;
 	page?: number;
 	pageSize?: number;
-	achievementSchemesId?: number[];
 }
 
-export function useGetAllAchievements(): UseGetAllAchievementsReturn {
+export function useGetUsers(): UseGetUsersReturn {
 	const { sendRequest, clearError, response, error, status, isLoading }
 		= useFetch<
-			GetAllAchievementsResponse,
-			GetAllAchievementsError,
-			GetAllAchievementsData
-		>(AchievementsService.getAllAchievements)
+			GetUsersResponse,
+			GetUsersError,
+			GetUsersData
+		>(UsersService.getUsers)
 
-	const achievementStore = useAchievementStore()
+	const usersStore = useUsersStore()
 
-	const getAllAchievements = async(params: GetAllAchievementsParams): Promise<void> => {
-		achievementStore.clearAchievements()
+	const getUsers = async(params: GetUsersParams): Promise<void> => {
+		usersStore.clearUsers()
 
 		await sendRequest({
 			query: {
-				title: params.title,
-				status: params.status && AchievementStatusesToApiMapper[params.status],
-				'category_slugs[]': params.categorySlugs,
-				'schema_ids[]': params.achievementSchemesId,
+				login: params?.login,
+				role: params.role ? rolesToApiMapper[params.role] : undefined,
 				page: params.page,
-				page_size: params.pageSize,
-				include: 'achievement_schema,category,user,userInfo'
+				page_size: params.pageSize
 			}
 		})
 	}
 
-	const saveAchievements = (): void => {
+	const saveUsers = (): void => {
 		const responseValue = response.value
 
-		if (!responseValue || !responseValue.data || !responseValue.included) {
+		if (!responseValue || !responseValue.data) {
 			return
 		}
 
-		const achievementsFiltered = responseValue.data.
-			map(achievement => {
-				return mapAchievementApiToAchievement(achievement, responseValue.included)
-			}).
-			filter(isAchievementExtended)
+		const users = responseValue.data.map(mapApiToUser)
 
-		achievementStore.setAchievements(achievementsFiltered)
+		usersStore.setUsers(users)
 	}
 
-	watch(response, saveAchievements)
+	watch(response, saveUsers)
 
 	const { paginationMeta } = usePaginationMeta({ response })
 
 	return {
-		getAllAchievements,
+		getUsers,
 		clearError,
 		paginationMeta,
 		error,

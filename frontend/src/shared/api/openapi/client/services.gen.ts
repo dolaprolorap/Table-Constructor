@@ -2,11 +2,7 @@
 
 import { createClient, createConfig, type Options } from '@hey-api/client-axios'
 
-<<<<<<< HEAD
-import type { UserLoginData, UserLoginError, UserLoginResponse, UserLogoutError, UserLogoutResponse, GetUsersData, GetUsersError, GetUsersResponse, AddUserData, AddUserError, AddUserResponse, DeleteUserData, DeleteUserError, DeleteUserResponse } from './types.gen'
-=======
 import type { UserLoginData, UserLoginError, UserLoginResponse, UserLogoutError, UserLogoutResponse, GetUsersData, GetUsersError, GetUsersResponse, AddUserData, AddUserError, AddUserResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, GetAllTablesError, GetAllTablesResponse, CreateTableData, CreateTableError, CreateTableResponse, GetTabletByIdData, GetTabletByIdError, GetTabletByIdResponse, UpdateTableData, UpdateTableError, UpdateTableResponse, DeleteTablesData, DeleteTablesError, DeleteTablesResponse } from './types.gen'
->>>>>>> master
 
 export const client = createClient(createConfig())
 
@@ -25,29 +21,6 @@ export class AuthService {
 		})
 	}
 
-<<<<<<< HEAD
-}
-
-export class UsersService {
-	public static getUsers<ThrowOnError extends boolean = false>(options?: Options<GetUsersData, ThrowOnError>) {
-		return (options?.client ?? client).get<GetUsersResponse, GetUsersError, ThrowOnError>({
-			...options,
-			url: '/users'
-		})
-	}
-
-	public static addUser<ThrowOnError extends boolean = false>(options: Options<AddUserData, ThrowOnError>) {
-		return (options?.client ?? client).post<AddUserResponse, AddUserError, ThrowOnError>({
-			...options,
-			url: '/users'
-		})
-	}
-
-	public static deleteUser<ThrowOnError extends boolean = false>(options: Options<DeleteUserData, ThrowOnError>) {
-		return (options?.client ?? client).delete<DeleteUserResponse, DeleteUserError, ThrowOnError>({
-			...options,
-			url: '/users/{id}'
-=======
 }
 
 export class UsersService {
@@ -123,7 +96,6 @@ export class TablesService {
 		return (options?.client ?? client).delete<DeleteTablesResponse, DeleteTablesError, ThrowOnError>({
 			...options,
 			url: '/tables/{id}'
->>>>>>> master
 		})
 	}
 

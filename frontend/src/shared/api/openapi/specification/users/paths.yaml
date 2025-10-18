@@ -9,13 +9,19 @@ UsersPath:
         schema:
           type: string
         example: "ivanov@example.com"
+      - name: role
+        in: query
+        required: false
+        schema:
+          $ref: './schemas.yaml#/UserRole'
+        example: "ADMIN"
       - name: page
         in: query
         required: false
         schema:
           type: number
         example: 1
-      - name: pageSize
+      - name: page_size
         in: query
         required: false
         schema:
@@ -27,16 +33,9 @@ UsersPath:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                users:
-                  type: array
-                  items:
-                    $ref: './schemas.yaml#/User'
-                meta:
-                  $ref: '../common/schemas.yaml#/PaginationMeta'
+              $ref: './schemas.yaml#/UserListResponse'
             example:
-              users:
+              data:
                 - id: 1
                   login: "ivanov@example.com"
                   first_name: "Иван"
@@ -71,25 +70,32 @@ UsersPath:
           schema:
             $ref: './schemas.yaml#/UserRequestBody'
           example:
-            login: "sidorov@example.com"
-            first_name: "Сергей"
-            last_name: "Сидоров"
-            middle_name: "Сергеевич"
-            password: "securePassword123"
-            role: "VIEWER"
+            data:
+              login: "sidorov@example.com"
+              first_name: "Сергей"
+              last_name: "Сидоров"
+              middle_name: "Сергеевич"
+              password: "securePassword123"
+              role: "VIEWER"
     responses:
       201:
         content:
           application/json:
             schema:
-              $ref: './schemas.yaml#/User'
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                  required:
+                    - id
+              required:
+                - data
             example:
-              id: 3
-              login: "sidorov@example.com"
-              first_name: "Сергей"
-              last_name: "Сидоров"
-              middle_name: "Сергеевич"
-              role: "VIEWER"
+              data:
+                id: 3
       default:
         description: Unexpected error
     security:
@@ -97,7 +103,7 @@ UsersPath:
 
 UsersIdPath:
   parameters:
-    - name: user_id
+    - name: id
       in: path
       required: true
       schema:
@@ -108,7 +114,7 @@ UsersIdPath:
       - users
     operationId: deleteUser
     responses:
-      200:
+      203:
         content:
           application/json:
             schema:

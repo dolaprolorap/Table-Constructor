@@ -5,7 +5,6 @@ export const UserSchema = {
 	properties: {
 		id: {
 			type: 'number',
-<<<<<<< HEAD
 			description: 'Уникальный идентификатор пользователя',
 			example: 1
 		},
@@ -13,13 +12,6 @@ export const UserSchema = {
 			type: 'string',
 			description: 'Email адрес пользователя',
 			example: 'ivanov@example.com'
-=======
-			description: 'Уникальный идентификатор пользователя'
-		},
-		login: {
-			type: 'string',
-			description: 'Email адрес пользователя'
->>>>>>> master
 		},
 		first_name: {
 			type: 'string',
@@ -37,70 +29,51 @@ export const UserSchema = {
 			$ref: '#/components/schemas/UserRole'
 		}
 	},
-<<<<<<< HEAD
 	required: [ 'id', 'login', 'first_name', 'last_name', 'middle_name', 'role' ],
-=======
-	required: [ 'id', 'login', 'full_name', 'role' ],
->>>>>>> master
 	description: 'Модель пользователя системы'
 } as const
 
 export const UserRoleSchema = {
 	type: 'string',
 	enum: [ 'ADMIN', 'EDITOR', 'VIEWER' ],
-<<<<<<< HEAD
 	example: 'ADMIN'
-=======
-	example: 'VIEWER'
->>>>>>> master
 } as const
 
 export const UserRequestBodySchema = {
 	type: 'object',
 	properties: {
-		login: {
-			type: 'string',
-<<<<<<< HEAD
-			description: 'Email адрес пользователя',
-			example: 'petrov@example.com'
-		},
-		first_name: {
-			type: 'string',
-			example: 'Петр'
-		},
-		last_name: {
-			type: 'string',
-			example: 'Петров'
-		},
-		middle_name: {
-			type: 'string',
-			example: 'Петрович'
-		},
-		password: {
-			type: 'string',
-			example: 'securePassword123'
-		},
-=======
-			description: 'Email адрес пользователя'
-		},
-		full_name: {
-			type: 'string',
-			example: 'Иван Иванов',
-			description: 'Полное имя пользователя'
-		},
-		password: {
-			type: 'string'
-		},
->>>>>>> master
-		role: {
-			$ref: '#/components/schemas/UserRole'
+		data: {
+			type: 'object',
+			properties: {
+				login: {
+					type: 'string',
+					description: 'Email адрес пользователя',
+					example: 'petrov@example.com'
+				},
+				first_name: {
+					type: 'string',
+					example: 'Петр'
+				},
+				last_name: {
+					type: 'string',
+					example: 'Петров'
+				},
+				middle_name: {
+					type: 'string',
+					example: 'Петрович'
+				},
+				password: {
+					type: 'string',
+					example: 'securePassword123'
+				},
+				role: {
+					$ref: '#/components/schemas/UserRole'
+				}
+			},
+			required: [ 'login', 'password', 'first_name', 'last_name', 'middle_name', 'role' ]
 		}
 	},
-<<<<<<< HEAD
-	required: [ 'login', 'password', 'first_name', 'last_name', 'middle_name', 'role' ]
-=======
-	required: [ 'login', 'password', 'full_name', 'role' ]
->>>>>>> master
+	required: ['data']
 } as const
 
 export const PaginationMetaSchema = {
@@ -126,8 +99,6 @@ export const PaginationMetaSchema = {
 		}
 	},
 	required: [ 'from', 'lastPage', 'perPage', 'to', 'total', 'currentPage' ]
-<<<<<<< HEAD
-=======
 } as const
 
 export const TableSchema = {
@@ -185,5 +156,4 @@ export const TableRequestBodySchema = {
 		}
 	},
 	required: ['data']
->>>>>>> master
 } as const
