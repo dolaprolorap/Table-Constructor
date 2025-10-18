@@ -4,14 +4,14 @@ TablesPath:
       - tables
     summary: Get all tables
     operationId: getAllTables
-    responses: 
+    responses:
       200:
         description: Successfully got a list of the tables
         content:
           application/json:
             schema:
               $ref: './schemas.yaml#/TableListResponseBody'
-    default:
+      default:
         description: Unexpected error
     security:
       - jwt: []
@@ -33,6 +33,8 @@ TablesPath:
           application/json:
             schema:
               $ref: './schemas.yaml#/TableListResponseBody'
+      default:
+        description: Unexpected error
 
 TableIdPath:
   parameters:
@@ -46,10 +48,14 @@ TableIdPath:
       - tables
     summary: Gets the table by id
     operationId: getTabletById
-    responses: 
-      200: 
+    responses:
+      200:
         description: The tables is obtained successfully
-    default:
+        content:
+          application/json:
+            schema:
+              $ref: './schemas.yaml#/TableResponseBody'
+      default:
         description: Unexpected error
     security:
       - jwt: []
@@ -70,7 +76,7 @@ TableIdPath:
         content:
           application/json:
             schema:
-              $ref: './schemas.yaml#/AchievementCategoryResponseBody'
+              $ref: './schemas.yaml#/TableListResponseBody'
       default:
         description: Unexpected error
     security:

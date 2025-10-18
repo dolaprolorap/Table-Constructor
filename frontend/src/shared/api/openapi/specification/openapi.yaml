@@ -21,16 +21,26 @@ paths:
   /users/{id}:
     $ref: './users/paths.yaml#/UsersIdPath'
 
+  # Tables
+  /tables:
+    $ref: './tables/paths.yaml#/TablesPath'
+  /tables/{id}:
+    $ref: './tables/paths.yaml#/TableIdPath'
+
 components:
   schemas:
     User:
       $ref: './users/schemas.yaml#/User'
     UserRole:
-      $ref: './users/schemas.yaml#/UserRole'
+      $ref: './users/schemas.yaml#/UseerRole'
     UserList:
       $ref: './users/schemas.yaml#/UserList'
     UserRequestBody:
       $ref: './users/schemas.yaml#/UserRequestBody'
+
+    #Tables
+    Table:
+      $ref: './tables/schemas.yaml#/Table'
 
   securitySchemes:
     $ref: './common/security.yaml'
