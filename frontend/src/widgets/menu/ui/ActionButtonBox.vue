@@ -12,6 +12,7 @@
     </div>
 
     <ModalImport ref="importModalRef" @close="onCloseImportModal" />
+    <ModalCreateTable ref="createModalRef" @close="onCloseCreateModal" />
   </div>
 </template>
 
@@ -19,7 +20,7 @@
 import { ref } from 'vue'
 import { CButton } from '@coreui/vue'
 import { iconsSet } from '@/shared/ui/assets/icons'
-import { ModalImport } from '@/features/tables/table'
+import { ModalImport, ModalCreateTable } from '@/features/tables/table'
 
 const importModalRef = ref<InstanceType<typeof ModalImport> | null>(null)
 
@@ -32,8 +33,20 @@ function onCloseImportModal() {
 }
 
 function onCreateTable() {
+    createModalRef.value?.open()
   console.log('Создать таблицу')
 }
+
+const createModalRef = ref<InstanceType<typeof ModalCreateTable> | null>(null)
+
+function openCreateModal() {
+  createModalRef.value?.open()
+}
+
+function onCloseCreateModal() {
+  createModalRef.value?.close()
+}
+
 </script>
 
 <style scoped>
