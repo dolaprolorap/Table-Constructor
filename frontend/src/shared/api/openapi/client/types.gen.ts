@@ -14,9 +14,17 @@ export type User = {
 	 * Email адрес пользователя
 	 */
 	login: string;
+<<<<<<< HEAD
 	first_name: string;
 	last_name: string;
 	middle_name: string;
+=======
+
+	/**
+	 * Полное имя пользователя
+	 */
+	full_name: string;
+>>>>>>> master
 	role: UserRole;
 };
 
@@ -34,9 +42,17 @@ export type UserRequestBody = {
 	 * Email адрес пользователя
 	 */
 	login: string;
+<<<<<<< HEAD
 	first_name: string;
 	last_name: string;
 	middle_name: string;
+=======
+
+	/**
+	 * Полное имя пользователя
+	 */
+	full_name: string;
+>>>>>>> master
 	password: string;
 	role: UserRole;
 };
@@ -49,6 +65,37 @@ export type PaginationMeta = {
 	to: number;
 	total: number;
 };
+<<<<<<< HEAD
+=======
+
+export type Table = {
+
+	/**
+	 * Уникальный идентификатор таблицы
+	 */
+	id?: number;
+
+	/**
+	 * Имя таблицы
+	 */
+	full_name?: string;
+};
+
+export type TableResponseBody = {
+	data: Table;
+};
+
+export type TableListResponseBody = {
+	data: Array<Table>;
+};
+
+export type TableRequestBody = {
+	data: {
+		id: number;
+		title?: string;
+	};
+};
+>>>>>>> master
 
 export type UserLoginData = {
 	body: {
@@ -76,6 +123,7 @@ export type GetUsersData = {
 	};
 };
 
+<<<<<<< HEAD
 export type GetUsersResponse = ({
 	users?: Array<User>;
 	meta?: PaginationMeta;
@@ -102,3 +150,71 @@ export type DeleteUserResponse = ({
 });
 
 export type DeleteUserError = (unknown);
+=======
+export type GetUsersResponse = (unknown);
+
+export type GetUsersError = (unknown);
+
+export type AddUserData = {
+	body: UserRequestBody;
+};
+
+export type AddUserResponse = (User);
+
+export type AddUserError = (unknown);
+
+export type DeleteUserData = {
+	path: {
+		user_id: number;
+	};
+};
+
+export type DeleteUserResponse = ({
+	id?: number;
+});
+
+export type DeleteUserError = (unknown);
+
+export type GetAllTablesResponse = (TableListResponseBody);
+
+export type GetAllTablesError = (unknown);
+
+export type CreateTableData = {
+	body: TableRequestBody;
+};
+
+export type CreateTableResponse = (TableListResponseBody);
+
+export type CreateTableError = (unknown);
+
+export type GetTabletByIdData = {
+	path: {
+		id: number;
+	};
+};
+
+export type GetTabletByIdResponse = (TableResponseBody);
+
+export type GetTabletByIdError = (unknown);
+
+export type UpdateTableData = {
+	body: TableRequestBody;
+	path: {
+		id: number;
+	};
+};
+
+export type UpdateTableResponse = (TableListResponseBody);
+
+export type UpdateTableError = (unknown);
+
+export type DeleteTablesData = {
+	path: {
+		id: number;
+	};
+};
+
+export type DeleteTablesResponse = (unknown);
+
+export type DeleteTablesError = (unknown);
+>>>>>>> master

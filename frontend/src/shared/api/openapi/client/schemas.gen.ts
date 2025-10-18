@@ -5,6 +5,7 @@ export const UserSchema = {
 	properties: {
 		id: {
 			type: 'number',
+<<<<<<< HEAD
 			description: 'Уникальный идентификатор пользователя',
 			example: 1
 		},
@@ -12,6 +13,13 @@ export const UserSchema = {
 			type: 'string',
 			description: 'Email адрес пользователя',
 			example: 'ivanov@example.com'
+=======
+			description: 'Уникальный идентификатор пользователя'
+		},
+		login: {
+			type: 'string',
+			description: 'Email адрес пользователя'
+>>>>>>> master
 		},
 		first_name: {
 			type: 'string',
@@ -29,14 +37,22 @@ export const UserSchema = {
 			$ref: '#/components/schemas/UserRole'
 		}
 	},
+<<<<<<< HEAD
 	required: [ 'id', 'login', 'first_name', 'last_name', 'middle_name', 'role' ],
+=======
+	required: [ 'id', 'login', 'full_name', 'role' ],
+>>>>>>> master
 	description: 'Модель пользователя системы'
 } as const
 
 export const UserRoleSchema = {
 	type: 'string',
 	enum: [ 'ADMIN', 'EDITOR', 'VIEWER' ],
+<<<<<<< HEAD
 	example: 'ADMIN'
+=======
+	example: 'VIEWER'
+>>>>>>> master
 } as const
 
 export const UserRequestBodySchema = {
@@ -44,6 +60,7 @@ export const UserRequestBodySchema = {
 	properties: {
 		login: {
 			type: 'string',
+<<<<<<< HEAD
 			description: 'Email адрес пользователя',
 			example: 'petrov@example.com'
 		},
@@ -63,11 +80,27 @@ export const UserRequestBodySchema = {
 			type: 'string',
 			example: 'securePassword123'
 		},
+=======
+			description: 'Email адрес пользователя'
+		},
+		full_name: {
+			type: 'string',
+			example: 'Иван Иванов',
+			description: 'Полное имя пользователя'
+		},
+		password: {
+			type: 'string'
+		},
+>>>>>>> master
 		role: {
 			$ref: '#/components/schemas/UserRole'
 		}
 	},
+<<<<<<< HEAD
 	required: [ 'login', 'password', 'first_name', 'last_name', 'middle_name', 'role' ]
+=======
+	required: [ 'login', 'password', 'full_name', 'role' ]
+>>>>>>> master
 } as const
 
 export const PaginationMetaSchema = {
@@ -93,4 +126,64 @@ export const PaginationMetaSchema = {
 		}
 	},
 	required: [ 'from', 'lastPage', 'perPage', 'to', 'total', 'currentPage' ]
+<<<<<<< HEAD
+=======
+} as const
+
+export const TableSchema = {
+	type: 'object',
+	properties: {
+		id: {
+			type: 'integer',
+			description: 'Уникальный идентификатор таблицы'
+		},
+		full_name: {
+			type: 'string',
+			example: 'Таблицы 1',
+			description: 'Имя таблицы'
+		}
+	}
+} as const
+
+export const TableResponseBodySchema = {
+	type: 'object',
+	properties: {
+		data: {
+			$ref: '#/components/schemas/Table'
+		}
+	},
+	required: ['data']
+} as const
+
+export const TableListResponseBodySchema = {
+	type: 'object',
+	properties: {
+		data: {
+			type: 'array',
+			items: {
+				$ref: '#/components/schemas/Table'
+			}
+		}
+	},
+	required: ['data']
+} as const
+
+export const TableRequestBodySchema = {
+	type: 'object',
+	properties: {
+		data: {
+			type: 'object',
+			properties: {
+				id: {
+					type: 'number'
+				},
+				title: {
+					type: 'string'
+				}
+			},
+			required: ['id']
+		}
+	},
+	required: ['data']
+>>>>>>> master
 } as const

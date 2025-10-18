@@ -2,7 +2,11 @@
 
 import { createClient, createConfig, type Options } from '@hey-api/client-axios'
 
+<<<<<<< HEAD
 import type { UserLoginData, UserLoginError, UserLoginResponse, UserLogoutError, UserLogoutResponse, GetUsersData, GetUsersError, GetUsersResponse, AddUserData, AddUserError, AddUserResponse, DeleteUserData, DeleteUserError, DeleteUserResponse } from './types.gen'
+=======
+import type { UserLoginData, UserLoginError, UserLoginResponse, UserLogoutError, UserLogoutResponse, GetUsersData, GetUsersError, GetUsersResponse, AddUserData, AddUserError, AddUserResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, GetAllTablesError, GetAllTablesResponse, CreateTableData, CreateTableError, CreateTableResponse, GetTabletByIdData, GetTabletByIdError, GetTabletByIdResponse, UpdateTableData, UpdateTableError, UpdateTableResponse, DeleteTablesData, DeleteTablesError, DeleteTablesResponse } from './types.gen'
+>>>>>>> master
 
 export const client = createClient(createConfig())
 
@@ -21,6 +25,7 @@ export class AuthService {
 		})
 	}
 
+<<<<<<< HEAD
 }
 
 export class UsersService {
@@ -42,6 +47,83 @@ export class UsersService {
 		return (options?.client ?? client).delete<DeleteUserResponse, DeleteUserError, ThrowOnError>({
 			...options,
 			url: '/users/{id}'
+=======
+}
+
+export class UsersService {
+	public static getUsers<ThrowOnError extends boolean = false>(options?: Options<GetUsersData, ThrowOnError>) {
+		return (options?.client ?? client).get<GetUsersResponse, GetUsersError, ThrowOnError>({
+			...options,
+			url: '/users'
+		})
+	}
+
+	public static addUser<ThrowOnError extends boolean = false>(options: Options<AddUserData, ThrowOnError>) {
+		return (options?.client ?? client).post<AddUserResponse, AddUserError, ThrowOnError>({
+			...options,
+			url: '/users'
+		})
+	}
+
+	public static deleteUser<ThrowOnError extends boolean = false>(options: Options<DeleteUserData, ThrowOnError>) {
+		return (options?.client ?? client).delete<DeleteUserResponse, DeleteUserError, ThrowOnError>({
+			...options,
+			url: '/users/{id}'
+		})
+	}
+
+}
+
+export class TablesService {
+
+	/**
+	 * Get all tables
+	 */
+	public static getAllTables<ThrowOnError extends boolean = false>(options?: Options<unknown, ThrowOnError>) {
+		return (options?.client ?? client).get<GetAllTablesResponse, GetAllTablesError, ThrowOnError>({
+			...options,
+			url: '/tables'
+		})
+	}
+
+	/**
+	 * Create new table
+	 */
+	public static createTable<ThrowOnError extends boolean = false>(options: Options<CreateTableData, ThrowOnError>) {
+		return (options?.client ?? client).post<CreateTableResponse, CreateTableError, ThrowOnError>({
+			...options,
+			url: '/tables'
+		})
+	}
+
+	/**
+	 * Gets the table by id
+	 */
+	public static getTabletById<ThrowOnError extends boolean = false>(options: Options<GetTabletByIdData, ThrowOnError>) {
+		return (options?.client ?? client).get<GetTabletByIdResponse, GetTabletByIdError, ThrowOnError>({
+			...options,
+			url: '/tables/{id}'
+		})
+	}
+
+	/**
+	 * Updates table
+	 */
+	public static updateTable<ThrowOnError extends boolean = false>(options: Options<UpdateTableData, ThrowOnError>) {
+		return (options?.client ?? client).put<UpdateTableResponse, UpdateTableError, ThrowOnError>({
+			...options,
+			url: '/tables/{id}'
+		})
+	}
+
+	/**
+	 * Deletes tables
+	 */
+	public static deleteTables<ThrowOnError extends boolean = false>(options: Options<DeleteTablesData, ThrowOnError>) {
+		return (options?.client ?? client).delete<DeleteTablesResponse, DeleteTablesError, ThrowOnError>({
+			...options,
+			url: '/tables/{id}'
+>>>>>>> master
 		})
 	}
 

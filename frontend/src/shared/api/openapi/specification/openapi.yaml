@@ -21,6 +21,12 @@ paths:
   /users/{id}:
     $ref: './users/paths.yaml#/UsersIdPath'
 
+  # Tables
+  /tables:
+    $ref: './tables/paths.yaml#/TablesPath'
+  /tables/{id}:
+    $ref: './tables/paths.yaml#/TableIdPath'
+
 components:
   schemas:
     User:
@@ -29,9 +35,16 @@ components:
       $ref: './users/schemas.yaml#/UserRole'
     UserRequestBody:
       $ref: './users/schemas.yaml#/UserRequestBody'
-
     PaginationMeta:
       $ref: './common/schemas.yaml#/PaginationMeta'
+    Table: 
+      $ref: './tables/schemas.yaml#/Table'
+    TableResponseBody:
+      $ref: './tables/schemas.yaml#/TableResponseBody'
+    TableListResponseBody:
+      $ref: './tables/schemas.yaml#/TableListResponseBody'
+    TableRequestBody:
+      $ref: './tables/schemas.yaml#/TableRequestBody'
 
   securitySchemes:
     $ref: './common/security.yaml'
