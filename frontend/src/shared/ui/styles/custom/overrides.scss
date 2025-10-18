@@ -1,0 +1,47 @@
+.btn-close {
+  outline: none !important;
+}
+
+.form-check-input:valid {
+  border-color: inherit;
+}
+
+
+.was-validated .form-check-input:valid ~ .form-check-label,
+.form-check-input.is-valid ~ .form-check-label {
+  color: inherit;
+}
+
+.was-validated .form-check-input:valid,
+.form-check-input.is-valid {
+  border-color: inherit;
+}
+
+.was-validated .form-control:valid,
+.form-control.is-valid {
+  border-color: inherit;
+  padding-right: 0.75rem;
+  background-image: none;
+}
+
+.was-validated .form-control:valid:focus,
+.form-control.is-valid:focus {
+  border-color: inherit;
+  box-shadow: 0 0 0 0.25rem rgba(var(--cui-primary-rgb), 0.25);
+}
+
+.was-validated .form-check-input:valid:checked,
+.form-check-input.is-valid:checked {
+  background-color: var(--cui-primary);
+}
+
+.invalid-feedback {
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: var(--cui-form-invalid-color);
+}
+
+.disabled {
+  background-color: var(--cui-secondary-bg);
+}

@@ -14,11 +14,9 @@ export type User = {
 	 * Email адрес пользователя
 	 */
 	login: string;
-
-	/**
-	 * Полное имя пользователя
-	 */
-	full_name: string;
+	first_name: string;
+	last_name: string;
+	middle_name: string;
 	role: UserRole;
 };
 
@@ -31,18 +29,18 @@ export const UserRole = {
 } as const
 
 export type UserRequestBody = {
+	data: {
 
-	/**
-	 * Email адрес пользователя
-	 */
-	login: string;
-
-	/**
-	 * Полное имя пользователя
-	 */
-	full_name: string;
-	password: string;
-	role: UserRole;
+		/**
+		 * Email адрес пользователя
+		 */
+		login: string;
+		first_name: string;
+		last_name: string;
+		middle_name: string;
+		password: string;
+		role: UserRole;
+	};
 };
 
 export type PaginationMeta = {
@@ -185,14 +183,18 @@ export const sortColumn = {
 
 export type UserLoginData = {
 	body: {
-		login: string;
-		password: string;
+		data: {
+			login: string;
+			password: string;
+		};
 	};
 };
 
 export type UserLoginResponse = ({
-	user: User;
-	token: string;
+	data: {
+		user: User;
+		token: string;
+	};
 });
 
 export type UserLoginError = (unknown);
@@ -205,11 +207,15 @@ export type GetUsersData = {
 	query?: {
 		login?: string;
 		page?: number;
-		pageSize?: number;
+		page_size?: number;
+		role?: UserRole;
 	};
 };
 
-export type GetUsersResponse = (unknown);
+export type GetUsersResponse = ({
+	data: Array<User>;
+	meta: PaginationMeta;
+});
 
 export type GetUsersError = (unknown);
 
@@ -217,13 +223,17 @@ export type AddUserData = {
 	body: UserRequestBody;
 };
 
-export type AddUserResponse = (User);
+export type AddUserResponse = ({
+	data: {
+		id: number;
+	};
+});
 
 export type AddUserError = (unknown);
 
 export type DeleteUserData = {
 	path: {
-		user_id: number;
+		id: number;
 	};
 };
 

@@ -1,0 +1,4 @@
+.accordion-table-row:nth-child(4n + 1) td,
+.accordion-table-row:nth-child(4n + 2) td {
+  background-color: var(--cui-table-striped-bg);
+}

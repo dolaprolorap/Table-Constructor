@@ -5,51 +5,75 @@ export const UserSchema = {
 	properties: {
 		id: {
 			type: 'number',
-			description: 'Уникальный идентификатор пользователя'
+			description: 'Уникальный идентификатор пользователя',
+			example: 1
 		},
 		login: {
 			type: 'string',
-			description: 'Email адрес пользователя'
+			description: 'Email адрес пользователя',
+			example: 'ivanov@example.com'
 		},
-		full_name: {
+		first_name: {
 			type: 'string',
-			example: 'Иван Иванов',
-			description: 'Полное имя пользователя'
+			example: 'Иван'
+		},
+		last_name: {
+			type: 'string',
+			example: 'Иванов'
+		},
+		middle_name: {
+			type: 'string',
+			example: 'Иванович'
 		},
 		role: {
 			$ref: '#/components/schemas/UserRole'
 		}
 	},
-	required: [ 'id', 'login', 'full_name', 'role' ],
+	required: [ 'id', 'login', 'first_name', 'last_name', 'middle_name', 'role' ],
 	description: 'Модель пользователя системы'
 } as const
 
 export const UserRoleSchema = {
 	type: 'string',
 	enum: [ 'ADMIN', 'EDITOR', 'VIEWER' ],
-	example: 'VIEWER'
+	example: 'ADMIN'
 } as const
 
 export const UserRequestBodySchema = {
 	type: 'object',
 	properties: {
-		login: {
-			type: 'string',
-			description: 'Email адрес пользователя'
-		},
-		full_name: {
-			type: 'string',
-			example: 'Иван Иванов',
-			description: 'Полное имя пользователя'
-		},
-		password: {
-			type: 'string'
-		},
-		role: {
-			$ref: '#/components/schemas/UserRole'
+		data: {
+			type: 'object',
+			properties: {
+				login: {
+					type: 'string',
+					description: 'Email адрес пользователя',
+					example: 'petrov@example.com'
+				},
+				first_name: {
+					type: 'string',
+					example: 'Петр'
+				},
+				last_name: {
+					type: 'string',
+					example: 'Петров'
+				},
+				middle_name: {
+					type: 'string',
+					example: 'Петрович'
+				},
+				password: {
+					type: 'string',
+					example: 'securePassword123'
+				},
+				role: {
+					$ref: '#/components/schemas/UserRole'
+				}
+			},
+			required: [ 'login', 'password', 'first_name', 'last_name', 'middle_name', 'role' ]
 		}
 	},
-	required: [ 'login', 'password', 'full_name', 'role' ]
+	required: ['data']
 } as const
 
 export const PaginationMetaSchema = {

@@ -3,4 +3,5 @@ export type { ApiServiceReturn, ApiServiceErrorReturn, ServerError, ApiServiceRe
 export { useAuthMiddleware } from './middleware'
 export { usePaginationMeta } from './lib/pagination/usePaginationMeta'
 export { useFetch } from './fetch/useFetch'
+export { useCreatedId } from './lib/useCreatedId'
 export { ApiStatuses } from './config/statuses'

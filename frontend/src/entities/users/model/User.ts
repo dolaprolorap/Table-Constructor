@@ -1,8 +1,10 @@
 import type { UserRoles } from './Roles'
 
 export interface User {
-	uid: string;
-	fullName: string;
-	email: string;
+	id: number;
+	login: string;
+	first_name: string;
+	last_name: string;
+	middle_name: string;
 	role: UserRoles
 }
