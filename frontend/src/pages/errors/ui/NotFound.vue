@@ -1,25 +1,23 @@
 <template>
-  <BasePageContainer>
-    <template #title>
-      Ошибка 404
+  <PageContainer>
+    <template #page-title>
+      404. Страница не найдена.
     </template>
 
-    <SAlertCard type="error">
-      Страница не найдена.
+    <CAlert color="danger">
+      Данная страница не найдена.
 
-      <a
-        @click="redirectToHome"
-      >
-        Вернуться на главную
-      </a>
-    </SAlertCard>
-  </BasePageContainer>
+      <BaseLink @click="redirectToHome">
+        Перейти на главную
+      </BaseLink>
+    </CAlert>
+  </PageContainer>
 </template>
 
 <script setup lang="ts">
-
 import { useRedirectToHome } from '@/shared/lib/router'
-import { BasePageContainer } from '@/shared/ui/components'
+import { BaseLink, PageContainer } from '@/shared/ui/components'
 
 const { redirectToHome } = useRedirectToHome()
+
 </script>

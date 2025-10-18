@@ -1,0 +1,1 @@
+export const BASE_DEBOUNCE = 500
