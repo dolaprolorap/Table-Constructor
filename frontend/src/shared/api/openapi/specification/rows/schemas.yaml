@@ -1,0 +1,54 @@
+Rows:
+  type: object
+  additionalProperties: false
+  properties:
+    id:
+      type: integer
+      description: Уникальный идентификатор строки
+    table_id:
+      type: integer
+      description: Идентификатор таблицы
+    data:
+      type: array
+      items:
+        $ref: "../cells/schemas.yaml#/Cells"
+  required: [id, table_id, data]
+
+RowsResponseBody:
+  type: object
+  additionalProperties: false
+  properties:
+    data:
+      $ref: '#/Rows'
+  required: [data]
+
+RowListResponseBody:
+  type: object
+  additionalProperties: false
+  properties:
+    data:
+      type: array
+      items:
+        $ref: '#/Rows'
+    meta:
+      $ref: '../common/schemas.yaml#/PaginationMeta'
+  required: [data]
+
+RowRequestBody:
+  type: object
+  additionalProperties: false
+  properties:
+    data:
+      type: object
+      additionalProperties: false
+      properties:
+        page:
+          type: number
+        pageSize:
+          type: number
+        searchString:
+          type: string
+        sortColumn:
+          type: string
+          enum: [ASC, DESC]
+  required: [data]

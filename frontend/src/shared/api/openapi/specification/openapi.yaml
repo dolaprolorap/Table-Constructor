@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Scaffold Api
+  title: Constructor Form
   version: 0.0.1
 servers:
   - url: http://localhost:4010
@@ -26,6 +26,18 @@ paths:
     $ref: './tables/paths.yaml#/TablesPath'
   /tables/{id}:
     $ref: './tables/paths.yaml#/TableIdPath'
+  
+  # Columns
+  /columns:
+    $ref: './columns/paths.yaml#/ColumnPath'
+  /columns/{id}:
+    $ref: './columns/paths.yaml#/ColumnIdPath'
+
+  # Rows
+  /rows:
+    $ref: './rows/paths.yaml#/RowsPath'
+  /rows/{id}:
+    $ref: './rows/paths.yaml#/RowIdPath'
 
 components:
   schemas:
@@ -37,6 +49,7 @@ components:
       $ref: './users/schemas.yaml#/UserRequestBody'
     PaginationMeta:
       $ref: './common/schemas.yaml#/PaginationMeta'
+    
     Table: 
       $ref: './tables/schemas.yaml#/Table'
     TableResponseBody:
@@ -46,5 +59,23 @@ components:
     TableRequestBody:
       $ref: './tables/schemas.yaml#/TableRequestBody'
 
+    Columns:
+      $ref: './columns/schemas.yaml#/Columns'
+    ColumnResponseBody:
+      $ref: './columns/schemas.yaml#/ColumnResponseBody'
+    ColumnListResponseBody:
+      $ref: './columns/schemas.yaml#/ColumnListResponseBody'
+    ColumnRequestBody:
+      $ref: './columns/schemas.yaml#/ColumnRequestBody'
+
+    Rows:
+      $ref: './rows/schemas.yaml#/Rows'
+    RowsResponseBody:
+      $ref: './rows/schemas.yaml#/RowsResponseBody'
+    RowListResponseBody:
+      $ref: './rows/schemas.yaml#/RowListResponseBody'
+    RowRequestBody:
+      $ref: './rows/schemas.yaml#/RowRequestBody'
+  
   securitySchemes:
     $ref: './common/security.yaml'
