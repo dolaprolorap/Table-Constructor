@@ -20,7 +20,7 @@ final readonly class TableResponseHandler
         foreach ($tables as $table) {
             $tableData[] = [
                 'id' => $table->id,
-                'login' => $table->title,
+                'title' => $table->title,
             ];
         }
 
