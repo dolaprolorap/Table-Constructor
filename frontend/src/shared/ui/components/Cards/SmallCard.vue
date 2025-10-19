@@ -1,28 +1,35 @@
 <template>
   <CCard
     class="small-card"
-    @click="$emit('select', id)"
     :aria-label="title"
     :title="title"
+    @click="$emit('select', id)"
   >
     <CCardBody class="text-center">
-      <CIcon :icon="iconsSet.tableIcon" size="xl" class="card-icon mb-2" />
-      <CCardTitle class="card-title">{{ title }}</CCardTitle>
+      <CIcon
+        :icon="iconsSet.tableIcon"
+        size="xl"
+        class="card-icon mb-2"
+      />
+      <CCardTitle class="card-title">
+        {{ title }}
+      </CCardTitle>
     </CCardBody>
   </CCard>
 </template>
 
 <script setup lang="ts">
 import { CCard, CCardBody, CCardTitle } from '@coreui/vue'
+
 import { iconsSet } from '../../assets/icons'
 
 interface SmallCardProps {
-  id: number
-  title: string
+	id: number
+	title: string
 }
 
 interface Emits {
-  (event: 'select', id: number): void
+	(event: 'select', id: number): void
 }
 
 defineProps<SmallCardProps>()

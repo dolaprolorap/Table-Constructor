@@ -1,5 +1,5 @@
-import TableView from "./ui/TableView.vue";
+import TableView from './ui/TableView.vue'
 
 export {
-    TableView
+	TableView
 }

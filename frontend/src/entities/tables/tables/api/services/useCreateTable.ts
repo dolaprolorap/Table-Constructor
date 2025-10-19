@@ -1,3 +1,5 @@
+import { ref, watch } from 'vue'
+
 import {
 	useCreatedId,
 	useFetch,
@@ -12,6 +14,8 @@ import {
 
 import { columnsTypesToApi, type Column } from '@/entities/tables/columns'
 
+import { useTableStore } from '../../model/TableStore'
+
 interface UseCreateTableReturn extends ApiCreateServiceReturn<CreateTableError> {
 	createTable: (params: CreateTableParams) => Promise<void>;
 }
@@ -22,6 +26,9 @@ export interface CreateTableParams {
 }
 
 export function useCreateTable(): UseCreateTableReturn {
+
+	const cachedParams = ref<CreateTableParams | null>(null)
+
 	const {
 		sendRequest,
 		clearError,
@@ -33,8 +40,12 @@ export function useCreateTable(): UseCreateTableReturn {
 		TablesService.createTable
 	)
 
+	const tableStore = useTableStore()
+
 	const createTable = async (params: CreateTableParams): Promise<void> => {
 		clearError()
+
+		cachedParams.value = params
 
 		await sendRequest({
 			body: {
@@ -53,6 +64,19 @@ export function useCreateTable(): UseCreateTableReturn {
 	}
 
 	const { createdId } = useCreatedId({ response })
+
+	const saveTable = (): void => {
+		if (!cachedParams.value || !createdId.value) {
+			return
+		}
+
+		tableStore.addTable({
+			id: createdId.value,
+			title: cachedParams.value.title
+		})
+	}
+
+	watch(createdId, saveTable)
 
 	return {
 		createTable,
