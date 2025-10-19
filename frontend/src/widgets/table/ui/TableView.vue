@@ -3,7 +3,7 @@
     id="contests-crud"
     class="p-3"
   >
-    <TableToolbar />
+    <TableToolbar :table="table" />
 
     <CTable
       :columns="table.columns.map((col)=>{

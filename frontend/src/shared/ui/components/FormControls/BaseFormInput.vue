@@ -34,7 +34,7 @@ interface Props {
 	invalid?: boolean
 	showFeedback?: boolean
 	autocomplete?: boolean
-	type?: 'text' | 'password' | 'number'
+	type?: 'text' | 'password' | 'number' | 'date'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -55,13 +55,12 @@ const { value, errorMessage, meta, handleBlur } = useField<string | number>(name
 
 watch(
 	modelValue,
-	(val) => {
+	val => {
 		value.value = val
 	},
 	{ immediate: true }
 )
 
 const feedbackInvalid = computed(() =>
-	meta.touched && errorMessage.value ? errorMessage.value : ''
-)
+	(meta.touched && errorMessage.value ? errorMessage.value : ''))
 </script>

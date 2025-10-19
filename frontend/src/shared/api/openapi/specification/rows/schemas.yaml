@@ -56,8 +56,6 @@ RowRequestBody:
           type: integer
           description: Идентификатор таблицы
         data:
-          type: array
-          items:
-            $ref: "../cells/schemas.yaml#/Cells"
+          type: string
       required: [data, table_id]
   required: [data]

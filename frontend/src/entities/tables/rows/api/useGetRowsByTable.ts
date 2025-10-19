@@ -1,4 +1,4 @@
-import {  watch } from 'vue'
+import { watch } from 'vue'
 
 import {
 	useFetch,
@@ -7,6 +7,7 @@ import {
 } from '@/shared/api'
 import {
 	RowsService,
+	type Cells,
 	type GetAllRowsData,
 	type GetAllRowsError,
 	type GetAllRowsResponse
@@ -55,7 +56,7 @@ export function useGetAllTablesRows(): UseGetAllTablesRowsReturn {
 		const rows: TableRow[] = res.data.map(apiRow => {
 			return {
 				id: apiRow.id,
-				data: apiRow.data.map(apiCell => {
+				data: (JSON.parse(apiRow.data as unknown as string) as Cells[]).map(apiCell => {
 
 					const dateData = new Date(apiCell.data)
 
@@ -75,7 +76,6 @@ export function useGetAllTablesRows(): UseGetAllTablesRowsReturn {
 			}
 		})
 
-		rowStore.setRows(rows)
 	}
 
 	watch(response, saveRows)

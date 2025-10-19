@@ -78,6 +78,9 @@ components:
       $ref: './rows/schemas.yaml#/RowListResponseBody'
     RowRequestBody:
       $ref: './rows/schemas.yaml#/RowRequestBody'
+
+    Cells:
+      $ref: './cells/schemas.yaml#/Cells'
   
   securitySchemes:
     $ref: './common/security.yaml'

@@ -3,68 +3,74 @@ import { ref, watch, type Ref } from 'vue'
 
 import { type ApiServiceReturn, useFetch } from '@/shared/api'
 import {
-    type GetTableByIdData,
-    type GetTableByIdResponse,
-    type GetTableByIdError,
-    TablesService
+	type GetTableByIdData,
+	type GetTableByIdResponse,
+	type GetTableByIdError,
+	TablesService
 } from '@/shared/api/openapi/client'
 
-import type { TableWithColumns } from '../../model/types/tablesType'
 import { mapApiToTableWithColumns } from '../../lib/mappers/apiMappers'
+import type { TableWithColumns } from '../../model/types/tablesType'
 
 interface UseGetTableByIdReturn extends ApiServiceReturn<GetTableByIdError> {
-    getTableById: (params: GetTableByIdParams) => Promise<void>;
-    table: Ref<TableWithColumns | null>
+	getTableById: (params: GetTableByIdParams) => Promise<void>;
+	table: Ref<TableWithColumns | null>
 }
 
 interface GetTableByIdParams {
-    id: number;
+	id: number;
 }
 
 export function useGetTableById(): UseGetTableByIdReturn {
 
-    const table = ref<TableWithColumns | null>(null)
+	const table = ref<TableWithColumns | null>(null)
 
-    const {
-        sendRequest,
-        clearError,
-        response,
-        error,
-        status,
-        isLoading
-    } = useFetch<
-        GetTableByIdResponse,
-        GetTableByIdError,
-        GetTableByIdData
-    >(TablesService.getTableById)
+	const {
+		sendRequest,
+		clearError,
+		response,
+		error,
+		status,
+		isLoading
+	} = useFetch<
+		GetTableByIdResponse,
+		GetTableByIdError,
+		GetTableByIdData
+	>(TablesService.getTableById)
 
-    const getTableById = useMemoize(async (params: GetTableByIdParams): Promise<void> => {
-        clearError()
-        table.value = null
+	let id: number | null = null
 
-        await sendRequest({
-            path: {
-                id: params.id
-            }
-        })
-    })
+	const getTableById = useMemoize(async (params: GetTableByIdParams): Promise<void> => {
+		clearError()
+		table.value = null
+		id = params.id
 
-    const saveTable = (): void => {
-        if (!response.value) {
-            return
-        }
+		await sendRequest({
+			path: {
+				id: params.id
+			}
+		})
+	})
 
-        table.value = mapApiToTableWithColumns(response.value)
-    }
+	const saveTable = (): void => {
+		if (!response.value || !id) {
+			return
+		}
 
-    watch(response, saveTable)
+		table.value = {
+			...mapApiToTableWithColumns(response.value),
+			['id']: id
+		}
+	}
 
-    return {
-        getTableById,
-        clearError,
-        error,
-        status,
-        isLoading,
-        table
-    }
+	watch(response, saveTable)
+
+	return {
+		getTableById,
+		clearError,
+		error,
+		status,
+		isLoading,
+		table
+	}
 }

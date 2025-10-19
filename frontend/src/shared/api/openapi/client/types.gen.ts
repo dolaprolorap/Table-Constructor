@@ -158,18 +158,7 @@ export type Rows = {
 	 * Идентификатор таблицы
 	 */
 	table_id: number;
-	data: Array<{
-
-		/**
-		 * Внешний ключ на строку
-		 */
-		column_id: number;
-
-		/**
-		 * Данные ячейки
-		 */
-		data: string;
-	}>;
+	data: Array<Cells>;
 	created_at: string;
 	created_by: string;
 	deleted_at?: (string) | null;
@@ -192,8 +181,21 @@ export type RowRequestBody = {
 		 * Идентификатор таблицы
 		 */
 		table_id: number;
-		data: Array<Rows_properties_data_items>;
+		data: string;
 	};
+};
+
+export type Cells = {
+
+	/**
+	 * Внешний ключ на строку
+	 */
+	column_id: number;
+
+	/**
+	 * Данные ячейки
+	 */
+	data: string;
 };
 
 export type UserLoginData = {

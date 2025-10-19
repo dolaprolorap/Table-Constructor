@@ -40,8 +40,6 @@ const selectedFile = ref<File | null>(null)
 
 const modal = useTemplateRef('import-table-modal')
 
-defineExpose({ open, close })
-
 </script>
 
 <style scoped>

@@ -318,18 +318,7 @@ export const RowsSchema = {
 		data: {
 			type: 'array',
 			items: {
-				type: 'object',
-				properties: {
-					column_id: {
-						type: 'integer',
-						description: 'Внешний ключ на строку'
-					},
-					data: {
-						type: 'string',
-						description: 'Данные ячейки'
-					}
-				},
-				required: [ 'column_id', 'data' ]
+				$ref: '#/components/schemas/Cells'
 			}
 		},
 		created_at: {
@@ -391,14 +380,26 @@ export const RowRequestBodySchema = {
 					description: 'Идентификатор таблицы'
 				},
 				data: {
-					type: 'array',
-					items: {
-						$ref: '#/components/schemas/Rows/properties/data/items'
-					}
+					type: 'string'
 				}
 			},
 			required: [ 'data', 'table_id' ]
 		}
 	},
 	required: ['data']
+} as const
+
+export const CellsSchema = {
+	type: 'object',
+	properties: {
+		column_id: {
+			type: 'integer',
+			description: 'Внешний ключ на строку'
+		},
+		data: {
+			type: 'string',
+			description: 'Данные ячейки'
+		}
+	},
+	required: [ 'column_id', 'data' ]
 } as const
