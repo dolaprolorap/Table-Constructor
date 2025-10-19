@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ColumnController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -16,3 +17,7 @@ Route::middleware('auth:sanctum')->get('/tables', [TableController::class, 'pagi
 Route::middleware('auth:sanctum')->put('/tables/{id}', [TableController::class, 'update']);
 Route::middleware('auth:sanctum')->get('/tables/{id}', [TableController::class, 'findOne']);
 Route::middleware('auth:sanctum')->delete('/tables/{id}', [TableController::class, 'delete']);
+
+Route::middleware('auth:sanctum')->post('/columns', [ColumnController::class, 'create']);
+Route::middleware('auth:sanctum')->put('/columns/{id}', [ColumnController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('/columns/{id}', [ColumnController::class, 'delete']);
