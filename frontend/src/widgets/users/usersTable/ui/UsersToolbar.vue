@@ -2,8 +2,8 @@
   <div>
     <BaseSearchInput
       v-model="searchedLogin"
-      aria-label="Contest name"
-      placeholder="Название конкурса"
+      aria-label="User name"
+      placeholder="Поиск по логину"
       class="mb-3"
     />
 
@@ -28,5 +28,4 @@ import { AddUser } from '@/features/users/addUser'
 
 const usersRole = defineModel<UserRoles>('role')
 const searchedLogin = defineModel<string>('login')
-
 </script>
