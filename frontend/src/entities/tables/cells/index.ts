@@ -1,0 +1,1 @@
+export type { TableCell } from './Cell'

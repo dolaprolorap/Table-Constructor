@@ -140,7 +140,7 @@ export class RowsService {
 	/**
 	 * Get all rows
 	 */
-	public static getAllRows<ThrowOnError extends boolean = false>(options?: Options<GetAllRowsData, ThrowOnError>) {
+	public static getAllRows<ThrowOnError extends boolean = false>(options: Options<GetAllRowsData, ThrowOnError>) {
 		return (options?.client ?? client).get<GetAllRowsResponse, GetAllRowsError, ThrowOnError>({
 			...options,
 			url: '/rows'

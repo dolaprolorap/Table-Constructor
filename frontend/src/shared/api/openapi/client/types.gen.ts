@@ -163,12 +163,12 @@ export type Rows = {
 		/**
 		 * Внешний ключ на строку
 		 */
-		column_id?: number;
+		column_id: number;
 
 		/**
 		 * Данные ячейки
 		 */
-		data?: string;
+		data: string;
 	}>;
 	created_at: string;
 	created_by: string;
@@ -182,7 +182,7 @@ export type RowsResponseBody = {
 
 export type RowListResponseBody = {
 	data: Array<Rows>;
-	meta?: PaginationMeta;
+	meta: PaginationMeta;
 };
 
 export type RowRequestBody = {
@@ -346,11 +346,11 @@ export type DeleteColumnsResponse = (void);
 export type DeleteColumnsError = (unknown);
 
 export type GetAllRowsData = {
-	query?: {
-		deleted?: boolean;
+	query: {
+		deleted?: 0 | 1;
 		page?: number;
 		page_size?: number;
-		search_string?: string;
+		table_id: number;
 	};
 };
 

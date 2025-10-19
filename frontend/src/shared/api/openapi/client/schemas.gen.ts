@@ -328,7 +328,8 @@ export const RowsSchema = {
 						type: 'string',
 						description: 'Данные ячейки'
 					}
-				}
+				},
+				required: [ 'column_id', 'data' ]
 			}
 		},
 		created_at: {
@@ -374,7 +375,7 @@ export const RowListResponseBodySchema = {
 			$ref: '#/components/schemas/PaginationMeta'
 		}
 	},
-	required: ['data']
+	required: [ 'data', 'meta' ]
 } as const
 
 export const RowRequestBodySchema = {

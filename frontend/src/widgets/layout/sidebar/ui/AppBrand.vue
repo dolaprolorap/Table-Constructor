@@ -15,7 +15,7 @@
           :icon="iconsSet.logoIcon"
           class="icon"
           :height="32"
-        /> ТАБЛИЦЫ
+        /> STRUCTURA
       </div>
 
       <CIcon

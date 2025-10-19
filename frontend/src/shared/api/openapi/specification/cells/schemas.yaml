@@ -7,5 +7,6 @@ Cells:
     data:
       type: string
       description: Данные ячейки
+  required: [column_id, data]
 
     

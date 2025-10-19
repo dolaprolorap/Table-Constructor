@@ -42,7 +42,7 @@ RowListResponseBody:
         $ref: '#/Rows'
     meta:
       $ref: '../common/schemas.yaml#/PaginationMeta'
-  required: [data]
+  required: [data, meta]
 
 RowRequestBody:
   type: object

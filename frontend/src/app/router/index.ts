@@ -5,6 +5,7 @@ import { LoginPageConfig } from '@/pages/login'
 import { MenuPageConfig } from '@/pages/menu'
 import { ProfilePageConfig } from '@/pages/profile'
 import { UsersPageConfig } from '@/pages/users'
+
 import { BASE_PAGE_NAME, BASE_PAGE_PATH } from './config'
 import { middlewarePipeline } from './middleware'
 import { requireAuth } from './middleware/requireAuth'
@@ -52,7 +53,8 @@ const router = createRouter({
 				{
 					path: 'tables/:tableId',
 					name: 'Таблица',
-					props: (route) => ({ tableId: String(route.params.tableId) }),
+					props: route =>
+						({ tableId: String(route.params.tableId) }),
 					meta: { middleware: [requireAuth] },
 					component: (): ConcreteComponent => {
 						return import('@/pages/tables').then(module => {
@@ -100,7 +102,8 @@ router.beforeEach((to, from) => {
 	const initialMiddleware: MiddlewareHandler[] = []
 	const combinedMiddleware = to.matched.reduce((meta, route) => {
 		const currentMiddleware = route.meta.middleware || []
-		const mergedMiddleware = [...meta, ...currentMiddleware]
+		const mergedMiddleware = [ ...meta, ...currentMiddleware ]
+
 		return mergedMiddleware
 	}, initialMiddleware)
 

@@ -7,25 +7,35 @@
     <div class="content">
       <p>Идентификатор таблицы: <strong>{{ tableId }}</strong></p>
 
-      <TableView />
+      <TableView
+        v-if="table"
+        :table="table"
+      />
+
+      <FullPageLoader v-else />
     </div>
   </PageContainer>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { PageContainer } from '@/shared/ui/components'
-import { TableView } from '@/widgets/table';
+
+import { FullPageLoader, PageContainer } from '@/shared/ui/components'
+
+import { useGetTableById } from '@/entities/tables/tables'
+
+import { TableView } from '@/widgets/table'
 
 const props = defineProps<{
-  tableId: string
+	tableId: string
 }>()
 
-const tableData = ref<any>(null)
+const { getTableById, table } = useGetTableById()
 
 onMounted(async () => {
-  const response = await fetch(`/api/tables/${props.tableId}`)
-  tableData.value = await response.json()
+	await getTableById({
+		id: Number(props.tableId)
+	})
 })
 </script>
 

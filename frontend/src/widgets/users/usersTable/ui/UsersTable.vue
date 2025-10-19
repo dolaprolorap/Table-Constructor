@@ -21,7 +21,7 @@
 
     <DataLoader
       :is-loading="isLoading"
-      empty-message="Конкурсов не найдено"
+      empty-message="Пользователей не найдено"
       :list-length="usersStore.users.length"
     />
 

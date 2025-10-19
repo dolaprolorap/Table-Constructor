@@ -197,7 +197,7 @@ watch(columns, () => {
 	console.log(normalizedColumns())
 
 	setFieldValue(COLUMN_FIELD_NAME, normalizedColumns())
-}, { deep: true })
+}, { deep: true, immediate: true })
 
 const sendRequest = handleSubmit(() => {
 	createTable({

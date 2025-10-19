@@ -4,11 +4,11 @@ RowsPath:
     summary: Get all rows
     operationId: getAllRows
     parameters:
-      - name: search_string
+      - name: table_id
         in: query
-        required: false
+        required: true
         schema:
-          type: string
+          type: number
       - name: page
         in: query
         required: false
@@ -23,7 +23,8 @@ RowsPath:
         in: query
         required: false
         schema:
-          type: boolean
+          type: number
+          enum: [0, 1]
     responses:
       200:
         description: Successfully got a list of the rows
