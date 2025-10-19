@@ -8,7 +8,7 @@ use App\Http\Requests\JsonDataRequest;
 
 /**
  * @property int $table_id
- * @property string[] $data
+ * @property string $data
  */
 final class CreateRowRequest extends JsonDataRequest
 {
@@ -16,7 +16,7 @@ final class CreateRowRequest extends JsonDataRequest
     {
         return [
             'table_id' => 'required|int',
-            'data' => 'required|array',
+            'data' => 'required|string',
         ];
     }
 }

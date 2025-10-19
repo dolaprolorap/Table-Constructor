@@ -29,6 +29,7 @@ final readonly class TableService
     public function paginateAll(PaginateAllTablesRequest $request): LengthAwarePaginator
     {
         $query = Table::query();
+        $query->orderBy('id');
 
         if ($request->title !== null) {
             $query->where(

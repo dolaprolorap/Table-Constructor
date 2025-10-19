@@ -6,11 +6,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Rows\CreateRowRequest;
 use App\Http\Requests\Rows\PaginateAllRowsRequest;
+use App\Http\Requests\Rows\UpdateRowRequest;
 use App\Http\Responses\Handlers\RowResponseHandler;
 use App\Services\RowService;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
-final readonly class RowsController
+final readonly class RowController
 {
     public function __construct(
         private RowResponseHandler $responseHandler,
@@ -32,16 +34,18 @@ final readonly class RowsController
         return $this->responseHandler->handleCreate($row);
     }
 
-    public function update(int $rowId): JsonResponse
+    public function update(int $rowId, UpdateRowRequest $request): JsonResponse
     {
-        $row = $this->rowService->update($rowId);
+        $request->id = $rowId;
+
+        $row = $this->rowService->update($request);
 
         return $this->responseHandler->handleUpdate($row);
     }
 
-    public function delete(int $userId): JsonResponse
+    public function delete(int $rowId, Request $request): JsonResponse
     {
-        $this->rowService->delete($userId);
+        $this->rowService->delete($rowId, $request->user()->id);
 
         return $this->responseHandler->handleDelete();
     }

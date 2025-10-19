@@ -15,8 +15,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $data
  * @property int $created_by
  * @property Carbon $created_at
- * @property int $deleted_by
- * @property Carbon $deleted_at
+ * @property ?int $deleted_by
+ * @property ?Carbon $deleted_at
  *
  * @property-read LoggedTableRow[] $loggedTableRows
  */
@@ -25,6 +25,8 @@ final class TableRow extends Model
     use SoftDeletes;
 
     protected $table = 'table_rows';
+
+    public $timestamps = false;
 
     public function loggedTableRows(): HasMany
     {
