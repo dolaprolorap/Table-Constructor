@@ -62,11 +62,16 @@ import NeighbouringPagesLinks from './NeighbouringPagesLinks.vue'
 import { useTablePaginationModel } from '../model/useTablePaginationModel'
 
 interface BaseTablePaginationProps {
-  lastPage: number;
-  visible: boolean;
+	lastPage: number;
+	visible: boolean;
 }
 
 const props = defineProps<BaseTablePaginationProps>()
+
+// Model
+const currentPageModel = defineModel<number>('currentPage')
+
+const itemsPerPageModel = defineModel<number>('itemsPerPage')
 
 const { lastPage } = toRefs(props)
 
@@ -74,34 +79,30 @@ const currentPage = ref<number>(DEFAULT_START_PAGE)
 const itemsPerPage = ref<string>(DEFAULT_ITEMS_PER_PAGE.toString())
 
 const goToFirstPage = (): void => {
-  currentPage.value = 1
+	currentPage.value = 1
 }
 
 const goToPreviousPage = (): void => {
-  if (currentPage.value <= 1) {
-    return
-  }
+	if (currentPage.value <= 1) {
+		return
+	}
 
-  currentPage.value -= 1
+	currentPage.value -= 1
 }
 
 const goToNextPage = (): void => {
-  if (currentPage.value >= lastPage.value) {
-    return
-  }
+	if (currentPage.value >= lastPage.value) {
+		return
+	}
 
-  currentPage.value += 1
+	currentPage.value += 1
 }
 
 const goToLastPage = (): void => {
-  currentPage.value = lastPage.value
+	currentPage.value = lastPage.value
 }
 
 watch(itemsPerPage, goToFirstPage)
-
-// Model
-const currentPageModel = defineModel<number>('currentPage')
-const itemsPerPageModel = defineModel<number>('itemsPerPage')
 
 useTablePaginationModel({ currentPage, itemsPerPage, currentPageModel, itemsPerPageModel })
 
@@ -114,6 +115,7 @@ useTablePaginationModel({ currentPage, itemsPerPage, currentPageModel, itemsPerP
 
 .base-table-pagination .pagination li.disabled {
   cursor: auto;
+  background: none !important;
 }
 
 .base-table-pagination .pagination {
