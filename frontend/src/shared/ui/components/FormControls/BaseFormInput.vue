@@ -25,16 +25,16 @@ import { useField } from 'vee-validate'
 import { toRefs, watch, computed } from 'vue'
 
 interface Props {
-	id?: string;
-	name: string;
-	label?: string;
-	placeholder?: string;
-	required?: boolean;
-	customClass?: string;
-	invalid?: boolean;
-	showFeedback?: boolean;
-	autocomplete?: boolean;
-	type?: 'text' | 'password'
+	id?: string
+	name: string
+	label?: string
+	placeholder?: string
+	required?: boolean
+	customClass?: string
+	invalid?: boolean
+	showFeedback?: boolean
+	autocomplete?: boolean
+	type?: 'text' | 'password' | 'number'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -44,26 +44,24 @@ const props = withDefaults(defineProps<Props>(), {
 	placeholder: '',
 	customClass: '',
 	showFeedback: true,
-	autocomplete: true
+	autocomplete: true,
 })
 
-const modelValue = defineModel<string>({ default: '' })
+const modelValue = defineModel<string | number>({ default: '' })
 
 const { name } = toRefs(props)
 
-const {
-	value, errorMessage, meta,
-	handleBlur
-} = useField<string>(name.value)
+const { value, errorMessage, meta, handleBlur } = useField<string | number>(name.value)
 
-watch(modelValue, val => {
-	value.value = val
-}, { immediate : true })
+watch(
+	modelValue,
+	(val) => {
+		value.value = val
+	},
+	{ immediate: true }
+)
 
-const setFeadbackInvalid = (): string => {
-	return meta.touched && errorMessage.value ? errorMessage.value : ''
-}
-
-const feedbackInvalid = computed(setFeadbackInvalid)
-
+const feedbackInvalid = computed(() =>
+	meta.touched && errorMessage.value ? errorMessage.value : ''
+)
 </script>

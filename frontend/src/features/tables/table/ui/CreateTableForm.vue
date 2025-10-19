@@ -1,170 +1,231 @@
 <template>
-  <CForm class="p-3" @submit.prevent="onSubmit">
-    <CCardBody>
-      <div class="mb-4">
-        <CFormLabel class="fw-semibold">Название таблицы</CFormLabel>
-        <CFormInput
-          v-model.trim="internalTitle"
-          placeholder="Введите название таблицы"
-        />
-      </div>
+  <CButton
+    id="add-table-btn"
+    color="primary"
+    @click="modal?.showModal()"
+  >
+    <CIcon :icon="iconsSet.plusIcon" size="lg" />
+  </CButton>
 
-      <div class="mb-3">
-        <CFormLabel class="fw-semibold">Задать число столбцов</CFormLabel>
-        <CInputGroup>
-          <CFormInput
-            type="number"
-            min="1"
-            :max="MAX_COLUMNS"
-            v-model.number="columnsCount"
-            placeholder="Например, 3"
-            @change="syncColumnsFromCount"
-          />
-        </CInputGroup>
-        <small class="text-muted">Макс. {{ MAX_COLUMNS }}</small>
-      </div>
+  <BaseModal
+    ref="create-table-modal"
+    :submitted="meta.valid"
+    :hidden="modalHidden"
+    @close="closeModal"
+    @confirm="sendRequest"
+  >
+    <template #modal-header>
+      <TextWithIconWrapper :icon="iconsSet.plusIcon">
+        <template #text>Создать таблицу</template>
+      </TextWithIconWrapper>
+    </template>
 
-      <div v-for="(column, index) in internalColumns" :key="column.id" class="mb-3">
-        <CRow class="align-items-center gx-2">
-          <CCol :xs="6">
-            <CFormInput v-model.trim="column.name" placeholder="Название столбца" />
-          </CCol>
-
-          <CCol :xs="5">
-            <CFormSelect v-model="column.type">
-              <option disabled value="">Тип данных</option>
-              <option value="string">Строка</option>
-              <option value="number">Число</option>
-              <option value="timestamp">Дата</option>
-              <option value="enum">Справочник</option>
-            </CFormSelect>
-          </CCol>
-
-          <CCol :xs="1" class="text-end">
-            <CButton
-              v-if="internalColumns.length > 1"
-              color="danger"
-              variant="outline"
-              class="delete-btn"
-              @click="removeColumn(index)"
-            >
-              ×
-            </CButton>
-          </CCol>
-        </CRow>
-      </div>
-
-      <CButton
-        class="w-100 my-3"
-        color="primary"
-        variant="outline"
-        :disabled="internalColumns.length >= MAX_COLUMNS"
-        @click="addColumn"
+    <template #modal-body>
+      <CForm
+        autocomplete="off"
+        class="add-form"
+        @submit.prevent="sendRequest"
       >
-        +
-      </CButton>
-    </CCardBody>
-  </CForm>
+        <BaseFormInput
+          id="table-title"
+          v-model.trim="title"
+          :name="TITLE_FIELD_NAME"
+          placeholder="Введите название таблицы"
+          label="Название таблицы"
+          :autocomplete="false"
+        />
+
+        <div class="columns-editor">
+          <div class="columns-header">
+            <span class="label">Столбцы</span>
+            <CButton
+              color="primary"
+              variant="outline"
+              size="sm"
+              :disabled="columns.length >= MAX_COLUMNS"
+              @click="addColumn"
+            >
+              +
+            </CButton>
+          </div>
+
+          <div
+            v-for="(col, idx) in columns"
+            :key="col.id"
+            class="column-row"
+          >
+            <CRow class="align-items-center gx-2">
+              <CCol :xs="6">
+                <CFormInput
+                  v-model.trim="col.title"
+                  placeholder="Название столбца"
+                />
+              </CCol>
+
+              <CCol :xs="5">
+                <CFormSelect v-model="col.type">
+                  <option disabled value="">Тип данных</option>
+                  <option value="string">Строка</option>
+                  <option value="number">Число</option>
+                  <option value="timestamp">Дата/время</option>
+                  <option value="enum">Справочник (enum)</option>
+                </CFormSelect>
+              </CCol>
+
+              <CCol :xs="1" class="text-end">
+                <CButton
+                  v-if="columns.length > 1"
+                  color="danger"
+                  variant="outline"
+                  class="delete-btn"
+                  @click="removeColumn(idx)"
+                >
+                  ×
+                </CButton>
+              </CCol>
+            </CRow>
+
+            <div v-if="col.type === 'enum'" class="enum-editor">
+              <CFormTextarea
+                v-model="col.enumText"
+                rows="2"
+                placeholder="Значения enum через запятую: Новая, В работе, Закрыта"
+              />
+              <small class="text-muted">
+                Введите варианты значений через запятую
+              </small>
+            </div>
+          </div>
+        </div>
+      </CForm>
+    </template>
+  </BaseModal>
+
+  <ErrorMessageModal
+    :error="error"
+    :error-message="error?.errorMessage"
+    @hide-error="clearError"
+  />
 </template>
 
 <script setup lang="ts">
-import { ref, watch, toRaw, isProxy } from 'vue'
+import { ref, watch, useTemplateRef } from 'vue'
+import { useForm } from 'vee-validate'
 
-export type DataType = 'string' | 'number' | 'timestamp' | 'enum'
-export interface Column { id: number; name: string; type: DataType | '' }
-export interface Props { title: string; columns: Column[] }
-export interface Emits {
-  (event: 'update:title', value: string): void
-  (event: 'update:columns', value: Column[]): void
-  (event: 'submit', value: { title: string; columns: Column[] }): void
+import { CButton, CForm, CFormInput, CFormSelect, CRow, CCol, CFormTextarea } from '@coreui/vue'
+import { TextWithIconWrapper, BaseModal, ErrorMessageModal, BaseFormInput } from '@/shared/ui/components'
+import { iconsSet } from '@/shared/ui/assets/icons'
+import { ApiStatuses } from '@/shared/api'
+
+import { useCreateTable } from '@/entities/tables/api'
+
+import { addTableValidationSchema, TITLE_FIELD_NAME, COLUMN_FIELD_NAME } from '../config/validation'
+
+type DataType = 'string' | 'number' | 'timestamp' | 'enum'
+
+interface NewColumn {
+  id: number
+  title: string
+  type: DataType | ''
+  enumText?: string
 }
 
 const MAX_COLUMNS = 50
-const props = defineProps<Props>()
-const emit = defineEmits<Emits>()
 
-function cloneColumns(src: unknown): Column[] {
-  const raw = isProxy(src) ? toRaw(src as any) : src
-  if (!Array.isArray(raw)) return [{ id: 1, name: '', type: '' }]
-  return raw.map((c: any) => ({
-    id: Number(c?.id ?? Date.now() + Math.random()),
-    name: String(c?.name ?? ''),
-    type: (['string','number','timestamp','enum'] as const).includes(c?.type) ? c.type : ''
-  }))
+const modal = useTemplateRef('create-table-modal')
+
+const { status, createTable, error, clearError } = useCreateTable()
+
+const title = ref<string>('')
+const columns = ref<NewColumn[]>([
+  { id: Date.now(), title: '', type: '' },
+])
+
+const { handleSubmit, resetForm, meta, setFieldValue } = useForm({
+  validationSchema: addTableValidationSchema,
+})
+
+const closeModal = (): void => {
+  resetForm()
+  title.value = ''
+  columns.value = [{ id: Date.now(), title: '', type: '' }]
 }
 
-const internalTitle = ref<string>(props.title)
-const internalColumns = ref<Column[]>(
-  props.columns?.length ? cloneColumns(props.columns) : [{ id: 1, name: '', type: '' }]
-)
-const columnsCount = ref<number>(internalColumns.value.length)
-
-watch(internalTitle, (value) => emit('update:title', value))
-
-watch(
-  internalColumns,
-  (value) => emit('update:columns', cloneColumns(value)),
-  { deep: true }
-)
-
-watch(
-  () => props.title,
-  (value) => {
-    if (value !== internalTitle.value) internalTitle.value = value
-  }
-)
-
-watch(
-  () => props.columns,
-  (value) => {
-    const next = cloneColumns(value)
-    const changed =
-      next.length !== internalColumns.value.length ||
-      next.some((col, i) => {
-        const cur = internalColumns.value[i]
-        return !cur || cur.id !== col.id || cur.name !== col.name || cur.type !== col.type
-      })
-
-    if (changed) {
-      internalColumns.value = next
-      columnsCount.value = next.length
-    }
-  },
-  { deep: true }
-)
-
 const addColumn = (): void => {
-  internalColumns.value.push({ id: Date.now() + Math.random(), name: '', type: '' })
-  columnsCount.value = internalColumns.value.length
+  columns.value.push({ id: Date.now() + Math.random(), title: '', type: '' })
 }
 
 const removeColumn = (index: number): void => {
-  internalColumns.value.splice(index, 1)
-  columnsCount.value = internalColumns.value.length
+  if (columns.value.length === 1) return
+  columns.value.splice(index, 1)
 }
 
-const syncColumnsFromCount = (): void => {
-  const normalized = Math.max(1, Math.min(columnsCount.value || 1, MAX_COLUMNS))
-  while (internalColumns.value.length < normalized) addColumn()
-  if (internalColumns.value.length > normalized) internalColumns.value.splice(normalized)
-  columnsCount.value = normalized
+function normalizedColumns() {
+  return columns.value.map((c) => ({
+    title: c.title.trim(),
+    type: c.type,
+    ...(c.type === 'enum'
+      ? {
+          enum:
+            c.enumText
+              ?.split(',')
+              .map((s) => s.trim())
+              .filter(Boolean) ?? [],
+        }
+      : {}),
+  }))
 }
 
-const onSubmit = (): void => {
-  emit('submit', {
-    title: internalTitle.value.trim(),
-    columns: internalColumns.value
-      .map((column) => ({
-        id: column.id,
-        name: column.name.trim(),
-        type: column.type,
-      }))
-      .filter((c): c is Column => Boolean(c.name && c.type)),
+const sendRequest = handleSubmit(async () => {
+  setFieldValue(TITLE_FIELD_NAME, title.value)
+  setFieldValue(COLUMN_FIELD_NAME, normalizedColumns())
+
+  await createTable({
+    title: title.value.trim(),
+    columns: normalizedColumns(),
   })
-}
+})
+
+watch(status, () => {
+  if (status.value === ApiStatuses.success) {
+    closeModal()
+    modal.value?.closeModal()
+  }
+})
+
+const modalHidden = ref<boolean>(false)
+watch(error, () => {
+  modalHidden.value = !!error.value
+}, { deep: true })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+#add-table-btn {
+  width: 10rem;
+}
+
+.add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.columns-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.columns-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.column-row + .enum-editor {
+  margin-top: 0.5rem;
+}
+
 .delete-btn {
   font-weight: bold;
   line-height: 1;
@@ -174,7 +235,7 @@ const onSubmit = (): void => {
   transition: background 0.2s;
   border-radius: 50%;
 }
-.delete-btn:hover { background-color: rgba(220, 53, 69, 0.15); }
-
-.form-card :is(input, select) { border-radius: 10px; }
+.delete-btn:hover {
+  background-color: rgba(220, 53, 69, 0.15);
+}
 </style>
