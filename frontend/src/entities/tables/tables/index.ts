@@ -1,12 +1,15 @@
-import type { Table } from "@/shared/api/openapi/client";
-import { useTableStore } from "./model/TableStore";
-import { useGetAllTables } from "./api";
+import type { Table } from '@/shared/api/openapi/client'
+
+import { useGetAllTables, useCreateTable, useGetTableById } from './api'
+import { useTableStore } from './model/TableStore'
 
 export type {
-    Table
+	Table
 }
 
 export {
-    useTableStore,
-    useGetAllTables
+	useTableStore,
+	useGetAllTables,
+	useCreateTable,
+	useGetTableById
 }

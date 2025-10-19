@@ -155,7 +155,6 @@ export default defineConfigWithVueTs(
       '@stylistic/new-parens': 'error',
       '@stylistic/no-confusing-arrow': 'error',
       '@stylistic/no-floating-decimal': 'error',
-      '@stylistic/no-mixed-spaces-and-tabs': 'error',
       '@stylistic/no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
       '@stylistic/no-tabs': ['error', { allowIndentationTabs: true }],
       '@stylistic/no-trailing-spaces': ['error', { ignoreComments: true }],

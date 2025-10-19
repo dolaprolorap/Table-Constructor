@@ -1,9 +1,9 @@
-import { useGetAllTables } from "./services/useGetAllTables";
-import { useCreateTable } from "./services/useCreateTable";
+import { useCreateTable } from './services/useCreateTable'
+import { useGetAllTables } from './services/useGetAllTables'
+import { useGetTableById } from './services/useGetTableById'
 
-export { useGetAllTables, useCreateTable }
+export { useGetAllTables, useCreateTable, useGetTableById }
 
 export type {
-    Table as TableApi,
-    TableWithColumns as TableWithColumnsApi
+	Table as TableApi
 } from '@/shared/api/openapi/client'

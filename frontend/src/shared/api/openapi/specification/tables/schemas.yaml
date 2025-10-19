@@ -71,10 +71,12 @@ TableCreateRequestBody:
                 type: string
                 enum: [string, number, timestamp, enum]
               enum:
+                oneOf:
                 type: array
+                nullable: true
                 items:
                   type: string
-            required: [title, type]
+            required: [title, type, enum]
       required:
         - title
         - columns

@@ -1,7 +1,7 @@
-import ModalImport from "./ui/ModalImport.vue";
-import ModalCreateTable from "./ui/ModalCreateTable.vue";
+import CreateTable from './ui/CreateTable.vue'
+import ImportTable from './ui/ImportTable.vue'
 
 export {
-    ModalImport,
-    ModalCreateTable
+	CreateTable,
+	ImportTable
 }

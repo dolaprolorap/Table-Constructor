@@ -197,13 +197,15 @@ export const TableCreateRequestBodySchema = {
 								enum: [ 'string', 'number', 'timestamp', 'enum' ]
 							},
 							enum: {
+								oneOf: null,
 								type: 'array',
+								nullable: true,
 								items: {
 									type: 'string'
 								}
 							}
 						},
-						required: [ 'title', 'type' ]
+						required: [ 'title', 'type', 'enum' ]
 					}
 				}
 			},

@@ -4,7 +4,7 @@
     color="primary"
     @click="modal?.showModal()"
   >
-    <CIcon :icon="iconsSet.plusIcon" size="lg" />
+    Создать таблицу
   </CButton>
 
   <BaseModal
@@ -16,7 +16,9 @@
   >
     <template #modal-header>
       <TextWithIconWrapper :icon="iconsSet.plusIcon">
-        <template #text>Создать таблицу</template>
+        <template #text>
+          Создание новой таблицы
+        </template>
       </TextWithIconWrapper>
     </template>
 
@@ -45,7 +47,9 @@
               :disabled="columns.length >= MAX_COLUMNS"
               @click="addColumn"
             >
-              +
+              <CIcon
+                :icon="iconsSet.plusIcon"
+              />
             </CButton>
           </div>
 
@@ -63,16 +67,16 @@
               </CCol>
 
               <CCol :xs="5">
-                <CFormSelect v-model="col.type">
-                  <option disabled value="">Тип данных</option>
-                  <option value="string">Строка</option>
-                  <option value="number">Число</option>
-                  <option value="timestamp">Дата/время</option>
-                  <option value="enum">Справочник (enum)</option>
-                </CFormSelect>
+                <ColumnTypeSelect
+                  v-model="col.type"
+                  name=""
+                />
               </CCol>
 
-              <CCol :xs="1" class="text-end">
+              <CCol
+                :xs="1"
+                class="text-end"
+              >
                 <CButton
                   v-if="columns.length > 1"
                   color="danger"
@@ -80,12 +84,17 @@
                   class="delete-btn"
                   @click="removeColumn(idx)"
                 >
-                  ×
+                  <CIcon
+                    :icon="iconsSet.xIcon"
+                  />
                 </CButton>
               </CCol>
             </CRow>
 
-            <div v-if="col.type === 'enum'" class="enum-editor">
+            <div
+              v-if="col.type === 'enum'"
+              class="enum-editor"
+            >
               <CFormTextarea
                 v-model="col.enumText"
                 rows="2"
@@ -96,6 +105,10 @@
               </small>
             </div>
           </div>
+          <ErrorMessage
+            :name="COLUMN_FIELD_NAME"
+            class="error-message"
+          />
         </div>
       </CForm>
     </template>
@@ -109,25 +122,24 @@
 </template>
 
 <script setup lang="ts">
+import { CButton, CForm, CFormInput, CRow, CCol, CFormTextarea } from '@coreui/vue'
+import { ErrorMessage, useForm } from 'vee-validate'
 import { ref, watch, useTemplateRef } from 'vue'
-import { useForm } from 'vee-validate'
 
-import { CButton, CForm, CFormInput, CFormSelect, CRow, CCol, CFormTextarea } from '@coreui/vue'
-import { TextWithIconWrapper, BaseModal, ErrorMessageModal, BaseFormInput } from '@/shared/ui/components'
-import { iconsSet } from '@/shared/ui/assets/icons'
 import { ApiStatuses } from '@/shared/api'
+import { iconsSet } from '@/shared/ui/assets/icons'
+import { TextWithIconWrapper, BaseModal, ErrorMessageModal, BaseFormInput } from '@/shared/ui/components'
 
-import { useCreateTable } from '@/entities/tables/api'
+import { ColumnTypes, ColumnTypeSelect, type Column } from '@/entities/tables/columns'
+import { useCreateTable } from '@/entities/tables/tables'
 
 import { addTableValidationSchema, TITLE_FIELD_NAME, COLUMN_FIELD_NAME } from '../config/validation'
 
-type DataType = 'string' | 'number' | 'timestamp' | 'enum'
-
 interface NewColumn {
-  id: number
-  title: string
-  type: DataType | ''
-  enumText?: string
+	id: number
+	title: string
+	type: ColumnTypes
+	enumText?: string
 }
 
 const MAX_COLUMNS = 50
@@ -137,66 +149,75 @@ const modal = useTemplateRef('create-table-modal')
 const { status, createTable, error, clearError } = useCreateTable()
 
 const title = ref<string>('')
+
 const columns = ref<NewColumn[]>([
-  { id: Date.now(), title: '', type: '' },
+	{ id: Date.now(), title: '', type: ColumnTypes.string },
 ])
 
 const { handleSubmit, resetForm, meta, setFieldValue } = useForm({
-  validationSchema: addTableValidationSchema,
+	validationSchema: addTableValidationSchema,
 })
 
 const closeModal = (): void => {
-  resetForm()
-  title.value = ''
-  columns.value = [{ id: Date.now(), title: '', type: '' }]
+	resetForm()
+	title.value = ''
+	columns.value = [{ id: Date.now(), title: '', type: ColumnTypes.string }]
 }
 
 const addColumn = (): void => {
-  columns.value.push({ id: Date.now() + Math.random(), title: '', type: '' })
+	columns.value.push({ id: Date.now() + Math.random(), title: '', type: ColumnTypes.string })
 }
 
 const removeColumn = (index: number): void => {
-  if (columns.value.length === 1) return
-  columns.value.splice(index, 1)
+	if (columns.value.length === 1) return
+
+	columns.value.splice(index, 1)
 }
 
-function normalizedColumns() {
-  return columns.value.map((c) => ({
-    title: c.title.trim(),
-    type: c.type,
-    ...(c.type === 'enum'
-      ? {
-          enum:
-            c.enumText
-              ?.split(',')
-              .map((s) => s.trim())
-              .filter(Boolean) ?? [],
-        }
-      : {}),
-  }))
+const normalizedColumns = (): Omit<Column, 'id'>[] => {
+	return columns.value.map(column =>
+		({
+			title: column.title.trim(),
+			type: column.type,
+			...(column.type === ColumnTypes.enum
+				? {
+					enumValues:
+            column.enumText?.split(',').map(enumString =>
+            	enumString.trim()).filter(Boolean) ?? [],
+				}
+				: {}),
+		}))
 }
 
-const sendRequest = handleSubmit(async () => {
-  setFieldValue(TITLE_FIELD_NAME, title.value)
-  setFieldValue(COLUMN_FIELD_NAME, normalizedColumns())
+watch(title, () => {
+	setFieldValue(TITLE_FIELD_NAME, title.value)
+})
 
-  await createTable({
-    title: title.value.trim(),
-    columns: normalizedColumns(),
-  })
+watch(columns, () => {
+	console.log(normalizedColumns())
+
+	setFieldValue(COLUMN_FIELD_NAME, normalizedColumns())
+}, { deep: true })
+
+const sendRequest = handleSubmit(() => {
+	createTable({
+		title: title.value.trim(),
+		columns: normalizedColumns(),
+	})
 })
 
 watch(status, () => {
-  if (status.value === ApiStatuses.success) {
-    closeModal()
-    modal.value?.closeModal()
-  }
+	if (status.value === ApiStatuses.success) {
+		closeModal()
+		modal.value?.closeModal()
+	}
 })
 
 const modalHidden = ref<boolean>(false)
 watch(error, () => {
-  modalHidden.value = !!error.value
+	modalHidden.value = !!error.value
 }, { deep: true })
+
 </script>
 
 <style scoped lang="scss">
@@ -222,8 +243,8 @@ watch(error, () => {
   align-items: center;
 }
 
-.column-row + .enum-editor {
-  margin-top: 0.5rem;
+.enum-editor {
+  margin-top: 1rem;
 }
 
 .delete-btn {
@@ -237,5 +258,11 @@ watch(error, () => {
 }
 .delete-btn:hover {
   background-color: rgba(220, 53, 69, 0.15);
+}
+
+.error-message {
+  width: 100%;
+  font-size: 0.875em;
+  color: var(--cui-form-invalid-color);
 }
 </style>

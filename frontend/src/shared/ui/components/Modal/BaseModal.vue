@@ -9,12 +9,12 @@
   >
     <CModalHeader>
       <CModalTitle class="modal-title">
-        <slot name="modal-header" />
+        <slot name="modal-header"></slot>
       </CModalTitle>
     </CModalHeader>
 
     <CModalBody class="modal-body">
-      <slot name="modal-body" />
+      <slot name="modal-body"></slot>
     </CModalBody>
 
     <CModalFooter v-if="!hideBtnBox">
@@ -40,57 +40,57 @@
 import { toRefs, ref } from 'vue'
 
 interface BaseModalProps {
-  backdrop?: 'static' | true;
-  closeOnConfirm?: boolean;
-  submitted?: boolean;
-  submitDisabled?: boolean;
-  hidden?: boolean;
-  hideBtnBox?: boolean;
+	backdrop?: 'static' | true;
+	closeOnConfirm?: boolean;
+	submitted?: boolean;
+	submitDisabled?: boolean;
+	hidden?: boolean;
+	hideBtnBox?: boolean;
 }
 
 const props = withDefaults(defineProps<BaseModalProps>(), {
-  closeOnConfirm: true,
-  id: '0',
-  backdrop: 'static',
-  submitted: true
+	closeOnConfirm: true,
+	id: '0',
+	backdrop: 'static',
+	submitted: true
 })
+
+const emit = defineEmits<BaseModalEmits>()
 
 const { submitted } = toRefs(props)
 
 const visible = ref<boolean>(false)
 
 interface BaseModalEmits {
-  (event: 'close'): void;
-  (event: 'show'): void;
-  (event: 'confirm'): void;
+	(event: 'close'): void;
+	(event: 'show'): void;
+	(event: 'confirm'): void;
 }
 
-const emit = defineEmits<BaseModalEmits>()
-
 const closeModal = (): void => {
-  emit('close')
+	emit('close')
 
-  visible.value = false
+	visible.value = false
 }
 
 const showModal = (): void => {
-  emit('show')
+	emit('show')
 
-  visible.value = true
+	visible.value = true
 }
 
 const confirmModal = (): void => {
-  emit('confirm')
+	emit('confirm')
 }
 
 export interface BaseModalReturn {
-  closeModal: () => void;
-  showModal: () => void;
+	closeModal: () => void;
+	showModal: () => void;
 }
 
 defineExpose<BaseModalReturn>({
-  showModal,
-  closeModal
+	showModal,
+	closeModal
 })
 </script>
 

@@ -88,7 +88,7 @@ export type TableCreateRequestBody = {
 		columns: Array<{
 			title: string;
 			type: 'string' | 'number' | 'timestamp' | 'enum';
-			enum?: Array<(string)>;
+			enum: Array<(string)> | null;
 		}>;
 	};
 };

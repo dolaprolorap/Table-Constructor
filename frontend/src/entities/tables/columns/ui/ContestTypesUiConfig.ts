@@ -1,8 +1,8 @@
-import { ColumnTypes } from "../model/ColumnTypes";
+import { ColumnTypes } from '../model/ColumnTypes'
 
-export const ContestTypesUiConfig = {
-    [ColumnTypes.string]: 'Текст',
-    [ColumnTypes.number]: 'Число',
-    [ColumnTypes.timestamp]: 'Дата и время',
-    [ColumnTypes.enum]: 'Перечисление',
+export const ColumnTypesRu = {
+	[ColumnTypes.string]: 'Текст',
+	[ColumnTypes.number]: 'Число',
+	[ColumnTypes.timestamp]: 'Дата/время',
+	[ColumnTypes.enum]: 'Перечисление',
 } as const

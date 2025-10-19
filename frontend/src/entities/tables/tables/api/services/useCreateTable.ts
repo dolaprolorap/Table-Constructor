@@ -1,71 +1,65 @@
-import { useEventBus } from '@vueuse/core'
-import { watch } from 'vue'
-
 import {
-    useCreatedId,
-    useFetch,
-    type ApiCreateServiceReturn,
+	useCreatedId,
+	useFetch,
+	type ApiCreateServiceReturn,
 } from '@/shared/api'
-
 import {
-    TablesService,
-    type CreateTableData,
-    type CreateTableResponse,
-    type CreateTableError,
+	TablesService,
+	type CreateTableData,
+	type CreateTableResponse,
+	type CreateTableError,
 } from '@/shared/api/openapi/client'
 
-export interface CreateTableParams {
-    title: string
-}
-
-function mapTableToApiRequestBody(params: CreateTableParams): CreateTableData {
-    return {
-        data: {
-            title: params.title,
-        },
-    }
-}
+import { columnsTypesToApi, type Column } from '@/entities/tables/columns'
 
 interface UseCreateTableReturn extends ApiCreateServiceReturn<CreateTableError> {
-    createTable: (params: CreateTableParams) => Promise<void>;
+	createTable: (params: CreateTableParams) => Promise<void>;
+}
+
+export interface CreateTableParams {
+	title: string
+	columns: Omit<Column, 'id'>[]
 }
 
 export function useCreateTable(): UseCreateTableReturn {
-    const {
-        sendRequest,
-        clearError,
-        response,
-        error,
-        status,
-        isLoading,
-    } = useFetch<CreateTableResponse, CreateTableError, CreateTableData>(
-        TablesService.createTable
-    )
+	const {
+		sendRequest,
+		clearError,
+		response,
+		error,
+		status,
+		isLoading,
+	} = useFetch<CreateTableResponse, CreateTableError, CreateTableData>(
+		TablesService.createTable
+	)
 
-    const createTable = async (params: CreateTableParams): Promise<void> => {
-        clearError()
-        await sendRequest({
-            body: mapTableToApiRequestBody(params),
-        })
-    }
+	const createTable = async (params: CreateTableParams): Promise<void> => {
+		clearError()
 
-    const dataRefreshed = useEventBus(DATA_REFRESHED_BUS_KEY)
+		await sendRequest({
+			body: {
+				data: {
+					title: params.title,
+					columns: params.columns.map(column => {
+						return {
+							title: column.title,
+							type: columnsTypesToApi[column.type],
+							enum: column.enumValues || null
+						}
+					})
+				}
+			},
+		})
+	}
 
-    const { createdId } = useCreatedId({ response })
+	const { createdId } = useCreatedId({ response })
 
-    const emitTablesRefresh = (): void => {
-        if (!createdId.value) return
-        dataRefreshed.emit({ mutationType: 'create' })
-    }
-
-    watch(createdId, emitTablesRefresh)
-
-    return {
-        createTable,
-        clearError,
-        createdId,
-        error,
-        status,
-        isLoading,
-    }
+	return {
+		createTable,
+		clearError,
+		createdId,
+		error,
+		status,
+		isLoading,
+	}
 }

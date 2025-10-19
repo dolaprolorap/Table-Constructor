@@ -3,8 +3,13 @@
     <template #page-title>
       Доступные таблицы
     </template>
-    <ActionButtonBox class="mb-3" />
-    <TableSmallPreviewList />
+
+    <CCard
+      class="p-3"
+    >
+      <ActionButtonBox class="mb-3" />
+      <TableSmallPreviewList />
+    </CCard>
   </PageContainer>
 </template>
 
