@@ -8,6 +8,7 @@ Table:
       type: string
       example: 'Таблицы 1'
       description: Имя таблицы
+  required: [id, title] 
   
 TableResponseBody:
   type: object

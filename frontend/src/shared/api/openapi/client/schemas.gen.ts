@@ -113,7 +113,8 @@ export const TableSchema = {
 			example: 'Таблицы 1',
 			description: 'Имя таблицы'
 		}
-	}
+	},
+	required: [ 'id', 'title' ]
 } as const
 
 export const TableResponseBodySchema = {

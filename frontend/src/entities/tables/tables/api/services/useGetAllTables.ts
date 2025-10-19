@@ -14,6 +14,7 @@ import {
 } from '@/shared/api/openapi/client'
 
 import { useTableStore, type Table } from '@/entities/tables/tables'
+import { mapApiToTable } from '../../lib/mappers/apiMappers';
 
 interface UseGetAllTablesReturn extends ApiServiceReturnWithPaginationMeta<GetAllTablesError> {
   getAllTables: (params: GetAllTablesParams) => Promise<void>;
@@ -52,7 +53,8 @@ export function useGetAllTables(): UseGetAllTablesReturn {
 
     if (!res || !res.data) return
 
-    tables.value = res.data as unknown as Table[]
+    tables.value = res.data.map(mapApiToTable)
+
     tableStore.saveAllTables(tables.value)
   }
 

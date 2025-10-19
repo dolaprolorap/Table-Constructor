@@ -2,7 +2,7 @@
 
 import { createClient, createConfig, type Options } from '@hey-api/client-axios'
 
-import type { UserLoginData, UserLoginError, UserLoginResponse, UserLogoutError, UserLogoutResponse, GetUsersData, GetUsersError, GetUsersResponse, AddUserData, AddUserError, AddUserResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, GetAllTablesData, GetAllTablesError, GetAllTablesResponse, CreateTableData, CreateTableError, CreateTableResponse, GetTabletByIdData, GetTabletByIdError, GetTabletByIdResponse, UpdateTableData, UpdateTableError, UpdateTableResponse, DeleteTablesData, DeleteTablesError, DeleteTablesResponse, CreateColumnData, CreateColumnError, CreateColumnResponse, UpdateColumnsData, UpdateColumnsError, UpdateColumnsResponse, DeleteColumnsData, DeleteColumnsError, DeleteColumnsResponse, GetAllRowsData, GetAllRowsError, GetAllRowsResponse, CreateRowData, CreateRowError, CreateRowResponse, UpdateRowData, UpdateRowError, UpdateRowResponse, DeleteRowData, DeleteRowError, DeleteRowResponse } from './types.gen'
+import type { UserLoginData, UserLoginError, UserLoginResponse, UserLogoutError, UserLogoutResponse, GetUsersData, GetUsersError, GetUsersResponse, AddUserData, AddUserError, AddUserResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, GetAllTablesData, GetAllTablesError, GetAllTablesResponse, CreateTableData, CreateTableError, CreateTableResponse, GetTableByIdData, GetTableByIdError, GetTableByIdResponse, UpdateTableData, UpdateTableError, UpdateTableResponse, DeleteTablesData, DeleteTablesError, DeleteTablesResponse, CreateColumnData, CreateColumnError, CreateColumnResponse, UpdateColumnsData, UpdateColumnsError, UpdateColumnsResponse, DeleteColumnsData, DeleteColumnsError, DeleteColumnsResponse, GetAllRowsData, GetAllRowsError, GetAllRowsResponse, CreateRowData, CreateRowError, CreateRowResponse, UpdateRowData, UpdateRowError, UpdateRowResponse, DeleteRowData, DeleteRowError, DeleteRowResponse } from './types.gen'
 
 export const client = createClient(createConfig())
 
@@ -72,8 +72,8 @@ export class TablesService {
 	/**
 	 * Gets the table by id
 	 */
-	public static getTabletById<ThrowOnError extends boolean = false>(options: Options<GetTabletByIdData, ThrowOnError>) {
-		return (options?.client ?? client).get<GetTabletByIdResponse, GetTabletByIdError, ThrowOnError>({
+	public static getTableById<ThrowOnError extends boolean = false>(options: Options<GetTableByIdData, ThrowOnError>) {
+		return (options?.client ?? client).get<GetTableByIdResponse, GetTableByIdError, ThrowOnError>({
 			...options,
 			url: '/tables/{id}'
 		})
