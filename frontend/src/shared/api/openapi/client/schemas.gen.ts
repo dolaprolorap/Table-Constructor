@@ -120,10 +120,23 @@ export const TableResponseBodySchema = {
 	type: 'object',
 	properties: {
 		data: {
-			$ref: '#/components/schemas/Table'
-		},
-		meta: {
-			$ref: '#/components/schemas/PaginationMeta'
+			allOf: [
+				{
+					$ref: '#/components/schemas/Table'
+				},
+				{
+					type: 'object',
+					properties: {
+						columns: {
+							type: 'array',
+							items: {
+								$ref: '#/components/schemas/Columns'
+							}
+						}
+					},
+					required: ['columns']
+				}
+			]
 		}
 	},
 	required: ['data']
@@ -137,9 +150,12 @@ export const TableListResponseBodySchema = {
 			items: {
 				$ref: '#/components/schemas/Table'
 			}
+		},
+		meta: {
+			$ref: '#/components/schemas/PaginationMeta'
 		}
 	},
-	required: ['data']
+	required: [ 'data', 'meta' ]
 } as const
 
 export const TableRequestBodySchema = {
@@ -153,6 +169,44 @@ export const TableRequestBodySchema = {
 				}
 			},
 			required: ['id']
+		}
+	},
+	required: ['data']
+} as const
+
+export const TableCreateRequestBodySchema = {
+	type: 'object',
+	properties: {
+		data: {
+			type: 'object',
+			properties: {
+				title: {
+					type: 'string'
+				},
+				columns: {
+					type: 'array',
+					items: {
+						type: 'object',
+						properties: {
+							title: {
+								type: 'string'
+							},
+							type: {
+								type: 'string',
+								enum: [ 'string', 'number', 'timestamp', 'enum' ]
+							},
+							enum: {
+								type: 'array',
+								items: {
+									type: 'string'
+								}
+							}
+						},
+						required: [ 'title', 'type' ]
+					}
+				}
+			},
+			required: [ 'title', 'columns' ]
 		}
 	},
 	required: ['data']
@@ -176,7 +230,13 @@ export const ColumnsSchema = {
 		},
 		type: {
 			type: 'string',
-			enum: [ 'string', 'number', 'timestamp', 'list' ]
+			enum: [ 'string', 'number', 'timestamp', 'enum' ]
+		},
+		enum: {
+			type: 'array',
+			items: {
+				type: 'string'
+			}
 		}
 	},
 	required: [ 'id', 'table_id', 'title', 'type' ]
@@ -225,7 +285,13 @@ export const ColumnRequestBodySchema = {
 				},
 				type: {
 					type: 'string',
-					enum: [ 'string', 'number', 'timestamp', 'list' ]
+					enum: [ 'string', 'number', 'timestamp', 'enum' ]
+				},
+				enum: {
+					type: 'array',
+					items: {
+						type: 'string'
+					}
 				}
 			},
 			required: [ 'table_id', 'title', 'type' ]
@@ -261,9 +327,23 @@ export const RowsSchema = {
 					}
 				}
 			}
+		},
+		created_at: {
+			type: 'string'
+		},
+		created_by: {
+			type: 'string'
+		},
+		deleted_at: {
+			type: 'string',
+			nullable: true
+		},
+		deleted_by: {
+			type: 'string',
+			nullable: true
 		}
 	},
-	required: [ 'id', 'table_id', 'data' ]
+	required: [ 'id', 'table_id', 'data', 'created_at', 'created_by' ]
 } as const
 
 export const RowsResponseBodySchema = {
@@ -302,14 +382,18 @@ export const RowRequestBodySchema = {
 			type: 'object',
 			additionalProperties: false,
 			properties: {
-				searchString: {
-					type: 'string'
+				table_id: {
+					type: 'integer',
+					description: 'Идентификатор таблицы'
 				},
-				sortColumn: {
-					type: 'string',
-					enum: [ 'ASC', 'DESC' ]
+				data: {
+					type: 'array',
+					items: {
+						$ref: '#/components/schemas/Rows/properties/data/items'
+					}
 				}
-			}
+			},
+			required: [ 'data', 'table_id' ]
 		}
 	},
 	required: ['data']

@@ -66,17 +66,30 @@ export type Table = {
 };
 
 export type TableResponseBody = {
-	data: Table;
-	meta?: PaginationMeta;
+	data: (Table & {
+		columns: Array<Columns>;
+	});
 };
 
 export type TableListResponseBody = {
 	data: Array<Table>;
+	meta: PaginationMeta;
 };
 
 export type TableRequestBody = {
 	data: {
 		title?: string;
+	};
+};
+
+export type TableCreateRequestBody = {
+	data: {
+		title: string;
+		columns: Array<{
+			title: string;
+			type: 'string' | 'number' | 'timestamp' | 'enum';
+			enum?: Array<(string)>;
+		}>;
 	};
 };
 
@@ -96,16 +109,17 @@ export type Columns = {
 	 * Название колонки
 	 */
 	title: string;
-	type: 'string' | 'number' | 'timestamp' | 'list';
+	type: 'string' | 'number' | 'timestamp' | 'enum';
+	enum?: Array<(string)>;
 };
 
-export type type = 'string' | 'number' | 'timestamp' | 'list';
+export type type = 'string' | 'number' | 'timestamp' | 'enum';
 
 export const type = {
 	STRING: 'string',
 	NUMBER: 'number',
 	TIMESTAMP: 'timestamp',
-	LIST: 'list'
+	ENUM: 'enum'
 } as const
 
 export type ColumnResponseBody = {
@@ -128,7 +142,8 @@ export type ColumnRequestBody = {
 		 * Название колонки
 		 */
 		title: string;
-		type: 'string' | 'number' | 'timestamp' | 'list';
+		type: 'string' | 'number' | 'timestamp' | 'enum';
+		enum?: Array<(string)>;
 	};
 };
 
@@ -155,6 +170,10 @@ export type Rows = {
 		 */
 		data?: string;
 	}>;
+	created_at: string;
+	created_by: string;
+	deleted_at?: (string) | null;
+	deleted_by?: (string) | null;
 };
 
 export type RowsResponseBody = {
@@ -168,17 +187,14 @@ export type RowListResponseBody = {
 
 export type RowRequestBody = {
 	data: {
-		searchString?: string;
-		sortColumn?: 'ASC' | 'DESC';
+
+		/**
+		 * Идентификатор таблицы
+		 */
+		table_id: number;
+		data: Array<Rows_properties_data_items>;
 	};
 };
-
-export type sortColumn = 'ASC' | 'DESC';
-
-export const sortColumn = {
-	ASC: 'ASC',
-	DESC: 'DESC'
-} as const
 
 export type UserLoginData = {
 	body: {
@@ -254,10 +270,14 @@ export type GetAllTablesResponse = (TableListResponseBody);
 export type GetAllTablesError = (unknown);
 
 export type CreateTableData = {
-	body: TableRequestBody;
+	body: TableCreateRequestBody;
 };
 
-export type CreateTableResponse = (unknown);
+export type CreateTableResponse = ({
+	data: {
+		id: number;
+	};
+});
 
 export type CreateTableError = (unknown);
 
@@ -278,7 +298,7 @@ export type UpdateTableData = {
 	};
 };
 
-export type UpdateTableResponse = (unknown);
+export type UpdateTableResponse = (void);
 
 export type UpdateTableError = (unknown);
 
@@ -288,7 +308,7 @@ export type DeleteTablesData = {
 	};
 };
 
-export type DeleteTablesResponse = (unknown);
+export type DeleteTablesResponse = (void);
 
 export type DeleteTablesError = (unknown);
 
@@ -296,7 +316,11 @@ export type CreateColumnData = {
 	body: ColumnRequestBody;
 };
 
-export type CreateColumnResponse = (unknown);
+export type CreateColumnResponse = ({
+	data: {
+		id: number;
+	};
+});
 
 export type CreateColumnError = (unknown);
 
@@ -307,7 +331,7 @@ export type UpdateColumnsData = {
 	};
 };
 
-export type UpdateColumnsResponse = (unknown);
+export type UpdateColumnsResponse = (void);
 
 export type UpdateColumnsError = (unknown);
 
@@ -317,16 +341,16 @@ export type DeleteColumnsData = {
 	};
 };
 
-export type DeleteColumnsResponse = (unknown);
+export type DeleteColumnsResponse = (void);
 
 export type DeleteColumnsError = (unknown);
 
 export type GetAllRowsData = {
 	query?: {
+		deleted?: boolean;
 		page?: number;
 		page_size?: number;
 		search_string?: string;
-		sort_type?: 'ASC' | 'DESC';
 	};
 };
 
@@ -338,19 +362,13 @@ export type CreateRowData = {
 	body: RowRequestBody;
 };
 
-export type CreateRowResponse = (RowListResponseBody);
-
-export type CreateRowError = (unknown);
-
-export type GetRowByIdData = {
-	path: {
+export type CreateRowResponse = ({
+	data: {
 		id: number;
 	};
-};
+});
 
-export type GetRowByIdResponse = (RowsResponseBody);
-
-export type GetRowByIdError = (unknown);
+export type CreateRowError = (unknown);
 
 export type UpdateRowData = {
 	body: RowRequestBody;
@@ -359,7 +377,7 @@ export type UpdateRowData = {
 	};
 };
 
-export type UpdateRowResponse = (unknown);
+export type UpdateRowResponse = (void);
 
 export type UpdateRowError = (unknown);
 
@@ -369,6 +387,6 @@ export type DeleteRowData = {
 	};
 };
 
-export type DeleteRowResponse = (unknown);
+export type DeleteRowResponse = (void);
 
 export type DeleteRowError = (unknown);

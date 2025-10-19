@@ -13,9 +13,22 @@ ColumnPath:
     responses:
       201:
         description: Table was successfully created
-        # data : {id }
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                  required: [id]
+              required: [data]
       default:
         description: Unexpected error
+    security:
+      - jwt: []
 
 ColumnIdPath:
   parameters:
@@ -36,7 +49,7 @@ ColumnIdPath:
           schema:
             $ref: './schemas.yaml#/ColumnRequestBody'
     responses:
-      200:
+      204:
         description: Column was successfully updated
       default:
         description: Unexpected error
@@ -48,7 +61,7 @@ ColumnIdPath:
     summary: Deletes columns
     operationId: deleteColumns
     responses:
-      203:
+      204:
         description: Columns was successfully deleted
       default:
         description: Unexpected error

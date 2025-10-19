@@ -19,12 +19,11 @@ RowsPath:
         required: false
         schema:
           type: number
-      - name: sort_type
+      - name: deleted
         in: query
         required: false
         schema:
-          type: string
-          enum: [ASC, DESC]
+          type: boolean
     responses:
       200:
         description: Successfully got a list of the rows
@@ -53,9 +52,19 @@ RowsPath:
         content:
           application/json:
             schema:
-              $ref: './schemas.yaml#/RowListResponseBody'
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                  required: [id]
+              required: [data]
       default:
         description: Unexpected error
+    security:
+      - jwt: []
 
 RowIdPath:
   parameters:
@@ -63,21 +72,6 @@ RowIdPath:
       in: path
       required: true
       schema: { type: integer }
-  get:
-    tags: [rows]
-    summary: Gets the row by id
-    operationId: getRowById
-    responses:
-      200:
-        description: The row is obtained successfully
-        content:
-          application/json:
-            schema:
-              $ref: './schemas.yaml#/RowsResponseBody'
-      default:
-        description: Unexpected error
-    security:
-      - jwt: []
   put:
     tags:
       - rows
@@ -90,7 +84,7 @@ RowIdPath:
           schema:
             $ref: './schemas.yaml#/RowRequestBody'
     responses:
-      200:
+      204:
         description: Row was successfully updated
       default:
         description: Unexpected error
@@ -102,7 +96,7 @@ RowIdPath:
     summary: Deletes row
     operationId: deleteRow
     responses:
-      203:
+      204:
         description: Row was successfully deleted
       default:
         description: Unexpected error

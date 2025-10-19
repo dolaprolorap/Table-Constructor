@@ -13,10 +13,15 @@ TableResponseBody:
   type: object
   properties:
     data:
-      $ref: '#/Table'
-    meta:
-      $ref: '../common/schemas.yaml#/PaginationMeta'
-
+      allOf:
+        - $ref: '#/Table'
+        - type: object
+          properties:
+            columns:
+              type: array
+              items:
+                $ref: '../columns/schemas.yaml#/Columns'
+          required: [columns]
   required:
     - data
 
@@ -27,8 +32,11 @@ TableListResponseBody:
       type: array
       items:
         $ref: '#/Table'
+    meta:
+      $ref: '../common/schemas.yaml#/PaginationMeta'
   required:
     - data
+    - meta
 
 TableRequestBody:
   type: object
@@ -40,5 +48,34 @@ TableRequestBody:
           type: string
       required:
         - id
+  required:
+    - data
+
+TableCreateRequestBody:
+  type: object
+  properties:
+    data:
+      type: object
+      properties:
+        title:
+          type: string
+        columns:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              type:
+                type: string
+                enum: [string, number, timestamp, enum]
+              enum:
+                type: array
+                items:
+                  type: string
+            required: [title, type]
+      required:
+        - title
+        - columns
   required:
     - data

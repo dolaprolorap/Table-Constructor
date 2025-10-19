@@ -13,7 +13,11 @@ Columns:
       description: Название колонки
     type:
       type: string
-      enum: [string, number, timestamp, list]
+      enum: [string, number, timestamp, enum]
+    enum:
+      type: array
+      items:
+        type: string
   required: [id, table_id, title, type]
 
 ColumnResponseBody:
@@ -50,6 +54,10 @@ ColumnRequestBody:
           description: Название колонки
         type:
           type: string
-          enum: [string, number, timestamp, list]
+          enum: [string, number, timestamp, enum]
+        enum:
+          type: array
+          items:
+            type: string
       required: [table_id, title, type]
   required: [data]

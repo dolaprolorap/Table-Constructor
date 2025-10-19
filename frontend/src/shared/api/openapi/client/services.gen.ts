@@ -2,7 +2,7 @@
 
 import { createClient, createConfig, type Options } from '@hey-api/client-axios'
 
-import type { UserLoginData, UserLoginError, UserLoginResponse, UserLogoutError, UserLogoutResponse, GetUsersData, GetUsersError, GetUsersResponse, AddUserData, AddUserError, AddUserResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, GetAllTablesData, GetAllTablesError, GetAllTablesResponse, CreateTableData, CreateTableError, CreateTableResponse, GetTabletByIdData, GetTabletByIdError, GetTabletByIdResponse, UpdateTableData, UpdateTableError, UpdateTableResponse, DeleteTablesData, DeleteTablesError, DeleteTablesResponse, CreateColumnData, CreateColumnError, CreateColumnResponse, UpdateColumnsData, UpdateColumnsError, UpdateColumnsResponse, DeleteColumnsData, DeleteColumnsError, DeleteColumnsResponse, GetAllRowsData, GetAllRowsError, GetAllRowsResponse, CreateRowData, CreateRowError, CreateRowResponse, GetRowByIdData, GetRowByIdError, GetRowByIdResponse, UpdateRowData, UpdateRowError, UpdateRowResponse, DeleteRowData, DeleteRowError, DeleteRowResponse } from './types.gen'
+import type { UserLoginData, UserLoginError, UserLoginResponse, UserLogoutError, UserLogoutResponse, GetUsersData, GetUsersError, GetUsersResponse, AddUserData, AddUserError, AddUserResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, GetAllTablesData, GetAllTablesError, GetAllTablesResponse, CreateTableData, CreateTableError, CreateTableResponse, GetTabletByIdData, GetTabletByIdError, GetTabletByIdResponse, UpdateTableData, UpdateTableError, UpdateTableResponse, DeleteTablesData, DeleteTablesError, DeleteTablesResponse, CreateColumnData, CreateColumnError, CreateColumnResponse, UpdateColumnsData, UpdateColumnsError, UpdateColumnsResponse, DeleteColumnsData, DeleteColumnsError, DeleteColumnsResponse, GetAllRowsData, GetAllRowsError, GetAllRowsResponse, CreateRowData, CreateRowError, CreateRowResponse, UpdateRowData, UpdateRowError, UpdateRowResponse, DeleteRowData, DeleteRowError, DeleteRowResponse } from './types.gen'
 
 export const client = createClient(createConfig())
 
@@ -154,16 +154,6 @@ export class RowsService {
 		return (options?.client ?? client).post<CreateRowResponse, CreateRowError, ThrowOnError>({
 			...options,
 			url: '/rows'
-		})
-	}
-
-	/**
-	 * Gets the row by id
-	 */
-	public static getRowById<ThrowOnError extends boolean = false>(options: Options<GetRowByIdData, ThrowOnError>) {
-		return (options?.client ?? client).get<GetRowByIdResponse, GetRowByIdError, ThrowOnError>({
-			...options,
-			url: '/rows/{id}'
 		})
 	}
 

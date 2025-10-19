@@ -31,8 +31,8 @@ TablesPath:
                 $ref: './examples.yaml#/TableListResponseExample'
       default:
         description: Unexpected error
-    # security:
-    #   - jwt: []
+    security:
+      - jwt: []
   post:
     tags:
       - tables
@@ -43,12 +43,26 @@ TablesPath:
       content:
         application/json:
           schema:
-            $ref: './schemas.yaml#/TableRequestBody'
+            $ref: './schemas.yaml#/TableCreateRequestBody'
     responses:
       201:
         description: Table was successfully created
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                  required: [id]
+              required: [data]
       default:
         description: Unexpected error
+    security:
+      - jwt: []
 
 TableIdPath:
   parameters:
@@ -85,7 +99,7 @@ TableIdPath:
           schema:
             $ref: './schemas.yaml#/TableRequestBody'
     responses:
-      200:
+      204:
         description: Table was successfully updated
       default:
         description: Unexpected error
@@ -97,7 +111,7 @@ TableIdPath:
     summary: Deletes tables
     operationId: deleteTables
     responses:
-      203:
+      204:
         description: Category was successfully deleted
       default:
         description: Unexpected error

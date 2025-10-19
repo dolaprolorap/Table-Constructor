@@ -58,6 +58,8 @@ components:
       $ref: './tables/schemas.yaml#/TableListResponseBody'
     TableRequestBody:
       $ref: './tables/schemas.yaml#/TableRequestBody'
+    TableCreateRequestBody:
+      $ref: './tables/schemas.yaml#/TableCreateRequestBody'
 
     Columns:
       $ref: './columns/schemas.yaml#/Columns'

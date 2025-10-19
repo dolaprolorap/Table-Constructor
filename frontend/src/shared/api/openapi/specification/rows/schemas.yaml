@@ -12,7 +12,17 @@ Rows:
       type: array
       items:
         $ref: "../cells/schemas.yaml#/Cells"
-  required: [id, table_id, data]
+    created_at:
+      type: string
+    created_by:
+      type: string
+    deleted_at:
+      type: string
+      nullable: true
+    deleted_by:
+      type: string
+      nullable: true
+  required: [id, table_id, data, created_at, created_by]
 
 RowsResponseBody:
   type: object
@@ -42,10 +52,12 @@ RowRequestBody:
       type: object
       additionalProperties: false
       properties:
-      # Поменять
-        searchString:
-          type: string
-        sortColumn:
-          type: string
-          enum: [ASC, DESC]
+        table_id:
+          type: integer
+          description: Идентификатор таблицы
+        data:
+          type: array
+          items:
+            $ref: "../cells/schemas.yaml#/Cells"
+      required: [data, table_id]
   required: [data]
