@@ -5,27 +5,33 @@ declare(strict_types=1);
 namespace App\Http\Responses\Handlers;
 
 use App\Enums\HttpStatusCodeEnum;
-use App\Models\Table;
+use App\Models\TableRow;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-final readonly class TableResponseHandler
+final readonly class RowResponseHandler
 {
     public function handlePaginateAll(LengthAwarePaginator $paginator): JsonResponse
     {
-        /** @var Table[] $tables*/
-        $tables = $paginator->items();
-        $tableData = [];
+        /** @var TableRow[] $rows */
+        $rows = $paginator->items();
 
-        foreach ($tables as $table) {
-            $tableData[] = [
-                'id' => $table->id,
-                'title' => $table->title,
+        $rowData = [];
+
+        foreach ($rows as $row) {
+            $rowData[] = [
+                'id' => $row->id,
+                'table_id' => $row->table_id,
+                'data' => $row->data,
+                'created_at' => $row->created_at,
+                'created_by' => $row->created_by,
+                'deleted_at' => $row->deleted_at,
+                'deleted_by' => $row->deleted_by,
             ];
         }
 
         return response()->json([
-            'data' => $tableData,
+            'data' => $rowData,
             'meta' => [
                 'currentPage' => $paginator->currentPage(),
                 'from' => $paginator->firstItem(),
@@ -37,37 +43,16 @@ final readonly class TableResponseHandler
         ]);
     }
 
-    public function handleCreate(Table $table): JsonResponse
+    public function handleCreate(TableRow $row): JsonResponse
     {
         return response()->json([
             'data' => [
-                'id' => $table->id
+                $row->id
             ],
         ], HttpStatusCodeEnum::CREATED->value);
     }
 
-    public function handleFindOne(Table $table): JsonResponse
-    {
-        $columns = [];
-        $tableColumns = $table->tableColumns;
-
-        foreach ($tableColumns as $tableColumn) {
-            $columns[] = [
-                'title' => $tableColumn->title,
-                'type' => $tableColumn->type,
-                'enum' => $tableColumn->enum
-            ];
-        }
-
-        return response()->json([
-            'data' => [
-                'title' => $table->title,
-                'columns' =>$columns,
-            ],
-        ]);
-    }
-
-    public function handleUpdate(): JsonResponse
+    public function handleUpdate(TableRow $row): JsonResponse
     {
         return response()->json(status: HttpStatusCodeEnum::NO_CONTENT->value);
     }
