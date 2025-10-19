@@ -12,6 +12,9 @@
       :invalid="invalid || !!feedbackInvalid"
       :required="required"
       :autocomplete="autocomplete || 'off'"
+      :readonly="!autocomplete"
+      onfocus="this.removeAttribute('readonly')"
+
       @blur="handleBlur"
     />
   </div>

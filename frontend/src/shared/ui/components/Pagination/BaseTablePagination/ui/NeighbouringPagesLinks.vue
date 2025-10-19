@@ -22,101 +22,101 @@ import type { PageNumberPagination } from '../model/types'
 // Props and models
 
 interface NeighbouringPagesLinksProps {
-  lastPage: number;
+	lastPage: number;
 }
 
 const props = defineProps<NeighbouringPagesLinksProps>()
 
-const { lastPage } = toRefs(props)
-
 const currentPage = defineModel<number>('current-page')
+
+const { lastPage } = toRefs(props)
 
 // Render handlers
 
 const pagePaginationList = ref<PageNumberPagination[]>([])
 
 const generatePagePagination = (pageNumber: number): PageNumberPagination => {
-  const goToPage = (): void => {
-    currentPage.value = pageNumber
-  }
+	const goToPage = (): void => {
+		currentPage.value = pageNumber
+	}
 
-  const pagePagination: PageNumberPagination = {
-    paginationTitle: pageNumber.toString(),
-    goToPage: goToPage
-  }
+	const pagePagination: PageNumberPagination = {
+		paginationTitle: pageNumber.toString(),
+		goToPage: goToPage
+	}
 
-  return pagePagination
+	return pagePagination
 }
 
 const generatePaginationGap = (): PageNumberPagination => {
-  const paginationGap: PageNumberPagination = {
-    paginationTitle: '...',
-    disabled: true
-  }
+	const paginationGap: PageNumberPagination = {
+		paginationTitle: '...',
+		disabled: true
+	}
 
-  return paginationGap
+	return paginationGap
 }
 
 const setPagePaginationList = (): void => {
-  if (!currentPage.value) {
-    return
-  }
+	if (!currentPage.value) {
+		return
+	}
 
-  pagePaginationList.value = []
+	pagePaginationList.value = []
 
-  const currentPagePagination: PageNumberPagination = {
-    paginationTitle: currentPage.value.toString(),
-    active: true
-  }
+	const currentPagePagination: PageNumberPagination = {
+		paginationTitle: currentPage.value.toString(),
+		active: true
+	}
 
-  pagePaginationList.value.push(currentPagePagination)
+	pagePaginationList.value.push(currentPagePagination)
 
-  if (currentPage.value !== 1) {
-    const prevPageNumber = currentPage.value - 1
+	if (currentPage.value !== 1) {
+		const prevPageNumber = currentPage.value - 1
 
-    const paginationPrevious = generatePagePagination(prevPageNumber)
+		const paginationPrevious = generatePagePagination(prevPageNumber)
 
-    pagePaginationList.value.unshift(paginationPrevious)
-  }
+		pagePaginationList.value.unshift(paginationPrevious)
+	}
 
-  if (currentPage.value !== lastPage.value) {
-    const nextPageNumber = currentPage.value + 1
+	if (currentPage.value !== lastPage.value) {
+		const nextPageNumber = currentPage.value + 1
 
-    const paginationNext = generatePagePagination(nextPageNumber)
+		const paginationNext = generatePagePagination(nextPageNumber)
 
-    pagePaginationList.value.push(paginationNext)
-  }
+		pagePaginationList.value.push(paginationNext)
+	}
 
-  if (currentPage.value === 1 && lastPage.value - currentPage.value > 1) {
-    const nextNextPageNumber = currentPage.value + 2
+	if (currentPage.value === 1 && lastPage.value - currentPage.value > 1) {
+		const nextNextPageNumber = currentPage.value + 2
 
-    const paginationNextNext = generatePagePagination(nextNextPageNumber)
+		const paginationNextNext = generatePagePagination(nextNextPageNumber)
 
-    pagePaginationList.value.push(paginationNextNext)
-  }
+		pagePaginationList.value.push(paginationNextNext)
+	}
 
-  if (currentPage.value === lastPage.value && currentPage.value > 2) {
-    const prevPrevPageNumber = currentPage.value - 2
+	if (currentPage.value === lastPage.value && currentPage.value > 2) {
+		const prevPrevPageNumber = currentPage.value - 2
 
-    const paginationPrevPrev = generatePagePagination(prevPrevPageNumber)
+		const paginationPrevPrev = generatePagePagination(prevPrevPageNumber)
 
-    pagePaginationList.value.unshift(paginationPrevPrev)
-  }
+		pagePaginationList.value.unshift(paginationPrevPrev)
+	}
 
-  // Additional checks for the case when there are only three pages
-  if (!(lastPage.value === 3 && currentPage.value === 3) && currentPage.value > 2) {
-    const prevGap = generatePaginationGap()
+	// Additional checks for the case when there are only three pages
+	if (!(lastPage.value === 3 && currentPage.value === 3) && currentPage.value > 2) {
+		const prevGap = generatePaginationGap()
 
-    pagePaginationList.value.unshift(prevGap)
-  }
+		pagePaginationList.value.unshift(prevGap)
+	}
 
-  if (!(currentPage.value === 1 && lastPage.value === 3) && currentPage.value < lastPage.value - 1) {
-    const nextGap = generatePaginationGap()
+	if (!(currentPage.value === 1 && lastPage.value === 3) && currentPage.value < lastPage.value - 1) {
+		const nextGap = generatePaginationGap()
 
-    pagePaginationList.value.push(nextGap)
-  }
+		pagePaginationList.value.push(nextGap)
+	}
 }
 
-watch([currentPage, lastPage], setPagePaginationList, { immediate: true })
+watch([ currentPage, lastPage ], setPagePaginationList, { immediate: true })
 
 </script>

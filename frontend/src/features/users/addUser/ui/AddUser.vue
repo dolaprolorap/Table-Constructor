@@ -28,7 +28,8 @@
 
     <template #modal-body>
       <CForm
-        class="login-form"
+        autocomplete="off"
+        class="add-form"
         @submit.prevent="sendRequest"
       >
         <BaseFormInput
@@ -36,33 +37,42 @@
           v-model="login"
           :name="LOGIN_FIELD_NAME"
           placeholder="Логин"
-        />
-
-        <BaseFormInput
-          id="add-first-name"
-          v-model="login"
-          :name="FIRST_NAME_FIELD_NAME"
-          placeholder="Имя"
+          label="Введите логин"
+          :autocomplete="false"
         />
 
         <BaseFormInput
           id="add-last-name"
-          v-model="login"
+          v-model="lastName"
           :name="LAST_NAME_FIELD_NAME"
           placeholder="Фамилия"
+          label="Введите фамилию"
+          :autocomplete="false"
+        />
+
+        <BaseFormInput
+          id="add-first-name"
+          v-model="firstName"
+          :name="FIRST_NAME_FIELD_NAME"
+          placeholder="Имя"
+          label="Введите имя"
+          :autocomplete="false"
         />
 
         <BaseFormInput
           id="add-middle-name"
-          v-model="login"
+          v-model="middleName"
           :name="MIDDLE_NAME_FIELD_NAME"
-          placeholder="Очество"
+          placeholder="Отчество"
+          label="Введите отчество"
+          :autocomplete="false"
         />
 
         <UserRolesSelect
           id="add-role"
           v-model="role"
           :name="ROLE_FIELD_NAME"
+          label="Выберите роль"
         />
 
         <BaseFormInput
@@ -71,14 +81,17 @@
           type="password"
           :name="PASSWORD_FIELD_NAME"
           placeholder="Пароль"
+          label="Введите пароль"
+          :autocomplete="false"
         />
 
         <BaseFormInput
           id="add-password"
-          v-model="password"
           type="password"
           :name="REPEAT_PASSWORD_FIELD_NAME"
-          placeholder="Повторите пароль"
+          placeholder="Пароль"
+          label="Повторите пароль"
+          :autocomplete="false"
         />
       </CForm>
     </template>
@@ -122,6 +135,13 @@ const { handleSubmit, resetForm, meta } = useForm({
 
 const closeModal = (): void => {
 	resetForm()
+
+	login.value = undefined
+	firstName.value = undefined
+	lastName.value = undefined
+	middleName.value = undefined
+	password.value = undefined
+	role.value = undefined
 }
 
 const sendRequest = handleSubmit((): void => {
@@ -161,7 +181,9 @@ watch(error, () => {
   width: 10rem;
 }
 
-.textarea {
-  max-height: 300px;
+.add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 </style>
