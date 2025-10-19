@@ -179,7 +179,7 @@ export const ColumnsSchema = {
 			enum: [ 'string', 'number', 'timestamp', 'list' ]
 		}
 	},
-	required: [ 'id', 'table_id', 'title', 'type' ]
+	required: [ 'id', 'title', 'type' ]
 } as const
 
 export const ColumnResponseBodySchema = {

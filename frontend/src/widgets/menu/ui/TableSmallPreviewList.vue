@@ -47,8 +47,6 @@ function onSelect(id: number) {
   router.push({ name: 'Таблица', params: { tableId: String(id) } })
 }
 </script>
-
-
 <style scoped>
 #tables-cards {
     display: flex;
