@@ -75,7 +75,7 @@ TableIdPath:
     tags:
       - tables
     summary: Gets the table by id
-    operationId: getTabletById
+    operationId: getTableById
     responses:
       200:
         description: The tables is obtained successfully

@@ -57,12 +57,12 @@ export type Table = {
 	/**
 	 * Уникальный идентификатор таблицы
 	 */
-	id?: number;
+	id: number;
 
 	/**
 	 * Имя таблицы
 	 */
-	title?: string;
+	title: string;
 };
 
 export type TableResponseBody = {
@@ -281,15 +281,15 @@ export type CreateTableResponse = ({
 
 export type CreateTableError = (unknown);
 
-export type GetTabletByIdData = {
+export type GetTableByIdData = {
 	path: {
 		id: number;
 	};
 };
 
-export type GetTabletByIdResponse = (TableResponseBody);
+export type GetTableByIdResponse = (TableResponseBody);
 
-export type GetTabletByIdError = (unknown);
+export type GetTableByIdError = (unknown);
 
 export type UpdateTableData = {
 	body: TableRequestBody;

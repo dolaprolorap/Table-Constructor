@@ -1,5 +1,5 @@
 import { useMemoize } from '@vueuse/core'
-import { watch } from 'vue'
+import { ref, watch, type Ref } from 'vue'
 
 import { type ApiServiceReturn, useFetch } from '@/shared/api'
 import {
@@ -9,18 +9,21 @@ import {
     TablesService
 } from '@/shared/api/openapi/client'
 
-import { mapApiToAchievementScheme } from '../../lib/mappers/apiMappers'
-import { useAchievementFormSchemesStore } from '../../model/useAchievementFormSchemesStore'
+import type { TableWithColumns } from '../../model/types/tablesType'
+import { mapApiToTableWithColumns } from '../../lib/mappers/apiMappers'
 
-interface UseGetAchievementSchemesByIdReturn extends ApiServiceReturn<GetFormSchemeByIdError> {
-    getAchievementSchemeById: (params: GetAchievementSchemesByIdParams) => Promise<void>;
+interface UseGetTableByIdReturn extends ApiServiceReturn<GetTableByIdError> {
+    getTableById: (params: GetTableByIdParams) => Promise<void>;
+    table: Ref<TableWithColumns | null>
 }
 
-interface GetAchievementSchemesByIdParams {
+interface GetTableByIdParams {
     id: number;
 }
 
-export function useGetTableById(): UseGetAchievementSchemesByIdReturn {
+export function useGetTableById(): UseGetTableByIdReturn {
+
+    const table = ref<TableWithColumns | null>(null)
 
     const {
         sendRequest,
@@ -30,47 +33,38 @@ export function useGetTableById(): UseGetAchievementSchemesByIdReturn {
         status,
         isLoading
     } = useFetch<
-        GetFormSchemeByIdResponse,
-        GetFormSchemeByIdError,
-        GetFormSchemeByIdData
-    >(AchievementSchemesService.getFormSchemeById)
+        GetTableByIdResponse,
+        GetTableByIdError,
+        GetTableByIdData
+    >(TablesService.getTableById)
 
-    const getAchievementSchemeById = useMemoize(async (params: GetAchievementSchemesByIdParams): Promise<void> => {
+    const getTableById = useMemoize(async (params: GetTableByIdParams): Promise<void> => {
         clearError()
+        table.value = null
 
         await sendRequest({
             path: {
                 id: params.id
-            },
-            query: {
-                include: 'category'
             }
         })
     })
 
-    const achievementSchemesStore = useAchievementFormSchemesStore()
-
-    const saveAchievementScheme = (): void => {
-        if (!response.value || !response.value.data || !response.value.included) {
+    const saveTable = (): void => {
+        if (!response.value) {
             return
         }
 
-        const achievementScheme = mapApiToAchievementScheme(response.value.data, response.value.included)
-
-        if (achievementScheme?.type !== 'extended') {
-            return
-        }
-
-        achievementSchemesStore.addAchievementScheme(achievementScheme)
+        table.value = mapApiToTableWithColumns(response.value)
     }
 
-    watch(response, saveAchievementScheme)
+    watch(response, saveTable)
 
     return {
-        getAchievementSchemeById,
+        getTableById,
         clearError,
         error,
         status,
-        isLoading
+        isLoading,
+        table
     }
 }
