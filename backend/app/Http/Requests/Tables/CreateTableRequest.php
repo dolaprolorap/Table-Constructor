@@ -11,7 +11,7 @@ use App\Http\Requests\JsonDataRequest;
  * @property array{
  *     title: string,
  *     type: string,
- *     enum: string[]
+ *     enum: ?string[]
  * }[] $columns
  */
 final class CreateTableRequest extends JsonDataRequest

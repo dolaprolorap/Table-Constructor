@@ -2,6 +2,7 @@
 
 use App\Exceptions\BusinessLogicException;
 use App\Exceptions\NotFoundException;
+use App\Http\Middleware\CorsMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
