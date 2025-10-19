@@ -7,7 +7,7 @@
     <div class="content">
       <p>Идентификатор таблицы: <strong>{{ tableId }}</strong></p>
 
-      <pre v-if="tableData">{{ tableData }}</pre>
+      <TableView />
     </div>
   </PageContainer>
 </template>
@@ -15,6 +15,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { PageContainer } from '@/shared/ui/components'
+import { TableView } from '@/widgets/table';
 
 const props = defineProps<{
   tableId: string

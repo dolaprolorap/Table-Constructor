@@ -90,7 +90,7 @@ export type Columns = {
 	/**
 	 * Внешний ключ таблицы
 	 */
-	table_id: number;
+	table_id?: number;
 
 	/**
 	 * Название колонки
@@ -261,15 +261,15 @@ export type CreateTableResponse = (unknown);
 
 export type CreateTableError = (unknown);
 
-export type GetTabletByIdData = {
+export type GetTableByIdData = {
 	path: {
 		id: number;
 	};
 };
 
-export type GetTabletByIdResponse = (TableResponseBody);
+export type GetTableByIdResponse = (TableResponseBody);
 
-export type GetTabletByIdError = (unknown);
+export type GetTableByIdError = (unknown);
 
 export type UpdateTableData = {
 	body: TableRequestBody;
@@ -293,7 +293,7 @@ export type DeleteTablesResponse = (unknown);
 export type DeleteTablesError = (unknown);
 
 export type CreateColumnData = {
-	body: ColumnRequestBody;
+	body: Columns;
 };
 
 export type CreateColumnResponse = (unknown);
