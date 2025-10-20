@@ -28,7 +28,7 @@
           >
             <BaseSelect
               v-if="col.type === ColumnTypes.enum"
-              :name="String(col.id)"
+              :name="String(col.title)"
               :label="col.title"
               :options="[
                 'Выберите тип',
@@ -44,7 +44,7 @@
             <BaseFormInput
               v-else
               id="table-title"
-              :name="String(col.id)"
+              :name="String(col.title)"
               :label="col.title"
               :autocomplete="false"
               :type="mapColumnTypeToInputType(col.type as ColumnTypes)"
@@ -124,7 +124,7 @@ const generateValidationScheme = (): YupSchema => {
 
 		validationObject = {
 			...validationObject,
-			[String(column.id)]: fieldValidation
+			[String(column.title)]: fieldValidation
 		}
 	}
 

@@ -21,7 +21,7 @@
     <template #modal-header>
       <TextWithIconWrapper :icon="iconsSet.plusIcon">
         <template #text>
-          Создать конкурс
+          Добавить пользователя
         </template>
       </TextWithIconWrapper>
     </template>

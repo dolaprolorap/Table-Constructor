@@ -365,9 +365,7 @@ export type CreateRowData = {
 };
 
 export type CreateRowResponse = ({
-	data: {
-		id: number;
-	};
+	data: Array<(number)>;
 });
 
 export type CreateRowError = (unknown);

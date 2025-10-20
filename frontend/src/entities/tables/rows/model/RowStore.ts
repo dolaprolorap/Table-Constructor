@@ -14,6 +14,7 @@ export const useTableRowsStore = defineStore(STORE_NAME, () => {
 	}
 
 	function addRow(newRow: TableRow): void {
+		console.log(newRow)
 		tableRows.value.unshift(newRow)
 	}
 

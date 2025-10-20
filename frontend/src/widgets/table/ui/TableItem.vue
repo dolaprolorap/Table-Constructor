@@ -5,7 +5,7 @@
         v-for="(cell, idx) of row.data"
         :key="idx"
       >
-        {{ cell }}
+        {{ cell.data }}
       </CTableDataCell>
     </template>
   </TableObjectWithAccordion>

@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 import {
 	useCreatedId,
@@ -72,7 +72,9 @@ export function useAddTableRow(): UseCreateTableReturn {
 		})
 	}
 
-	const { createdId } = useCreatedId({ response })
+	const createdId = computed<number | null>(() => {
+		return response.value?.data[0] || null
+	})
 
 	const { authenticatedUser } = useAuthenticatedUserStore()
 

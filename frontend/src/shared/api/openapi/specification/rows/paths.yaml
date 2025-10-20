@@ -56,11 +56,9 @@ RowsPath:
               type: object
               properties:
                 data:
-                  type: object
-                  properties:
-                    id:
-                      type: number
-                  required: [id]
+                  type: array
+                  items:
+                    type: number
               required: [data]
       default:
         description: Unexpected error
